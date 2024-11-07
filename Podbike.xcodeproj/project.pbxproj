@@ -9,20 +9,15 @@
 /* Begin PBXBuildFile section */
 		BC5AC4812CD967C3003FD6CB /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = BC5AC4802CD967C3003FD6CB /* FirebaseCrashlytics */; };
 		BC5AC4862CD96E87003FD6CB /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = BC5AC4852CD96E87003FD6CB /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		BCFAC76F2CD989CC00CCE994 /* FlowStacks in Frameworks */ = {isa = PBXBuildFile; productRef = BCFAC76E2CD989CC00CCE994 /* FlowStacks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BC1157922CDB872C0015C495 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC949ACC2CD92C3200024671 /* Podbike.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Podbike.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		BC5AC46B2CD94854003FD6CB /* Exceptions for "Podbike" folder in "Podbike" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = BC949ACB2CD92C3200024671 /* Podbike */;
-		};
 		BC5AC4992CD97EC8003FD6CB /* Exceptions for "Firebase" folder in "Podbike" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -34,6 +29,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		BC1157A72CDBDA5B0015C495 /* Data */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Data;
+			sourceTree = "<group>";
+		};
 		BC5AC4892CD96FE7003FD6CB /* Firebase */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -42,12 +42,9 @@
 			path = Firebase;
 			sourceTree = "<group>";
 		};
-		BC949ACE2CD92C3200024671 /* Podbike */ = {
+		BC949ACE2CD92C3200024671 /* UI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				BC5AC46B2CD94854003FD6CB /* Exceptions for "Podbike" folder in "Podbike" target */,
-			);
-			path = Podbike;
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -59,6 +56,7 @@
 			files = (
 				BC5AC4812CD967C3003FD6CB /* FirebaseCrashlytics in Frameworks */,
 				BC5AC4862CD96E87003FD6CB /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				BCFAC76F2CD989CC00CCE994 /* FlowStacks in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,8 +66,10 @@
 		BC949AC32CD92C3200024671 = {
 			isa = PBXGroup;
 			children = (
+				BC949ACE2CD92C3200024671 /* UI */,
+				BC1157A72CDBDA5B0015C495 /* Data */,
 				BC5AC4892CD96FE7003FD6CB /* Firebase */,
-				BC949ACE2CD92C3200024671 /* Podbike */,
+				BC1157922CDB872C0015C495 /* Info.plist */,
 				BC949ACD2CD92C3200024671 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -100,13 +100,15 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				BC1157A72CDBDA5B0015C495 /* Data */,
 				BC5AC4892CD96FE7003FD6CB /* Firebase */,
-				BC949ACE2CD92C3200024671 /* Podbike */,
+				BC949ACE2CD92C3200024671 /* UI */,
 			);
 			name = Podbike;
 			packageProductDependencies = (
 				BC5AC4802CD967C3003FD6CB /* FirebaseCrashlytics */,
 				BC5AC4852CD96E87003FD6CB /* FirebaseAnalyticsWithoutAdIdSupport */,
+				BCFAC76E2CD989CC00CCE994 /* FlowStacks */,
 			);
 			productName = Podbike;
 			productReference = BC949ACC2CD92C3200024671 /* Podbike.app */;
@@ -138,6 +140,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				BC5AC47F2CD967C3003FD6CB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				BCFAC76D2CD989CC00CCE994 /* XCRemoteSwiftPackageReference "FlowStacks" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BC949ACD2CD92C3200024671 /* Products */;
@@ -186,6 +189,7 @@
 		};
 		BC5AC48C2CD97D30003FD6CB /* Copy GoogleService-Info.plist */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -293,7 +297,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FLAVOR_APP_NAME = Podbike;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Podbike/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "$(FLAVOR_APP_NAME)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -390,7 +394,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FLAVOR_APP_NAME = Podbike;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Podbike/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "$(FLAVOR_APP_NAME)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -551,7 +555,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FLAVOR_APP_NAME = "[DEV] Podbike";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Podbike/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "$(FLAVOR_APP_NAME)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -592,7 +596,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FLAVOR_APP_NAME = "[DEV] Podbike";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Podbike/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "$(FLAVOR_APP_NAME)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -655,6 +659,14 @@
 				minimumVersion = 11.4.0;
 			};
 		};
+		BCFAC76D2CD989CC00CCE994 /* XCRemoteSwiftPackageReference "FlowStacks" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/johnpatrickmorgan/FlowStacks";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -667,6 +679,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BC5AC47F2CD967C3003FD6CB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		BCFAC76E2CD989CC00CCE994 /* FlowStacks */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BCFAC76D2CD989CC00CCE994 /* XCRemoteSwiftPackageReference "FlowStacks" */;
+			productName = FlowStacks;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
