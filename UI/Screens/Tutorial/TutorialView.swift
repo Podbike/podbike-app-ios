@@ -7,17 +7,57 @@ struct TutorialView: View {
         self.viewModel = viewModel
     }
 
+    let pageCount = 4
+
+    @ViewBuilder
+    private func tutorialPage(_ page: Int) -> some View {
+        switch page {
+        case 1: TutorialPage1()
+        case 2: TutorialPage2()
+        case 3: TutorialPage3()
+        default: TutorialPage4()
+        }
+    }
+
     var body: some View {
         ZStack {
-            AppColor.background
+            AppColor.backgroundGradient
+                .ignoresSafeArea()
 
-            VStack() {
-                Text("Tutorial").title
+            VStack {
+                TabView(selection: $viewModel.selectedPage) {
+                    ForEach(1 ... pageCount, id: \.self) {
+                        tutorialPage($0)
+                    }
+                }
+                .tabViewStyle(.page(indexDisplayMode: .never))
+
+                let isLastPage = viewModel.selectedPage >= pageCount
+                Button(
+                    isLastPage ? "TutorialStart" : "TutorialNext",
+                    action: {
+                        if isLastPage { viewModel.closeTutorial() }
+                        else { viewModel.selectedPage += 1 }
+                    }
+                )
+                .buttonStyle(AppButton.primary)
+
+                AppSpacers.h8
+
+                let isFirstPage = viewModel.selectedPage <= 1
+                Button(
+                    isFirstPage ? "TutorialExit" : "TutorialPrevious",
+                    action: {
+                        if isFirstPage { viewModel.closeTutorial() }
+                        else { viewModel.selectedPage -= 1 }
+                    }
+                )
+                .buttonStyle(AppButton.secondary)
             }
-            .padding(Paddings.defaultBorders)
+            .padding(.top, AppDimens.padding48)
+            .padding(.horizontal, AppDimens.padding16)
         }
-        .ignoresSafeArea()
-        .onAppear { viewModel.didAppear() }
+        .navigationBarBackButtonHidden()
     }
 }
 

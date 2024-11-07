@@ -1657,6 +1657,9 @@
         }
       }
     },
+    "Show tutorial" : {
+
+    },
     "StatisticAverageCadence" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1811,7 +1814,6 @@
       }
     },
     "TutorialAssistance" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1828,7 +1830,6 @@
       }
     },
     "TutorialButtons" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1845,7 +1846,6 @@
       }
     },
     "TutorialCadence" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1862,7 +1862,6 @@
       }
     },
     "TutorialExit" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1879,7 +1878,6 @@
       }
     },
     "TutorialFurther" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1896,7 +1894,6 @@
       }
     },
     "TutorialHandlebars" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1913,7 +1910,6 @@
       }
     },
     "TutorialIntroduction" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1930,7 +1926,6 @@
       }
     },
     "TutorialLogo" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1947,7 +1942,6 @@
       }
     },
     "TutorialNext" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1964,7 +1958,6 @@
       }
     },
     "TutorialPrevious" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1981,7 +1974,6 @@
       }
     },
     "TutorialScreen" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1998,7 +1990,6 @@
       }
     },
     "TutorialStart" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2015,7 +2006,6 @@
       }
     },
     "TutorialSymbols" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2032,7 +2022,6 @@
       }
     },
     "TutorialWelcome" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
