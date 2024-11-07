@@ -1,0 +1,16 @@
+## Build files
+.build/
+
+## User settings
+xcuserdata/
+
+# Swift Package Manager
+Package.resolved
+
+## App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Other
+.DS_Store
