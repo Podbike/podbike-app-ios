@@ -19,6 +19,7 @@
 	<array>
 		<string>Poppins-Regular.ttf</string>
 		<string>Poppins-Bold.ttf</string>
+		<string>MaterialIcons.ttf</string>
 	</array>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
