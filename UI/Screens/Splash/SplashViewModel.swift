@@ -3,7 +3,7 @@ import Foundation
 class SplashViewModel {
     private weak var coordinator: AppCoordinatorViewModel?
 
-    struct Constants {
+    enum Constants {
         static let splashDurationInSeconds = 2.0
     }
 

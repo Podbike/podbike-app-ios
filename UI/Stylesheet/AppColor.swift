@@ -2,9 +2,8 @@ import SwiftUI
 
 enum AppColor {
     static let accent = Color(hex: 0x44d62c)
-    static let background = Color.black
+    static let white = Color.white
     static let text = Color(hex: 0xf0f0f0)
-    static let headlineText = Color.white
 
     static let backgroundGradient =
         LinearGradient(

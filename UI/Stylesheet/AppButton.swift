@@ -2,9 +2,16 @@ import SwiftUI
 
 enum AppButton {
     static let primary = PrimaryButton()
+    static let primaryProminent = PrimaryButton(prominent: true)
     static let secondary = SecondaryButton()
 
     struct PrimaryButton: ButtonStyle {
+        let prominent: Bool
+
+        init(prominent: Bool = false) {
+            self.prominent = prominent
+        }
+
         func makeBody(configuration: Configuration) -> some View {
             configuration.label
                 .frame(width: 200, height: 55)
@@ -17,7 +24,7 @@ enum AppButton {
                 )
                 .opacity(configuration.isPressed ? 0.7 : 1)
                 .foregroundStyle(AppColor.text)
-                .font(AppFont.body)
+                .font(prominent ? AppFont.title : AppFont.body)
         }
     }
 

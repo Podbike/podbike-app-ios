@@ -30,7 +30,7 @@ struct TutorialPage2: View {
             Image(.Tutorial.cadence)
                 .resizable()
                 .scaledToFit()
-                .padding(.horizontal, AppDimens.padding16)
+                .padding(.horizontal, AppDimens.padding8)
 
             Spacer()
             Spacer()

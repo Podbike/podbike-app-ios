@@ -4,10 +4,11 @@ enum AppFont {
     private static let appFont = "Poppins-Regular"
     private static let appBoldFont = "Poppins-Bold"
 
-    static let body: Font = .custom(appFont, size: 14)
-    static let label: Font = .custom(appFont, size: 16)
+    static let body: Font = .custom(appFont, size: 16)
+    static let label: Font = .custom(appFont, size: 18)
     static let title: Font = .custom(appBoldFont, size: 18)
     static let headline: Font = .system(size: 24).bold()
+    static let pageTitle: Font = .custom(appBoldFont, size: 36)
 }
 
 extension Text {
@@ -15,6 +16,7 @@ extension Text {
     var label: some View { modifier(LabelText()) }
     var title: some View { modifier(TitleText()) }
     var headline: some View { modifier(HeadlineText()) }
+    var pageTitle: some View { modifier(PageTitleText()) }
 
     struct BodyText: ViewModifier {
         func body(content: Content) -> some View {
@@ -49,7 +51,7 @@ extension Text {
         func body(content: Content) -> some View {
             content
                 .font(AppFont.headline)
-                .foregroundColor(AppColor.headlineText)
+                .foregroundColor(AppColor.white)
                 .multilineTextAlignment(.center)
                 .minimumScaleFactor(0.7)
         }

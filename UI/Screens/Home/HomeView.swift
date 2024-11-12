@@ -9,17 +9,19 @@ struct HomeView: View {
 
     var body: some View {
         ZStack {
-            AppColor.background
+            AppColor.backgroundGradient
                 .ignoresSafeArea()
 
             VStack(spacing: AppDimens.padding16) {
                 Image(.logo)
+
                 AppSpacers.h64
+
                 Button(
                     "Show tutorial",
                     action: { viewModel.goToTutorial() }
                 )
-                .buttonStyle(AppButton.primary)
+                .buttonStyle(AppButton.primaryProminent)
             }
             .padding(AppDimens.padding16)
         }
