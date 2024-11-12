@@ -17,7 +17,7 @@ extension View {
 
                         Spacer()
                     }
-                    .padding(.top, AppDimens.padding32)
+                    .padding(.vertical, AppDimens.padding32)
                 }
             }
     }

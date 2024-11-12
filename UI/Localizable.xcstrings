@@ -1110,11 +1110,7 @@
         }
       }
     },
-    "Settings page" : {
-
-    },
     "SettingsAbout" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1148,7 +1144,6 @@
       }
     },
     "SettingsAppVersion" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1165,7 +1160,6 @@
       }
     },
     "SettingsDevices" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1233,7 +1227,6 @@
       }
     },
     "SettingsDistanceUnit" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1250,7 +1243,6 @@
       }
     },
     "SettingsFrikar" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1268,7 +1260,6 @@
     },
     "SettingsGeneral" : {
       "comment" : "Settings page subtitle",
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1285,7 +1276,6 @@
       }
     },
     "SettingsLanguage" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1303,11 +1293,10 @@
     },
     "SettingsPageTitle" : {
       "comment" : "The settings page title",
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Einstellungen"
           }
         },
@@ -1320,7 +1309,6 @@
       }
     },
     "SettingsPolicies" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1507,7 +1495,6 @@
       }
     },
     "SettingsSpeedUnit" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1575,7 +1562,6 @@
       }
     },
     "SettingsTemperatureUnit" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1610,7 +1596,6 @@
     },
     "SettingsUnits" : {
       "comment" : "Settings page subtitle",
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1627,7 +1612,6 @@
       }
     },
     "SettingsUpdate" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

@@ -4,6 +4,7 @@ enum AppColor {
     static let accent = Color(hex: 0x44d62c)
     static let white = Color.white
     static let text = Color(hex: 0xf0f0f0)
+    static let dimGray = Color(hex: 0x696969)
 
     static let backgroundGradient =
         LinearGradient(

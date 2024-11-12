@@ -10,6 +10,7 @@ struct PodbikeApp: App {
     var body: some Scene {
         WindowGroup {
             appCoordinator
+                .preferredColorScheme(.dark)
         }
     }
 }
