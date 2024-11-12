@@ -56,4 +56,15 @@ extension Text {
                 .minimumScaleFactor(0.7)
         }
     }
+
+    struct PageTitleText: ViewModifier {
+        func body(content: Content) -> some View {
+            content
+                .font(AppFont.pageTitle)
+                .foregroundColor(AppColor.white)
+                .fixedSize(horizontal: false, vertical: true)
+                .lineLimit(2)
+                .minimumScaleFactor(0.7)
+        }
+    }
 }

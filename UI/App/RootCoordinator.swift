@@ -4,6 +4,7 @@ import SwiftUI
 class RootCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtocol {
     enum Screen: BaseScreen {
         case tutorial
+        case settings
     }
 
     let parentCoordinator: (any BaseCoordinatorViewModelProtocol)?
@@ -20,11 +21,16 @@ class RootCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtoc
     func provideView(forScreen screen: Screen) -> some View {
         switch screen {
         case .tutorial: TutorialServiceLocator.instance.provideTutorialView(coordinator: self)
+        case .settings: SettingsServiceLocator.instance.provideSettingsView(coordinator: self)
         }
     }
 
     func showTutorial() {
         show(.tutorial)
+    }
+
+    func showSettings() {
+        show(.settings)
     }
 }
 

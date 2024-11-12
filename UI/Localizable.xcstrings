@@ -1110,6 +1110,9 @@
         }
       }
     },
+    "Settings page" : {
+
+    },
     "SettingsAbout" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1225,23 +1228,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Miles"
-          }
-        }
-      }
-    },
-    "SettingsDistanceNm" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nautical Miles"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nautical Miles"
           }
         }
       }
@@ -1656,6 +1642,9 @@
           }
         }
       }
+    },
+    "Show settings" : {
+
     },
     "Show tutorial" : {
 

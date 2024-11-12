@@ -22,6 +22,12 @@ struct HomeView: View {
                     action: { viewModel.goToTutorial() }
                 )
                 .buttonStyle(AppButton.primaryProminent)
+
+                Button(
+                    "Show settings",
+                    action: { viewModel.goToSettings() }
+                )
+                .buttonStyle(AppButton.primaryProminent)
             }
             .padding(AppDimens.padding16)
         }
