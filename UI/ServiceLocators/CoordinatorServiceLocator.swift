@@ -7,7 +7,11 @@ class CoordinatorServiceLocator {
         AppCoordinator(viewModel: AppCoordinatorViewModel())
     }
 
-    func provideRootCoordinator(parentCoordinator: (any BaseCoordinatorViewModelProtocol)?) -> RootCoordinator {
+    func provideRootCoordinator(parentCoordinator: BaseCoordinator?) -> RootCoordinator {
         RootCoordinator(viewModel: RootCoordinatorViewModel(parentCoordinator: parentCoordinator))
+    }
+
+    func provideSettingsCoordinator(parentCoordinator: BaseCoordinator) -> SettingsCoordinator {
+        SettingsCoordinator(viewModel: SettingsCoordinatorViewModel(parentCoordinator: parentCoordinator))
     }
 }

@@ -16,7 +16,7 @@ struct SettingsView: View {
 
             List {
                 SettingsHeader(Key("SettingsGeneral")) {
-                    SettingsRow(Key("SettingsLanguage"), action: onLanguageTapped)
+                    SettingsRow(Key("SettingsLanguage"), viewModel.onLanguageTapped)
                     SettingsRow(Key("SettingsDevices")) {}
                     SettingsRow(Key("SettingsUpdate")) {}
                 }
@@ -28,7 +28,7 @@ struct SettingsView: View {
                 }
                 SettingsHeader(Key("SettingsAbout")) {
                     SettingsRow(Key("SettingsFrikar")) {}
-                    SettingsRow(Key("SettingsPolicies")) {}
+                    SettingsRow(Key("SettingsPolicies"), viewModel.onPoliciesTapped)
                 }
 
                 AppVersionRow()
@@ -38,15 +38,9 @@ struct SettingsView: View {
             .transparentBackground()
         }
         .toolbar(
-            title: LocalizedStringKey("SettingsPageTitle"),
+            title: Key("SettingsPageTitle"),
             onBack: viewModel.dismiss
         )
-    }
-
-    func onLanguageTapped() {
-        if let url = URL(string: UIApplication.openSettingsURLString) {
-            UIApplication.shared.open(url)
-        }
     }
 }
 
@@ -76,7 +70,7 @@ struct SettingsRow: View {
     private let text: LocalizedStringKey
     private let action: () -> Void
 
-    init(_ text: LocalizedStringKey, action: @escaping @MainActor () -> Void) {
+    init(_ text: LocalizedStringKey, _ action: @escaping @MainActor () -> Void) {
         self.text = text
         self.action = action
     }
@@ -147,5 +141,5 @@ private extension View {
 }
 
 #Preview {
-    SettingsServiceLocator.instance.provideSettingsView(coordinator: RootCoordinatorViewModel(parentCoordinator: nil))
+    SettingsServiceLocator.instance.provideSettingsView(coordinator: SettingsCoordinatorViewModel(parentCoordinator: nil))
 }

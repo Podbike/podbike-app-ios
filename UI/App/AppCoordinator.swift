@@ -7,7 +7,7 @@ class AppCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtoco
         case appRoot
     }
 
-    let parentCoordinator: (any BaseCoordinatorViewModelProtocol)? = nil
+    let parentCoordinator: BaseCoordinator? = nil
     var rootView = EmptyView()
 
     @Published var routes: Routes<Screen> = [.root(.splash)]

@@ -1077,7 +1077,6 @@
       }
     },
     "PolicyPrivacy" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1094,7 +1093,6 @@
       }
     },
     "PolicyTermsConditions" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

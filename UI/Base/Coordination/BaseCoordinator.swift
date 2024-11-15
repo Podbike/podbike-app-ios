@@ -2,8 +2,10 @@ import FlowStacks
 import Foundation
 import SwiftUI
 
+public typealias BaseCoordinator = any BaseCoordinatorViewModelProtocol
+
 public protocol BaseCoordinatorViewModelProtocol: AnyObject {
-    var parentCoordinator: (any BaseCoordinatorViewModelProtocol)? { get }
+    var parentCoordinator: BaseCoordinator? { get }
 
     associatedtype RootView: View
     var rootView: RootView { get set }
@@ -29,17 +31,11 @@ public extension BaseCoordinatorViewModelProtocol {
 
     func dismiss() {
         guard let lastScreen = routes.last?.screen else {
-            debugPrint("⚠️ Trying to dismiss a view, but routes are empty")
+            parentCoordinator?.dismiss()
             return
         }
 
-        if routes.count == 0 {
-            // If lastScreen is the only remaining screen in this route,
-            // we should dismiss it from the parentCoordinator who was responsible of presenting it
-            parentCoordinator?.dismiss()
-        } else {
-            dismiss(lastScreen)
-        }
+        dismiss(lastScreen)
     }
 
     private func dismiss(_ screen: any BaseScreen) {

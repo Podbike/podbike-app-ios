@@ -1,8 +1,8 @@
 import SwiftUI
 
 enum AppFont {
-    private static let appFont = "Poppins-Regular"
-    private static let appBoldFont = "Poppins-Bold"
+    static let appFont = "Poppins-Regular"
+    static let appBoldFont = "Poppins-Bold"
 
     static let body: Font = .custom(appFont, size: 16)
     static let label: Font = .custom(appFont, size: 18)
@@ -63,8 +63,8 @@ extension Text {
                 .font(AppFont.pageTitle)
                 .foregroundColor(AppColor.white)
                 .fixedSize(horizontal: false, vertical: true)
-                .lineLimit(2)
                 .minimumScaleFactor(0.7)
+                .lineLimit(1)
         }
     }
 }

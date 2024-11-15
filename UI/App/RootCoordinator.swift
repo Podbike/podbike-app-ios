@@ -7,13 +7,13 @@ class RootCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtoc
         case settings
     }
 
-    let parentCoordinator: (any BaseCoordinatorViewModelProtocol)?
+    let parentCoordinator: BaseCoordinator?
 
     lazy var rootView: some View = HomeServiceLocator.instance.provideHomeView(coordinator: self)
 
     @Published var routes: Routes<Screen> = []
 
-    init(parentCoordinator: (any BaseCoordinatorViewModelProtocol)?) {
+    init(parentCoordinator: BaseCoordinator?) {
         self.parentCoordinator = parentCoordinator
     }
 
@@ -21,7 +21,7 @@ class RootCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtoc
     func provideView(forScreen screen: Screen) -> some View {
         switch screen {
         case .tutorial: TutorialServiceLocator.instance.provideTutorialView(coordinator: self)
-        case .settings: SettingsServiceLocator.instance.provideSettingsView(coordinator: self)
+        case .settings: CoordinatorServiceLocator.instance.provideSettingsCoordinator(parentCoordinator: self)
         }
     }
 
