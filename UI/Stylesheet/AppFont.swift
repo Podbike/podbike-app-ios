@@ -63,7 +63,7 @@ extension Text {
                 .font(AppFont.pageTitle)
                 .foregroundColor(AppColor.white)
                 .fixedSize(horizontal: false, vertical: true)
-                .minimumScaleFactor(0.7)
+                .minimumScaleFactor(0.4)
                 .lineLimit(1)
         }
     }

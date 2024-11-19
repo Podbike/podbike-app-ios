@@ -28,6 +28,7 @@ struct TutorialView: View {
                 TabView(selection: $viewModel.selectedPage) {
                     ForEach(1 ... pageCount, id: \.self) {
                         tutorialPage($0)
+                            .padding(.horizontal, AppDimens.padding16)
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
@@ -55,12 +56,11 @@ struct TutorialView: View {
                 .buttonStyle(AppButton.secondary)
             }
             .padding(.top, AppDimens.padding48)
-            .padding(.horizontal, AppDimens.padding16)
         }
         .navigationBarBackButtonHidden()
     }
 }
 
 #Preview {
-    TutorialServiceLocator.instance.provideTutorialView(coordinator: RootCoordinatorViewModel(parentCoordinator: nil))
+    TutorialServiceLocator.instance.provideTutorialView(coordinator: RootCoordinatorViewModel())
 }

@@ -24,7 +24,7 @@ enum AppButton {
                 )
                 .opacity(configuration.isPressed ? 0.7 : 1)
                 .foregroundStyle(AppColor.text)
-                .font(prominent ? AppFont.title : AppFont.body)
+                .font(prominent ? AppFont.title : AppFont.label)
         }
     }
 

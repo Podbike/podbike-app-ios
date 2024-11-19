@@ -25,7 +25,7 @@ struct TutorialPage1: View {
 
 #Preview {
     TutorialServiceLocator.instance.provideTutorialView(
-        coordinator: RootCoordinatorViewModel(parentCoordinator: nil),
+        coordinator: RootCoordinatorViewModel(),
         startFromPage: 1
     )
 }

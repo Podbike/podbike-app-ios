@@ -35,5 +35,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeServiceLocator.instance.provideHomeView(coordinator: RootCoordinatorViewModel(parentCoordinator: nil))
+    HomeServiceLocator.instance.provideHomeView(coordinator: RootCoordinatorViewModel())
 }

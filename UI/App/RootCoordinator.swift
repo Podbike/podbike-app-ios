@@ -13,7 +13,7 @@ class RootCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtoc
 
     @Published var routes: Routes<Screen> = []
 
-    init(parentCoordinator: BaseCoordinator?) {
+    init(parentCoordinator: BaseCoordinator? = nil) {
         self.parentCoordinator = parentCoordinator
     }
 

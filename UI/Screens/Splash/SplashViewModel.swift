@@ -17,7 +17,7 @@ class SplashViewModel {
 
     private func waitAndGoToHome() {
         DispatchQueue.main.asyncAfter(deadline: .now() + Constants.splashDurationInSeconds) { [weak self] in
-            self?.coordinator?.showHome()
+            self?.coordinator?.hideSplashScreen()
         }
     }
 }

@@ -4,11 +4,15 @@ class CoordinatorServiceLocator {
     static let instance = CoordinatorServiceLocator()
 
     func provideAppCoordinator() -> AppCoordinator {
-        AppCoordinator(viewModel: AppCoordinatorViewModel())
+        AppCoordinator(
+            viewModel: AppCoordinatorViewModel(userPreferences: UserPreferences())
+        )
     }
 
     func provideRootCoordinator(parentCoordinator: BaseCoordinator?) -> RootCoordinator {
-        RootCoordinator(viewModel: RootCoordinatorViewModel(parentCoordinator: parentCoordinator))
+        RootCoordinator(
+            viewModel: RootCoordinatorViewModel(parentCoordinator: parentCoordinator)
+        )
     }
 
     func provideSettingsCoordinator(parentCoordinator: BaseCoordinator) -> SettingsCoordinator {
