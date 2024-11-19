@@ -1,11 +1,35 @@
 import Foundation
-import UIKit
+import SwiftUI
 
 class SettingsViewModel: ObservableObject {
     private weak var coordinator: SettingsCoordinatorViewModel?
+    private let userPreferences: UserPreferences
 
-    init(coordinator: SettingsCoordinatorViewModel) {
+    @Published var speedUnit: SpeedUnit {
+        didSet {
+            userPreferences.speedUnit = speedUnit
+        }
+    }
+
+    @Published var distanceUnit: DistanceUnit {
+        didSet {
+            userPreferences.distanceUnit = distanceUnit
+        }
+    }
+
+    @Published var temperatureUnit: TemperatureUnit {
+        didSet {
+            userPreferences.temperatureUnit = temperatureUnit
+        }
+    }
+
+    init(coordinator: SettingsCoordinatorViewModel, userPreferences: UserPreferences) {
         self.coordinator = coordinator
+        self.userPreferences = userPreferences
+
+        speedUnit = userPreferences.speedUnit
+        distanceUnit = userPreferences.distanceUnit
+        temperatureUnit = userPreferences.temperatureUnit
     }
 
     func dismiss() {
@@ -20,5 +44,34 @@ class SettingsViewModel: ObservableObject {
 
     func onPoliciesTapped() {
         coordinator?.showPolicies()
+    }
+}
+
+extension SpeedUnit: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .kilometersPerHour: return String(localized: "SettingsSpeedKmph")
+        case .milesPerHour: return String(localized: "SettingsSpeedMiph")
+        case .metersPerSecond: return String(localized: "SettingsSpeedMps")
+        }
+    }
+}
+
+extension DistanceUnit: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .kilometers: return String(localized: "SettingsDistanceKm")
+        case .miles: return String(localized: "SettingsDistanceMi")
+        case .meters: return String(localized: "SettingsDistanceM")
+        }
+    }
+}
+
+extension TemperatureUnit: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .celsius: return String(localized: "SettingsTemperatureC")
+        case .fahrenheit: return String(localized: "SettingsTemperatureF")
+        }
     }
 }

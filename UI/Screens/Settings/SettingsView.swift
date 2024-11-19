@@ -1,7 +1,5 @@
 import SwiftUI
 
-typealias Key = LocalizedStringKey
-
 struct SettingsView: View {
     @ObservedObject var viewModel: SettingsViewModel
 
@@ -9,26 +7,45 @@ struct SettingsView: View {
         self.viewModel = viewModel
     }
 
+    @State private var showSpeedPicker = false
+    @State private var showDistancePicker = false
+    @State private var showTemperaturePicker = false
+
     var body: some View {
         ZStack {
             AppColor.backgroundGradient
                 .ignoresSafeArea()
 
             List {
-                SettingsHeader(Key("SettingsGeneral")) {
-                    SettingsRow(Key("SettingsLanguage"), viewModel.onLanguageTapped)
-                    SettingsRow(Key("SettingsDevices")) {}
-                    SettingsRow(Key("SettingsUpdate")) {}
+                SettingsHeader("SettingsGeneral") {
+                    SettingsRow("SettingsLanguage", viewModel.onLanguageTapped)
+                    SettingsRow("SettingsDevices") {}
+                    SettingsRow("SettingsUpdate") {}
                 }
 
-                SettingsHeader(Key("SettingsUnits")) {
-                    SettingsRow(Key("SettingsSpeedUnit")) {}
-                    SettingsRow(Key("SettingsDistanceUnit")) {}
-                    SettingsRow(Key("SettingsTemperatureUnit")) {}
+                SettingsHeader("SettingsUnits") {
+                    SettingsRow("SettingsSpeedUnit") {
+                        hidePickers()
+                        withAnimation {
+                            showSpeedPicker = true
+                        }
+                    }
+                    SettingsRow("SettingsDistanceUnit") {
+                        hidePickers()
+                        withAnimation {
+                            showDistancePicker = true
+                        }
+                    }
+                    SettingsRow("SettingsTemperatureUnit") {
+                        hidePickers()
+                        withAnimation {
+                            showTemperaturePicker = true
+                        }
+                    }
                 }
-                SettingsHeader(Key("SettingsAbout")) {
-                    SettingsRow(Key("SettingsFrikar")) {}
-                    SettingsRow(Key("SettingsPolicies"), viewModel.onPoliciesTapped)
+                SettingsHeader("SettingsAbout") {
+                    SettingsRow("SettingsFrikar") {}
+                    SettingsRow("SettingsPolicies", viewModel.onPoliciesTapped)
                 }
 
                 AppVersionRow()
@@ -36,11 +53,49 @@ struct SettingsView: View {
             .listStyle(.grouped)
             .padding(.top, AppDimens.padding16)
             .transparentBackground()
+
+            BottomWheelPicker(
+                isPresented: $showSpeedPicker,
+                label: "SettingsSelectUnit",
+                entries: [
+                    SpeedUnit.kilometersPerHour,
+                    SpeedUnit.milesPerHour,
+                    SpeedUnit.metersPerSecond,
+                ],
+                selection: $viewModel.speedUnit
+            )
+
+            BottomWheelPicker(
+                isPresented: $showDistancePicker,
+                label: "SettingsSelectUnit",
+                entries: [
+                    DistanceUnit.kilometers,
+                    DistanceUnit.miles,
+                    DistanceUnit.meters,
+                ],
+                selection: $viewModel.distanceUnit
+            )
+
+            BottomWheelPicker(
+                isPresented: $showTemperaturePicker,
+                label: "SettingsSelectUnit",
+                entries: [
+                    TemperatureUnit.celsius,
+                    TemperatureUnit.fahrenheit,
+                ],
+                selection: $viewModel.temperatureUnit
+            )
         }
         .toolbar(
-            title: Key("SettingsPageTitle"),
+            title: "SettingsPageTitle",
             onBack: viewModel.dismiss
         )
+    }
+
+    private func hidePickers() {
+        showSpeedPicker = false
+        showDistancePicker = false
+        showTemperaturePicker = false
     }
 }
 
@@ -70,6 +125,8 @@ struct SettingsRow: View {
     private let text: LocalizedStringKey
     private let action: () -> Void
 
+    @State var isHighlighted = false
+
     init(_ text: LocalizedStringKey, _ action: @escaping @MainActor () -> Void) {
         self.text = text
         self.action = action
@@ -96,7 +153,15 @@ struct SettingsRow: View {
                 }
                 .padding(.vertical, AppDimens.padding8)
             }
-            .buttonStyle(RowButtonStyle())
+            .buttonStyle(RowButtonStyle(isHighlighted: isHighlighted))
+            .simultaneousGesture(TapGesture().onEnded {
+                isHighlighted = true
+                DispatchQueue.main.async {
+                    withAnimation {
+                        isHighlighted = false
+                    }
+                }
+            })
 
             AppColor.dimGray
                 .frame(height: 1)
@@ -110,9 +175,12 @@ struct SettingsRow: View {
     }
 
     private struct RowButtonStyle: ButtonStyle {
+
+        let isHighlighted: Bool
+
         func makeBody(configuration: Self.Configuration) -> some View {
             configuration.label
-                .background(configuration.isPressed ? AppColor.dimGray : Color.clear)
+                .background((configuration.isPressed || isHighlighted) ? AppColor.dimGray : Color.clear)
                 .contentShape(Rectangle())
         }
     }

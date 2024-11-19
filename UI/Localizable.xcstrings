@@ -428,6 +428,16 @@
         }
       }
     },
+    "Done" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig"
+          }
+        }
+      }
+    },
     "FrikarBluetoothDisabled" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -785,108 +795,6 @@
         }
       }
     },
-    "LoginButton" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anmelden"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log In"
-          }
-        }
-      }
-    },
-    "LoginError" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anmeldefehler"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Login Error"
-          }
-        }
-      }
-    },
-    "LoginForgot" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Passwort vergessen?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Forgot Password?"
-          }
-        }
-      }
-    },
-    "LoginIncorrect" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ungültige Kombination aus Benutzername und Passwort!"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Incorrect username / password combination!"
-          }
-        }
-      }
-    },
-    "LoginRegister" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neues Konto erstellen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Register New Account"
-          }
-        }
-      }
-    },
-    "LoginRemember" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anmeldedaten merken"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remember me"
-          }
-        }
-      }
-    },
     "OverlayAssistance" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1124,23 +1032,6 @@
         }
       }
     },
-    "SettingsAccount" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ihr Konto"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your Account"
-          }
-        }
-      }
-    },
     "SettingsAppVersion" : {
       "localizations" : {
         "de" : {
@@ -1174,7 +1065,6 @@
       }
     },
     "SettingsDistanceKm" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1191,7 +1081,6 @@
       }
     },
     "SettingsDistanceM" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1208,7 +1097,6 @@
       }
     },
     "SettingsDistanceMi" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1322,93 +1210,7 @@
         }
       }
     },
-    "SettingsPressureAtm" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Standard Atmospheres"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Standard Atmospheres"
-          }
-        }
-      }
-    },
-    "SettingsPressureBar" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bars"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bar"
-          }
-        }
-      }
-    },
-    "SettingsPressurePsi" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pounds per Square Inch"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pounds per Square Inch"
-          }
-        }
-      }
-    },
-    "SettingsPressureUnit" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einheit für Druck wählen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pressure Unit"
-          }
-        }
-      }
-    },
-    "SettingsSelectLanguage" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sprache wählen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select Language"
-          }
-        }
-      }
-    },
     "SettingsSelectUnit" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1425,7 +1227,6 @@
       }
     },
     "SettingsSpeedKmph" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1437,29 +1238,11 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kilometers per hour"
-          }
-        }
-      }
-    },
-    "SettingsSpeedKn" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Knots"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Knots"
           }
         }
       }
     },
     "SettingsSpeedMiph" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1476,7 +1259,6 @@
       }
     },
     "SettingsSpeedMps" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1509,7 +1291,6 @@
       }
     },
     "SettingsTemperatureC" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1526,7 +1307,6 @@
       }
     },
     "SettingsTemperatureF" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1538,23 +1318,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fahrenheit"
-          }
-        }
-      }
-    },
-    "SettingsTemperatureK" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kelvin"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kelvin"
           }
         }
       }
@@ -1571,23 +1334,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Temperature Unit"
-          }
-        }
-      }
-    },
-    "SettingsTires" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reifen einstellen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Manage Tires"
           }
         }
       }
@@ -1763,23 +1509,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Total Distance"
-          }
-        }
-      }
-    },
-    "TiresPair" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verbinden"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pair"
           }
         }
       }

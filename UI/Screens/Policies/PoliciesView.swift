@@ -51,6 +51,7 @@ struct PoliciesView: View {
             title: LocalizedStringKey(selectedTab),
             onBack: viewModel.dismiss
         )
+        .colorScheme(.dark)
     }
 }
 
