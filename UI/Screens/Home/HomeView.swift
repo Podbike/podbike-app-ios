@@ -15,17 +15,23 @@ struct HomeView: View {
             VStack(spacing: AppDimens.padding16) {
                 Image(.logo)
 
-                AppSpacers.h64
+                AppSpacers.h48
 
                 Button(
-                    "Show tutorial",
+                    "Tutorial",
                     action: { viewModel.goToTutorial() }
                 )
                 .buttonStyle(AppButton.primaryProminent)
 
                 Button(
-                    "Show settings",
+                    "Settings",
                     action: { viewModel.goToSettings() }
+                )
+                .buttonStyle(AppButton.primaryProminent)
+
+                Button(
+                    "BLE Scan",
+                    action: { viewModel.goToBleScan() }
                 )
                 .buttonStyle(AppButton.primaryProminent)
             }

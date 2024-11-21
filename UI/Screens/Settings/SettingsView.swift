@@ -19,7 +19,7 @@ struct SettingsView: View {
             List {
                 SettingsHeader("SettingsGeneral") {
                     SettingsRow("SettingsLanguage", viewModel.onLanguageTapped)
-                    SettingsRow("SettingsDevices") {}
+                    SettingsRow("SettingsDevices", viewModel.onDevicesTapped)
                     SettingsRow("SettingsUpdate") {}
                 }
 
@@ -52,7 +52,7 @@ struct SettingsView: View {
             }
             .listStyle(.grouped)
             .padding(.top, AppDimens.padding16)
-            .transparentBackground()
+            .transparentListBackground()
 
             BottomWheelPicker(
                 isPresented: $showSpeedPicker,
@@ -167,7 +167,6 @@ struct SettingsRow: View {
                 .frame(height: 1)
         }
         .listRowBackground(Color.clear)
-        .listItemTint(.accent)
         .listRowSeparator(.hidden)
         .listRowInsets(
             .init(top: 0, leading: AppDimens.padding16, bottom: -1, trailing: AppDimens.padding16)
@@ -194,17 +193,6 @@ struct AppVersionRow: View {
             .centerHorizontally()
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
-    }
-}
-
-private extension View {
-    @ViewBuilder
-    func transparentBackground() -> some View {
-        if #available(iOS 16.0, *) {
-            self.scrollContentBackground(.hidden)
-        } else {
-            background(Color.clear)
-        }
     }
 }
 

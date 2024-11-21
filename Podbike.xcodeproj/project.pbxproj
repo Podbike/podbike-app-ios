@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		BC5AC4812CD967C3003FD6CB /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = BC5AC4802CD967C3003FD6CB /* FirebaseCrashlytics */; };
 		BC5AC4862CD96E87003FD6CB /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = BC5AC4852CD96E87003FD6CB /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		BC7D94892CEE9D1E002F60AA /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BC7D94882CEE9D1E002F60AA /* InfoPlist.xcstrings */; };
 		BCFAC76F2CD989CC00CCE994 /* FlowStacks in Frameworks */ = {isa = PBXBuildFile; productRef = BCFAC76E2CD989CC00CCE994 /* FlowStacks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BC1157922CDB872C0015C495 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BC7D94882CEE9D1E002F60AA /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		BC949ACC2CD92C3200024671 /* Podbike.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Podbike.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -42,6 +44,11 @@
 			path = Firebase;
 			sourceTree = "<group>";
 		};
+		BC7D94762CED79D7002F60AA /* Utils */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		BC949ACE2CD92C3200024671 /* UI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = UI;
@@ -68,8 +75,10 @@
 			children = (
 				BC949ACE2CD92C3200024671 /* UI */,
 				BC1157A72CDBDA5B0015C495 /* Data */,
+				BC7D94762CED79D7002F60AA /* Utils */,
 				BC5AC4892CD96FE7003FD6CB /* Firebase */,
 				BC1157922CDB872C0015C495 /* Info.plist */,
+				BC7D94882CEE9D1E002F60AA /* InfoPlist.xcstrings */,
 				BC949ACD2CD92C3200024671 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -102,6 +111,7 @@
 			fileSystemSynchronizedGroups = (
 				BC1157A72CDBDA5B0015C495 /* Data */,
 				BC5AC4892CD96FE7003FD6CB /* Firebase */,
+				BC7D94762CED79D7002F60AA /* Utils */,
 				BC949ACE2CD92C3200024671 /* UI */,
 			);
 			name = Podbike;
@@ -135,6 +145,7 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
 			);
 			mainGroup = BC949AC32CD92C3200024671;
 			minimizedProjectReferenceProxies = 1;
@@ -157,6 +168,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC7D94892CEE9D1E002F60AA /* InfoPlist.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +290,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = "Debug-production";
@@ -300,6 +313,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "$(FLAVOR_APP_NAME)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Needed in order to connect and maintain connection to Podbike to transfer and receive data from Podbike";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -376,6 +390,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = "Release-production";
@@ -397,6 +412,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "$(FLAVOR_APP_NAME)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Needed in order to connect and maintain connection to Podbike to transfer and receive data from Podbike";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -480,6 +496,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = "Debug-development";
@@ -536,6 +553,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = "Release-development";
@@ -558,6 +576,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "$(FLAVOR_APP_NAME)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Needed in order to connect and maintain connection to Podbike to transfer and receive data from Podbike";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -599,6 +618,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "$(FLAVOR_APP_NAME)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Needed in order to connect and maintain connection to Podbike to transfer and receive data from Podbike";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

@@ -18,6 +18,9 @@
         }
       }
     },
+    "BLE Scan" : {
+
+    },
     "Cancel" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -308,7 +311,6 @@
       }
     },
     "DevicesPageTitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -326,7 +328,6 @@
     },
     "DeviceStartScan" : {
       "comment" : "Start a new Bluetooth scan",
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -344,7 +345,6 @@
     },
     "DeviceStopScan" : {
       "comment" : "Stop the current Bluetooth scan",
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1016,6 +1016,9 @@
         }
       }
     },
+    "Settings" : {
+
+    },
     "SettingsAbout" : {
       "localizations" : {
         "de" : {
@@ -1371,12 +1374,6 @@
         }
       }
     },
-    "Show settings" : {
-
-    },
-    "Show tutorial" : {
-
-    },
     "StatisticAverageCadence" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1512,6 +1509,9 @@
           }
         }
       }
+    },
+    "Tutorial" : {
+
     },
     "TutorialAssistance" : {
       "localizations" : {

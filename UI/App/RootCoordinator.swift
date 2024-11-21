@@ -5,6 +5,7 @@ class RootCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtoc
     enum Screen: BaseScreen {
         case tutorial
         case settings
+        case bleScan
     }
 
     let parentCoordinator: BaseCoordinator?
@@ -22,6 +23,7 @@ class RootCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtoc
         switch screen {
         case .tutorial: TutorialServiceLocator.instance.provideTutorialView(coordinator: self)
         case .settings: CoordinatorServiceLocator.instance.provideSettingsCoordinator(parentCoordinator: self)
+        case .bleScan: CoordinatorServiceLocator.instance.provideBleScanCoordinator(parentCoordinator: self)
         }
     }
 
@@ -31,6 +33,10 @@ class RootCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtoc
 
     func showSettings() {
         show(.settings)
+    }
+
+    func showBleScan() {
+        show(.bleScan)
     }
 }
 

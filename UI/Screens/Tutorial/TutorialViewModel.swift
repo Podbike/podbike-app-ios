@@ -1,6 +1,6 @@
 import SwiftUI
 
-class TutorialViewModel: ObservableObject {
+class TutorialViewModel: BaseViewModel {
     private weak var coordinator: BaseCoordinator?
     private let userPreferences: UserPreferences
 

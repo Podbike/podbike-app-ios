@@ -1,6 +1,6 @@
 import Foundation
 
-class PoliciesViewModel: ObservableObject {
+class PoliciesViewModel: BaseViewModel {
     private weak var coordinator: BaseCoordinator?
 
     init(coordinator: BaseCoordinator?) {

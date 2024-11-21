@@ -1,6 +1,6 @@
 import Foundation
 
-class SplashViewModel {
+class SplashViewModel: BaseViewModel {
     private weak var coordinator: AppCoordinatorViewModel?
 
     enum Constants {

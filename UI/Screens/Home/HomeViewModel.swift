@@ -1,6 +1,6 @@
 import Foundation
 
-class HomeViewModel: ObservableObject {
+class HomeViewModel: BaseViewModel {
     private weak var coordinator: RootCoordinatorViewModel?
 
     init(coordinator: RootCoordinatorViewModel) {
@@ -13,5 +13,9 @@ class HomeViewModel: ObservableObject {
 
     func goToSettings() {
         coordinator?.showSettings()
+    }
+
+    func goToBleScan() {
+        coordinator?.showBleScan()
     }
 }

@@ -3,18 +3,16 @@ import SwiftUI
 enum AppButton {
     static let primary = PrimaryButton()
     static let primaryProminent = PrimaryButton(prominent: true)
+    static let primaryTall = PrimaryButton(height: 80)
     static let secondary = SecondaryButton()
 
     struct PrimaryButton: ButtonStyle {
-        let prominent: Bool
-
-        init(prominent: Bool = false) {
-            self.prominent = prominent
-        }
+        var prominent = false
+        var height = 55.0
 
         func makeBody(configuration: Configuration) -> some View {
             configuration.label
-                .frame(width: 200, height: 55)
+                .frame(width: 200, height: height)
                 .background(
                     RoundedRectangle(
                         cornerRadius: 5,

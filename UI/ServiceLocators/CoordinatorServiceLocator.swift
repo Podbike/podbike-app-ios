@@ -18,4 +18,8 @@ class CoordinatorServiceLocator {
     func provideSettingsCoordinator(parentCoordinator: BaseCoordinator) -> SettingsCoordinator {
         SettingsCoordinator(viewModel: SettingsCoordinatorViewModel(parentCoordinator: parentCoordinator))
     }
+
+    func provideBleScanCoordinator(parentCoordinator: BaseCoordinator) -> BleScanCoordinator {
+        BleScanCoordinator(viewModel: BleScanCoordinatorViewModel(parentCoordinator: parentCoordinator))
+    }
 }

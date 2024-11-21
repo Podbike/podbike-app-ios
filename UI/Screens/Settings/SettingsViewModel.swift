@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-class SettingsViewModel: ObservableObject {
+class SettingsViewModel: BaseViewModel {
     private weak var coordinator: SettingsCoordinatorViewModel?
     private let userPreferences: UserPreferences
 
@@ -40,6 +40,10 @@ class SettingsViewModel: ObservableObject {
         if let url = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(url)
         }
+    }
+
+    func onDevicesTapped() {
+        coordinator?.showDeviceManagement()
     }
 
     func onPoliciesTapped() {
