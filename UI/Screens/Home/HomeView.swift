@@ -34,12 +34,22 @@ struct HomeView: View {
                     action: { viewModel.goToBleScan() }
                 )
                 .buttonStyle(AppButton.primaryProminent)
+
+                Button(
+                    "BLE Auto Connect",
+                    action: { viewModel.goToBleAutoConnect() }
+                )
+                .buttonStyle(AppButton.primaryProminent)
             }
             .padding(AppDimens.padding16)
+            .toolbar(
+                title: "Debug menu",
+                onBack: viewModel.dismiss
+            )
         }
     }
 }
 
 #Preview {
-    HomeServiceLocator.instance.provideHomeView(coordinator: RootCoordinatorViewModel())
+    HomeServiceLocator.instance.provideHomeView(coordinator: HomeCoordinatorViewModel())
 }

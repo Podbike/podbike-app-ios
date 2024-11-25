@@ -3,23 +3,29 @@ import Foundation
 class CoordinatorServiceLocator {
     static let instance = CoordinatorServiceLocator()
 
-    func provideAppCoordinator() -> AppCoordinator {
-        AppCoordinator(
-            viewModel: AppCoordinatorViewModel(userPreferences: UserPreferences())
+    func provideStartupCoordinator() -> StartupCoordinator {
+        StartupCoordinator(
+            viewModel: StartupCoordinatorViewModel(userPreferences: UserPreferences())
         )
     }
 
-    func provideRootCoordinator(parentCoordinator: BaseCoordinator?) -> RootCoordinator {
-        RootCoordinator(
-            viewModel: RootCoordinatorViewModel(parentCoordinator: parentCoordinator)
-        )
+    func provideDebugHomeCoordinator(parentCoordinator: BaseCoordinator) -> HomeCoordinator {
+        HomeCoordinator(viewModel: HomeCoordinatorViewModel(parentCoordinator: parentCoordinator))
     }
 
     func provideSettingsCoordinator(parentCoordinator: BaseCoordinator) -> SettingsCoordinator {
         SettingsCoordinator(viewModel: SettingsCoordinatorViewModel(parentCoordinator: parentCoordinator))
     }
 
-    func provideBleScanCoordinator(parentCoordinator: BaseCoordinator) -> BleScanCoordinator {
-        BleScanCoordinator(viewModel: BleScanCoordinatorViewModel(parentCoordinator: parentCoordinator))
+    func provideBleAutoConnectCoordinator(parentCoordinator: BaseCoordinator) -> BleAutoConnectCoordinator {
+        BleAutoConnectCoordinator(viewModel: BleAutoConnectCoordinatorViewModel(parentCoordinator: parentCoordinator))
+    }
+
+    func provideDeviceSelectionCoordinator(parentCoordinator: BaseCoordinator) -> DeviceSelectionCoordinator {
+        DeviceSelectionCoordinator(viewModel: DeviceSelectionCoordinatorViewModel(parentCoordinator: parentCoordinator))
+    }
+
+    func provideDashboardCoordinator(parentCoordinator: BaseCoordinator) -> DashboardCoordinator {
+        DashboardCoordinator(viewModel: DashboardCoordinatorViewModel(parentCoordinator: parentCoordinator))
     }
 }

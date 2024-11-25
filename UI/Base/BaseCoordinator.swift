@@ -15,9 +15,12 @@ public protocol BaseCoordinatorViewModelProtocol: AnyObject {
 
     associatedtype ProvidedView: View
     func provideView(forScreen screen: Screen) -> ProvidedView
+
+    var canGoBack: Bool { get }
 }
 
 public extension BaseCoordinatorViewModelProtocol {
+    @MainActor
     func show(_ screen: Screen) {
         switch screen.showTransition {
         case .push:
@@ -29,12 +32,12 @@ public extension BaseCoordinatorViewModelProtocol {
         }
     }
 
+    @MainActor
     func dismiss() {
         guard let lastScreen = routes.last?.screen else {
             parentCoordinator?.dismiss()
             return
         }
-
         dismiss(lastScreen)
     }
 
@@ -45,5 +48,19 @@ public extension BaseCoordinatorViewModelProtocol {
         case .dismiss:
             routes.dismiss()
         }
+    }
+
+    @MainActor
+    func goBackToRoot() {
+        if let parentCoordinator {
+            routes.goBackToRoot()
+            parentCoordinator.goBackToRoot()
+        } else {
+            routes.goBackTo(index: 0)
+        }
+    }
+
+    var canGoBack: Bool {
+        routes.canGoBack()
     }
 }

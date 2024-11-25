@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   viewBox="0 0 155 106"
+   width="155.0pt"
+   height="106.0pt"
+   id="svg83"
+   sodipodi:docname="logo.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview85"
+     pagecolor="#ffffff"
+     bordercolor="#eeeeee"
+     borderopacity="0"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="false"
+     inkscape:document-units="pt"
+     showgrid="false"
+     inkscape:zoom="4.2794118"
+     inkscape:cx="127.70447"
+     inkscape:cy="102"
+     inkscape:window-width="2400"
+     inkscape:window-height="1321"
+     inkscape:window-x="3191"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g81" />
+  <defs
+     id="defs17">
+    <path
+       d="M 41.99 0.11 C 65.71 0.11 89.28 0.11 113.01 0.11 C 119.17 0.07 125.25 1.54 130.80 4.18 C 143.32 10.10 152.46 22.29 154.57 35.98 C 155.50 44.34 155.01 52.66 151.37 60.36 C 144.76 75.31 129.43 85.53 113.04 85.59 C 91.31 85.59 69.58 85.62 47.85 85.57 C 41.42 91.46 35.44 100.33 27.24 103.36 C 19.16 106.79 8.74 105.07 0.00 105.44 L 0.00 90.71 C 5.01 90.65 10.03 90.76 15.04 90.70 C 18.49 90.68 21.88 89.79 24.66 87.68 C 27.64 85.40 30.16 82.45 32.84 79.84 C 45.21 67.51 57.42 55.02 69.86 42.77 C 76.75 42.82 83.65 42.84 90.54 42.74 C 81.04 52.02 71.86 61.63 62.30 70.85 C 77.87 70.77 93.43 70.81 109.00 70.83 C 114.84 71.07 120.43 70.53 125.61 67.62 C 136.99 61.67 143.08 47.89 139.53 35.48 C 136.40 23.64 125.29 14.86 113.01 14.68 C 91.36 14.60 69.66 14.69 48.00 14.64 C 44.23 14.64 40.68 14.49 36.97 15.29 C 27.84 17.18 20.04 23.83 16.63 32.49 C 15.25 35.84 14.88 39.26 14.49 42.82 C 9.66 42.82 4.83 42.84 0.00 42.78 L 0.00 39.01 C 1.44 27.13 7.22 16.07 16.82 8.81 C 24.02 3.30 32.90 0.11 41.99 0.11 Z"
+       id="p1" />
+  </defs>
+  <g
+     id="g81">
+    <use
+       fill="#44d62c"
+       xlink:href="#p1"
+       id="use53" />
+  </g>
+</svg>

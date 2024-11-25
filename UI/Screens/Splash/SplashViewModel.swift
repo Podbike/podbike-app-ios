@@ -1,23 +1,23 @@
 import Foundation
 
 class SplashViewModel: BaseViewModel {
-    private weak var coordinator: AppCoordinatorViewModel?
+    private weak var coordinator: StartupCoordinatorViewModel?
 
     enum Constants {
         static let splashDurationInSeconds = 2.0
     }
 
-    init(coordinator: AppCoordinatorViewModel) {
+    init(coordinator: StartupCoordinatorViewModel?) {
         self.coordinator = coordinator
     }
 
     func didAppear() {
-        waitAndGoToHome()
+        waitAndShowTheApp()
     }
 
-    private func waitAndGoToHome() {
+    private func waitAndShowTheApp() {
         DispatchQueue.main.asyncAfter(deadline: .now() + Constants.splashDurationInSeconds) { [weak self] in
-            self?.coordinator?.hideSplashScreen()
+            self?.coordinator?.showTheApp()
         }
     }
 }

@@ -12,4 +12,14 @@ class UserPreferences: ObservableObject {
 
     @AppStorage("temperatureUnit")
     var temperatureUnit: TemperatureUnit = .systemDefault
+
+    @AppStorage("storedDevices")
+    var storedDevices: [StoredDevice] = []
+}
+
+extension UserPreferences {
+    func storeDevice(_ device: BleDevice) {
+        storedDevices.removeAll(where: { $0.deviceId == device.deviceId })
+        storedDevices.insert(StoredDevice(device), at: 0)
+    }
 }

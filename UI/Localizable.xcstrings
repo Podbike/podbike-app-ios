@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "57" : {
+
+    },
     "AboutDevice" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -18,11 +21,13 @@
         }
       }
     },
+    "BLE Auto Connect" : {
+
+    },
     "BLE Scan" : {
 
     },
     "Cancel" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -37,6 +42,9 @@
           }
         }
       }
+    },
+    "Connected to:\n%@" : {
+
     },
     "ConnectedTo" : {
       "extractionState" : "stale",
@@ -56,7 +64,6 @@
       }
     },
     "ConnectingTo" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -73,7 +80,6 @@
       }
     },
     "ConnectTo" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -88,6 +94,9 @@
           }
         }
       }
+    },
+    "Debug menu" : {
+
     },
     "DeviceBluetoothAdapter" : {
       "extractionState" : "stale",
@@ -107,18 +116,17 @@
       }
     },
     "DeviceBluetoothOff" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bluetooth deaktiviert / Erlaubnis erforderlich"
+            "value" : "Bluetooth deaktiviert /\nErlaubnis erforderlich"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bluetooth Turned Off / Bluetooth Permissions Required"
+            "value" : "Bluetooth Turned Off /\nBluetooth Permissions Required"
           }
         }
       }
@@ -141,7 +149,6 @@
       }
     },
     "DeviceBluetoothPermissionsRequired" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -209,7 +216,6 @@
       }
     },
     "DeviceFailure" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -221,91 +227,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Connection Failed!"
-          }
-        }
-      }
-    },
-    "DevicePairingFailure" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gerätepaarung fehlgeschlagen!"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Device pairing failed!"
-          }
-        }
-      }
-    },
-    "DevicePairingNotSupported" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pairing wird auf diesem Gerät nicht unterstützt!"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pairing is not supported on this device!"
-          }
-        }
-      }
-    },
-    "DevicePairingSuccess" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gerät erfolgreich gekoppelt!"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Device paired successfully!"
-          }
-        }
-      }
-    },
-    "DeviceSkip" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Überspringen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Skip"
-          }
-        }
-      }
-    },
-    "DeviceSkipError" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kann nicht übersprungen werden"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unable to Skip"
           }
         }
       }
@@ -378,7 +299,6 @@
       }
     },
     "DeviceToggleAdapter" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -393,6 +313,9 @@
           }
         }
       }
+    },
+    "Disconnected" : {
+
     },
     "DisconnectedFrom" : {
       "extractionState" : "stale",
@@ -435,11 +358,16 @@
             "state" : "translated",
             "value" : "Fertig"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
         }
       }
     },
     "FrikarBluetoothDisabled" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -456,7 +384,6 @@
       }
     },
     "FrikarConnecting" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -468,6 +395,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Connecting to your most recent Frikar..."
+          }
+        }
+      }
+    },
+    "FrikarConnectingPaused" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbindung pausiert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connection paused"
           }
         }
       }
@@ -507,7 +450,6 @@
       }
     },
     "FrikarNotFound" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -541,7 +483,6 @@
       }
     },
     "FrikarPause" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -575,7 +516,6 @@
       }
     },
     "FrikarResume" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -592,7 +532,6 @@
       }
     },
     "FrikarScan" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -609,7 +548,6 @@
       }
     },
     "FrikarTurnOnBluetooth" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -791,6 +729,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Frikar Update"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
           }
         }
       }

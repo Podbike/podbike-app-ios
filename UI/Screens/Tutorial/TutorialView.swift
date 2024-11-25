@@ -32,6 +32,7 @@ struct TutorialView: View {
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
+                .animation(.default, value: viewModel.selectedPage)
 
                 let isLastPage = viewModel.selectedPage >= pageCount
                 Button(
@@ -62,5 +63,5 @@ struct TutorialView: View {
 }
 
 #Preview {
-    TutorialServiceLocator.instance.provideTutorialView(coordinator: RootCoordinatorViewModel())
+    TutorialServiceLocator.instance.provideTutorialView(coordinator: nil)
 }

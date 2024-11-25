@@ -31,7 +31,7 @@ struct TutorialPage3: View {
 
 #Preview {
     TutorialServiceLocator.instance.provideTutorialView(
-        coordinator: RootCoordinatorViewModel(),
+        coordinator: nil,
         startFromPage: 3
     )
 }

@@ -5,14 +5,12 @@ struct PoliciesView: View {
 
     init(viewModel: PoliciesViewModel) {
         self.viewModel = viewModel
-        let appearance = UITabBarAppearance()
-        appearance.configureWithOpaqueBackground()
     }
 
     @State var selectedTab: String = "PolicyPrivacy"
 
     var body: some View {
-        ZStack {
+        let body =
             TabView(selection: $selectedTab) {
                 PolicyTab(
                     htmlContent: viewModel.privacyPolicyHtml,
@@ -43,15 +41,19 @@ struct PoliciesView: View {
             .onAppear {
                 let tabBarAppearance = UITabBarAppearance()
                 tabBarAppearance.configureWithDefaultBackground()
-                UITabBar
-                    .appearance().scrollEdgeAppearance = tabBarAppearance
+                UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
             }
+            .toolbar(
+                title: LocalizedStringKey(selectedTab),
+                onBack: viewModel.dismiss
+            )
+            .colorScheme(.dark)
+
+        if #available(iOS 16.0, *) {
+            return body.toolbarBackground(.visible, for: .navigationBar)
         }
-        .toolbar(
-            title: LocalizedStringKey(selectedTab),
-            onBack: viewModel.dismiss
-        )
-        .colorScheme(.dark)
+
+        return body
     }
 }
 

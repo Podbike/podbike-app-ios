@@ -4,7 +4,7 @@ import SwiftUI
 class SettingsCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtocol {
     enum Screen: BaseScreen {
         case policies
-        case deviceManagement
+        case deviceSelection
     }
 
     let parentCoordinator: BaseCoordinator?
@@ -21,14 +21,16 @@ class SettingsCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelPr
     func provideView(forScreen screen: Screen) -> some View {
         switch screen {
         case .policies: PoliciesServiceLocator.instance.providePoliciesView(coordinator: self)
-        case .deviceManagement: CoordinatorServiceLocator.instance.provideBleScanCoordinator(parentCoordinator: self)
+        case .deviceSelection: CoordinatorServiceLocator.instance.provideDeviceSelectionCoordinator(parentCoordinator: self)
         }
     }
 
-    func showDeviceManagement() {
-        show(.deviceManagement)
+    @MainActor
+    func showDeviceSelection() {
+        show(.deviceSelection)
     }
 
+    @MainActor
     func showPolicies() {
         show(.policies)
     }

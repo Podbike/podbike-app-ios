@@ -16,5 +16,5 @@ struct SplashView: View {
 }
 
 #Preview {
-    SplashServiceLocator.instance.provideSplashView(coordinator: AppCoordinatorViewModel())
+    SplashServiceLocator.instance.provideSplashView(coordinator: nil)
 }

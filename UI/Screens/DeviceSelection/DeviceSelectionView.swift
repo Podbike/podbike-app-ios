@@ -1,35 +1,26 @@
 import SwiftUI
 
-struct BleScanView: View {
-    @ObservedObject var viewModel: BleScanViewModel
+struct DeviceSelectionView: View {
+    @ObservedObject var viewModel: DeviceSelectionViewModel
     @State var showConnectionPrompt = false
 
-    init(viewModel: BleScanViewModel) {
+    init(viewModel: DeviceSelectionViewModel) {
         self.viewModel = viewModel
     }
 
     var body: some View {
-        let body = ZStack {
+        ZStack {
             AppColor.backgroundGradient
                 .ignoresSafeArea()
 
             VStack {
-                if !viewModel.showNavigationBar {
-                    Text("DevicesPageTitle").pageTitle
-                        .padding(AppDimens.padding16)
-                }
-
                 AppSpacers.h32
 
-                ProgressView()
-                    .controlSize(.large)
-                    .opacity(viewModel.isScanning ? 1 : 0)
-                    .padding(AppDimens.padding32)
-
                 List {
-                    ForEach(viewModel.scannedDevices, id: \.deviceId) { device in
+                    ForEach(viewModel.storedDevices, id: \.deviceId) { device in
                         DeviceRow(
                             name: device.deviceName,
+                            isSelected: device == viewModel.storedDevices.first,
                             action: {
                                 showConnectionPrompt = true
                             }
@@ -51,25 +42,28 @@ struct BleScanView: View {
                 .listStyle(.plain)
                 .transparentListBackground()
 
-                ActionButton(viewModel: viewModel)
-                    .padding(AppDimens.padding32)
+                AppSpacers.h64
+
+                Button(
+                    "FrikarScan",
+                    action: {
+                        viewModel.goToBleScanScreen()
+                    }
+                )
+                .buttonStyle(AppButton.primary)
+                .padding(AppDimens.padding32)
             }
         }
-        .onDisappear { viewModel.stopScan() }
-
-        if viewModel.showNavigationBar {
-            body.toolbar(
-                title: "FrikarScan",
-                onBack: viewModel.dismiss
-            )
-        } else {
-            body.navigationBarBackButtonHidden()
-        }
+        .toolbar(
+            title: "DevicesPageTitle",
+            onBack: viewModel.dismiss
+        )
     }
 }
 
 private struct DeviceRow: View {
     let name: String
+    let isSelected: Bool
     let action: () -> Void
 
     @State var isHighlighted = false
@@ -84,6 +78,11 @@ private struct DeviceRow: View {
                         .padding(.vertical, AppDimens.padding8)
 
                     Spacer()
+                    if isSelected {
+                        AppIcon.check
+                            .size(36)
+                            .foregroundStyle(AppColor.white)
+                    }
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, AppDimens.padding8)
@@ -119,45 +118,6 @@ private struct DeviceRow: View {
     }
 }
 
-private struct ActionButton: View {
-    @ObservedObject var viewModel: BleScanViewModel
-    @State var showAlert = false
-
-    init(viewModel: BleScanViewModel) {
-        self.viewModel = viewModel
-    }
-
-    var body: some View {
-        switch viewModel.bleState {
-        case .ready:
-            Button(
-                viewModel.isScanning ? "DeviceStopScan" : "DeviceStartScan",
-                action: {
-                    viewModel.isScanning ? viewModel.stopScan() : viewModel.startScan()
-                }
-            )
-            .buttonStyle(AppButton.primary)
-
-        case .permissionsRequired:
-            Button(
-                "DeviceBluetoothPermissionsRequired",
-                action: viewModel.openAppSettings
-            )
-            .buttonStyle(AppButton.alert)
-
-        case .bluetoothOff:
-            Button(
-                "DeviceBluetoothOff",
-                action: viewModel.showBleEnablePrompt
-            )
-            .buttonStyle(AppButton.alert)
-
-        default:
-            EmptyView()
-        }
-    }
-}
-
 #Preview {
-    BleScanServiceLocator.instance.provideBleScanView(coordinator: nil)
+    DeviceSelectionServiceLocator.instance.provideDeviceSelectionView(coordinator: nil)
 }

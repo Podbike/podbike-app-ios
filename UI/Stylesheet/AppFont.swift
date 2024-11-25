@@ -11,6 +11,8 @@ enum AppFont {
     static let small: Font = .subheadline
     static let headline: Font = .system(size: 24).bold()
     static let pageTitle: Font = .custom(appBoldFont, size: 36)
+    static let alert: Font = .custom(appBoldFont, size: 24)
+
 }
 
 extension Text {
@@ -67,6 +69,15 @@ extension Text {
                 .fixedSize(horizontal: false, vertical: true)
                 .minimumScaleFactor(0.4)
                 .lineLimit(1)
+        }
+    }
+
+    struct AlertText: ViewModifier {
+        func body(content: Content) -> some View {
+            content
+                .font(AppFont.alert)
+                .foregroundColor(AppColor.text)
+                .minimumScaleFactor(0.7)
         }
     }
 }

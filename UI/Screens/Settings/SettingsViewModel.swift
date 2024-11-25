@@ -32,6 +32,7 @@ class SettingsViewModel: BaseViewModel {
         temperatureUnit = userPreferences.temperatureUnit
     }
 
+    @MainActor
     func dismiss() {
         coordinator?.dismiss()
     }
@@ -42,10 +43,12 @@ class SettingsViewModel: BaseViewModel {
         }
     }
 
+    @MainActor
     func onDevicesTapped() {
-        coordinator?.showDeviceManagement()
+        coordinator?.showDeviceSelection()
     }
 
+    @MainActor
     func onPoliciesTapped() {
         coordinator?.showPolicies()
     }

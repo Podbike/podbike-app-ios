@@ -38,6 +38,7 @@ enum AppIcon {
     static let brakeAlert = "\u{F0D5F}".materialIcon
     static let privacyPolicy = "\u{F088F}".materialIcon
     static let termsAndConditions = "\u{F0216}".materialIcon
+    static let check = "\u{F012C}".materialIcon
 }
 
 extension String {

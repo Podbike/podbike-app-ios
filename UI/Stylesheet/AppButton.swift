@@ -3,16 +3,15 @@ import SwiftUI
 enum AppButton {
     static let primary = PrimaryButton()
     static let primaryProminent = PrimaryButton(prominent: true)
-    static let primaryTall = PrimaryButton(height: 80)
     static let secondary = SecondaryButton()
+    static let alert = AlertButton()
 
     struct PrimaryButton: ButtonStyle {
         var prominent = false
-        var height = 55.0
 
         func makeBody(configuration: Configuration) -> some View {
             configuration.label
-                .frame(width: 200, height: height)
+                .frame(width: 200, height: 55)
                 .background(
                     RoundedRectangle(
                         cornerRadius: 5,
@@ -33,6 +32,26 @@ enum AppButton {
                 .opacity(configuration.isPressed ? 0.7 : 1)
                 .foregroundStyle(AppColor.text)
                 .font(AppFont.body)
+        }
+    }
+
+    struct AlertButton: ButtonStyle {
+        func makeBody(configuration: Configuration) -> some View {
+            configuration.label
+                .padding(AppDimens.padding16)
+                .background(
+                    RoundedRectangle(
+                        cornerRadius: 5,
+                        style: .continuous
+                    )
+                    .fill(AppColor.alert)
+                )
+                .opacity(configuration.isPressed ? 0.7 : 1)
+                .foregroundStyle(AppColor.text)
+                .font(AppFont.alert)
+                .lineLimit(2)
+                .minimumScaleFactor(0.5)
+                .multilineTextAlignment(.center)
         }
     }
 }

@@ -3,17 +3,27 @@ import Foundation
 import SwiftUI
 
 class BleScanViewModel: BaseViewModel {
-    private weak var coordinator: BleScanCoordinatorViewModel?
-    private let bleManager: BLEManager
+    private weak var coordinator: BaseCoordinator?
+    private let bleManager: BleManager
+    private let userPreferences: UserPreferences
 
+    @Published var bleState: BleState
     @Published var isScanning: Bool
-    @Published var scannedDevices: [BLEDeviceProtocol]
+    @Published var scannedDevices: [BleDevice]
 
-    init(coordinator: BleScanCoordinatorViewModel, bleManager: BLEManager) {
+    @Published var showNavigationBar: Bool
+    @Published var showConnectionFailed = false
+
+    init(coordinator: BaseCoordinator?, bleManager: BleManager, userPreferences: UserPreferences) {
         self.coordinator = coordinator
         self.bleManager = bleManager
+        self.userPreferences = userPreferences
+
+        self.bleState = bleManager.bleState.value
         self.isScanning = bleManager.isScanning.value
         self.scannedDevices = bleManager.scannedDevices.value
+
+        self.showNavigationBar = coordinator?.canGoBack ?? false
 
         super.init()
 
@@ -21,6 +31,15 @@ class BleScanViewModel: BaseViewModel {
     }
 
     private func subscribeToPublishers() {
+        bleManager.bleState
+            .sink { [weak self] bleState in
+                self?.bleState = bleState
+                if bleState == .ready {
+                    self?.startScan()
+                }
+            }
+            .store(in: &cancellables)
+
         bleManager.isScanning
             .sink { [weak self] in self?.isScanning = $0 }
             .store(in: &cancellables)
@@ -30,15 +49,47 @@ class BleScanViewModel: BaseViewModel {
             .store(in: &cancellables)
     }
 
+    @MainActor
     func dismiss() {
+        stopScan()
         coordinator?.dismiss()
     }
 
     func startScan() {
+        bleManager.disconnect()
         bleManager.startScan()
     }
 
     func stopScan() {
         bleManager.stopScan()
+    }
+
+    func connect(to device: BleDevice) async {
+        do {
+            try await bleManager.connect(to: device)
+            await onConnected(to: device)
+        } catch {
+            await showConnectionError()
+        }
+    }
+
+    @MainActor
+    private func onConnected(to device: BleDevice) {
+        userPreferences.storeDevice(device)
+        coordinator?.goBackToRoot()
+    }
+
+    @MainActor
+    func showConnectionError() {
+        showConnectionFailed = true
+    }
+
+    @MainActor
+    func openAppSettings() {
+        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+    }
+
+    func showBleEnablePrompt() {
+        bleManager.resetBleManager()
     }
 }

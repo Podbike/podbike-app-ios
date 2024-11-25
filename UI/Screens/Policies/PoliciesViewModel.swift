@@ -7,6 +7,7 @@ class PoliciesViewModel: BaseViewModel {
         self.coordinator = coordinator
     }
 
+    @MainActor
     func dismiss() {
         coordinator?.dismiss()
     }
