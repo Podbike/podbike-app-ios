@@ -21,11 +21,39 @@ extension SpeedUnit {
     static var systemDefault: SpeedUnit {
         Locale.current.usesMetricSystem ? .kilometersPerHour : .milesPerHour
     }
+
+    var unitType: UnitSpeed {
+        switch self {
+        case .kilometersPerHour: return UnitSpeed.kilometersPerHour
+        case .milesPerHour: return UnitSpeed.milesPerHour
+        case .metersPerSecond: return UnitSpeed.metersPerSecond
+        }
+    }
+
+    func converted(kilometersPerHour: Double) -> Double {
+        Measurement(value: kilometersPerHour, unit: UnitSpeed.kilometersPerHour)
+            .converted(to: self.unitType)
+            .value
+    }
 }
 
 extension DistanceUnit {
     static var systemDefault: DistanceUnit {
         Locale.current.usesMetricSystem ? .kilometers : .miles
+    }
+
+    var unitType: UnitLength {
+        switch self {
+        case .kilometers: return UnitLength.kilometers
+        case .miles: return UnitLength.miles
+        case .meters: return UnitLength.meters
+        }
+    }
+
+    func converted(kilometers: Double) -> Double {
+        Measurement(value: kilometers, unit: UnitLength.kilometers)
+            .converted(to: self.unitType)
+            .value
     }
 }
 

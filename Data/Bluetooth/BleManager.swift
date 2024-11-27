@@ -29,6 +29,77 @@ class BleManager: NSObject {
 
     private var characteristics = [CBCharacteristic]()
 
+    // vvv FrikarDataProtocol properties - TODO: move to separate class
+
+    private struct CharacteristicValue {
+        var value: Data
+        var characteristicUUID: CBUUID
+
+        init(_ value: Data, for uuid: CBUUID) {
+            self.value = value
+            self.characteristicUUID = uuid
+        }
+    }
+
+    private let characteristicValueUpdatedPublisher = PassthroughSubject<CharacteristicValue, Never>()
+
+    lazy var speed = {
+        //TODO - refactor
+        connectedPeripheral?.setNotifyValue(true, for: characteristic(PodbikeBleService.speedUUID)!)
+        let _speed = CurrentValueSubject<Int, Never>(0)
+        characteristicValueUpdatedPublisher
+            .filter { $0.characteristicUUID == PodbikeBleService.speedUUID }
+            .sink { _speed.value = PodbikeData($0.value).toSpeed }
+            .store(in: &cancellables)
+        return _speed
+    }()
+
+    lazy var batteryPercent = {
+        //TODO - refactor
+        connectedPeripheral?.setNotifyValue(true, for: characteristic(PodbikeBleService.batteryUUID)!)
+        let _batteryPercent = CurrentValueSubject<Int, Never>(0)
+        characteristicValueUpdatedPublisher
+            .filter { $0.characteristicUUID == PodbikeBleService.batteryUUID }
+            .sink { _batteryPercent.value = PodbikeData($0.value).toBatteryPercent }
+            .store(in: &cancellables)
+        return _batteryPercent
+    }()
+
+    lazy var range = {
+        //TODO - refactor
+        connectedPeripheral?.setNotifyValue(true, for: characteristic(PodbikeBleService.rangeUUID)!)
+        let _range = CurrentValueSubject<Int, Never>(0)
+        characteristicValueUpdatedPublisher
+            .filter { $0.characteristicUUID == PodbikeBleService.rangeUUID }
+            .sink { _range.value = PodbikeData($0.value).toRange }
+            .store(in: &cancellables)
+        return _range
+    }()
+
+    lazy var tripDistance = {
+        //TODO - refactor
+        connectedPeripheral?.setNotifyValue(true, for: characteristic(PodbikeBleService.tripDistanceUUID)!)
+        let _tripDistance = CurrentValueSubject<Int, Never>(0)
+        characteristicValueUpdatedPublisher
+            .filter { $0.characteristicUUID == PodbikeBleService.tripDistanceUUID }
+            .sink { _tripDistance.value = PodbikeData($0.value).toTripDistance }
+            .store(in: &cancellables)
+        return _tripDistance
+    }()
+
+    lazy var lightsStatus = {
+        //TODO - refactor
+        connectedPeripheral?.setNotifyValue(true, for: characteristic(PodbikeBleService.lightsStatusUUID)!)
+        let _lightsStatus = CurrentValueSubject<LightsStatus, Never>(LightsStatus())
+        characteristicValueUpdatedPublisher
+            .filter { $0.characteristicUUID == PodbikeBleService.lightsStatusUUID }
+            .sink { _lightsStatus.value = PodbikeData($0.value).toLightsStatus }
+            .store(in: &cancellables)
+        return _lightsStatus
+    }()
+
+    // ^^^ FrikarDataProtocol properties
+
     let logger = os.Logger(subsystem: "com.podbike.app.Bluetooth", category: "BluetoothLEManager")
 
     var cancellables = Set<AnyCancellable>()
@@ -259,6 +330,11 @@ extension BleManager: CBPeripheralDelegate {
 
         let str = characteristicData.map { String(format: "0x%02x, ", $0) }.joined()
         logger.info("Received \(characteristicData.count) bytes: \(str)")
+
+        if let value = characteristic.value {
+            characteristicValueUpdatedPublisher
+                .send(CharacteristicValue(value, for: characteristic.uuid))
+        }
     }
 
     // Notifications state changed
@@ -277,3 +353,7 @@ extension BleManager: CBPeripheralDelegate {
         }
     }
 }
+
+//// MARK: FrikarDataProtocol
+//
+// extension BleManager: FrikarDataProtocol {}
