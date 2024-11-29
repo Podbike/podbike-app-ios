@@ -9,7 +9,7 @@ struct BleAutoConnectView: View {
 
     var body: some View {
         let isBleEnabled = viewModel.bleState != .bluetoothOff
-        let isScanning = viewModel.isScanning
+        let isConnecting = viewModel.isConnecting || viewModel.isScanning
 
         ZStack {
             AppColor.backgroundGradient
@@ -33,12 +33,12 @@ struct BleAutoConnectView: View {
 
                 ProgressView()
                     .tint(AppColor.accent)
-                    .opacity(isScanning ? 1 : 0)
+                    .opacity(isConnecting ? 1 : 0)
                     .padding(AppDimens.padding8)
 
                 // MARK: subtitle
 
-                let subtitle: LocalizedStringKey = isBleEnabled ? (isScanning ? "FrikarConnecting" : "FrikarConnectingPaused") : "FrikarTurnOnBluetooth"
+                let subtitle: LocalizedStringKey = isBleEnabled ? (isConnecting ? "FrikarConnecting" : "FrikarConnectingPaused") : "FrikarTurnOnBluetooth"
                 Text(subtitle).label
 
                 Spacer()
@@ -48,9 +48,9 @@ struct BleAutoConnectView: View {
 
                 if isBleEnabled {
                     Button(
-                        isScanning ? "FrikarPause" : "FrikarResume",
+                        isConnecting ? "FrikarPause" : "FrikarResume",
                         action: {
-                            isScanning ? viewModel.stopScan() : viewModel.startScan()
+                            isConnecting ? viewModel.stopAutoConnect() : viewModel.startAutoConnect()
                         }
                     )
                     .buttonStyle(AppButton.primary)
@@ -94,5 +94,5 @@ struct BleAutoConnectView: View {
 }
 
 #Preview {
-    BleAutoConnectServiceLocator.instance.provideBleAutoConnectView(coordinator: BleAutoConnectCoordinatorViewModel(parentCoordinator: nil))
+    BleAutoConnectServiceLocator.instance.provideBleAutoConnectView(coordinator: nil)
 }

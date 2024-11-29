@@ -7,7 +7,7 @@ class BleScanServiceLocator {
         let model = BleScanViewModel(
             coordinator: coordinator,
             bleManager: BleManager.instance,
-            userPreferences: UserPreferences()
+            userPreferences: UserPreferences.instance
         )
         return BleScanView(viewModel: model)
     }

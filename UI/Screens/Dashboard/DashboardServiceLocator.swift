@@ -7,7 +7,7 @@ class DashboardServiceLocator {
         let model = DashboardViewModel(
             coordinator: coordinator,
             bleManager: BleManager.instance,
-            userPreferences: UserPreferences()
+            userPreferences: UserPreferences.instance
         )
         return DashboardView(viewModel: model)
     }

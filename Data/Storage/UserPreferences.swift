@@ -1,6 +1,9 @@
 import SwiftUI
 
 class UserPreferences: ObservableObject {
+    static let instance = UserPreferences()
+    private init() {}
+
     @AppStorage("idTutorialShown")
     var isTutorialShown: Bool = false
 

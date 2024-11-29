@@ -6,7 +6,7 @@ class SettingsServiceLocator {
     func provideSettingsView(coordinator: SettingsCoordinatorViewModel) -> some View {
         let model = SettingsViewModel(
             coordinator: coordinator,
-            userPreferences: UserPreferences()
+            userPreferences: UserPreferences.instance
         )
         return SettingsView(viewModel: model)
     }

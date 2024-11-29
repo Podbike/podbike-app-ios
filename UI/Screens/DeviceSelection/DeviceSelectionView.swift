@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct DeviceSelectionView: View {
-    @ObservedObject var viewModel: DeviceSelectionViewModel
-    @State var showConnectionPrompt = false
+    @ObservedObject private var viewModel: DeviceSelectionViewModel
 
     init(viewModel: DeviceSelectionViewModel) {
         self.viewModel = viewModel
@@ -16,28 +15,8 @@ struct DeviceSelectionView: View {
             VStack {
                 AppSpacers.h32
 
-                List {
-                    ForEach(viewModel.storedDevices, id: \.deviceId) { device in
-                        DeviceRow(
-                            name: device.deviceName,
-                            isSelected: device == viewModel.storedDevices.first,
-                            action: {
-                                showConnectionPrompt = true
-                            }
-                        )
-                        .alert(
-                            String(localized: "ConnectTo") + " \(device.deviceName)",
-                            isPresented: $showConnectionPrompt
-                        ) {
-                            Button("OK") {
-                                Task {
-                                    await viewModel.connect(to: device)
-                                }
-                            }
-                            Button("Cancel", role: .cancel) {}
-                        }
-                        .alert("DeviceFailure", isPresented: $viewModel.showConnectionFailed) {}
-                    }
+                List(viewModel.storedDevices, id: \.deviceId) { device in
+                    DeviceRow(device: device, viewModel: viewModel)
                 }
                 .listStyle(.plain)
                 .transparentListBackground()
@@ -62,6 +41,40 @@ struct DeviceSelectionView: View {
 }
 
 private struct DeviceRow: View {
+    private let device: StoredDevice
+    @ObservedObject var viewModel: DeviceSelectionViewModel
+
+    @State private var showConnectionPrompt = false
+
+    init(device: StoredDevice, viewModel: DeviceSelectionViewModel) {
+        self.device = device
+        self.viewModel = viewModel
+    }
+
+    var body: some View {
+        DeviceRowView(
+            name: device.deviceName,
+            isSelected: device == viewModel.storedDevices.first,
+            action: {
+                showConnectionPrompt = true
+            }
+        )
+        .alert(
+            String(localized: "ConnectTo") + " \(device.deviceName)",
+            isPresented: $showConnectionPrompt
+        ) {
+            Button("OK") {
+                Task {
+                    await viewModel.connect(to: device)
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        }
+        .alert("DeviceFailure", isPresented: $viewModel.showConnectionFailed) {}
+    }
+}
+
+private struct DeviceRowView: View {
     let name: String
     let isSelected: Bool
     let action: () -> Void

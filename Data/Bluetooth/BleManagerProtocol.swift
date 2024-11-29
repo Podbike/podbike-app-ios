@@ -2,6 +2,8 @@ import Combine
 import Foundation
 
 protocol BleManagerProtocol {
+    func initBle()
+
     func resetBleManager()
 
     var bleState: CurrentValueSubject<BleState, Never> { get }
@@ -26,5 +28,5 @@ enum BleState {
 }
 
 enum BleManagerError: Error {
-    case connectionFailed
+    case connectionFailed(error: Error?)
 }

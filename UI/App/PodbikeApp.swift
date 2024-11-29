@@ -5,12 +5,13 @@ import SwiftUI
 struct PodbikeApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
-    let appCoordinator = CoordinatorServiceLocator.instance.provideStartupCoordinator()
+    let appCoordinator = CoordinatorServiceLocator.instance.provideAppCoordinator()
 
     var body: some Scene {
         WindowGroup {
             appCoordinator
                 .preferredColorScheme(.dark)
+                .environment(\.sizeCategory, .medium)
         }
     }
 }

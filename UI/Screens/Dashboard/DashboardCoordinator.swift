@@ -5,7 +5,6 @@ class DashboardCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelP
     enum Screen: BaseScreen {
         case settings
         case debugHome
-        case bleAutoConnect
     }
 
     let parentCoordinator: BaseCoordinator?
@@ -14,7 +13,7 @@ class DashboardCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelP
 
     @Published var routes: Routes<Screen> = []
 
-    init(parentCoordinator: BaseCoordinator?) {
+    init(parentCoordinator: AppCoordinatorViewModel?) {
         self.parentCoordinator = parentCoordinator
     }
 
@@ -23,7 +22,6 @@ class DashboardCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelP
         switch screen {
         case .settings: CoordinatorServiceLocator.instance.provideSettingsCoordinator(parentCoordinator: self)
         case .debugHome: CoordinatorServiceLocator.instance.provideDebugHomeCoordinator(parentCoordinator: self)
-        case .bleAutoConnect: CoordinatorServiceLocator.instance.provideBleAutoConnectCoordinator(parentCoordinator: self)
         }
     }
 
@@ -38,8 +36,8 @@ class DashboardCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelP
     }
 
     @MainActor
-    func showBleAutoConnectScreen() {
-        show(.bleAutoConnect)
+    func showBleScanScreen() {
+        (parentCoordinator as? AppCoordinatorViewModel)?.showBleScanScreen()
     }
 }
 

@@ -6,7 +6,6 @@ class HomeCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtoc
         case tutorial
         case settings
         case bleScan
-        case bleAutoConnect
     }
 
     let parentCoordinator: BaseCoordinator?
@@ -25,7 +24,6 @@ class HomeCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtoc
         case .tutorial: TutorialServiceLocator.instance.provideTutorialView(coordinator: self)
         case .settings: CoordinatorServiceLocator.instance.provideSettingsCoordinator(parentCoordinator: self)
         case .bleScan: BleScanServiceLocator.instance.provideBleScanView(coordinator: self)
-        case .bleAutoConnect: CoordinatorServiceLocator.instance.provideBleAutoConnectCoordinator(parentCoordinator: self)
         }
     }
 
@@ -42,11 +40,6 @@ class HomeCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtoc
     @MainActor
     func showBleScan() {
         show(.bleScan)
-    }
-
-    @MainActor
-    func showBleAutoConnect() {
-        show(.bleAutoConnect)
     }
 }
 

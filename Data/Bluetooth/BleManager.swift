@@ -6,7 +6,7 @@ import os
 class BleManager: NSObject {
     static let instance = BleManager()
 
-    private var centralManager: CBCentralManager!
+    private lazy var centralManager: CBCentralManager! = initBleManager()
 
     var bleState = CurrentValueSubject<BleState, Never>(.unknown)
 
@@ -20,6 +20,8 @@ class BleManager: NSObject {
         }
     }
 
+    private var connectionFailure: Error?
+
     lazy var connectedDevice = CurrentValueSubject<BleDevice?, Never>(nil)
     private var connectedPeripheral: CBPeripheral? {
         didSet {
@@ -30,7 +32,6 @@ class BleManager: NSObject {
     private var characteristics = [CBCharacteristic]()
 
     // vvv FrikarDataProtocol properties - TODO: move to separate class
-
     private struct CharacteristicValue {
         var value: Data
         var characteristicUUID: CBUUID
@@ -41,81 +42,27 @@ class BleManager: NSObject {
         }
     }
 
-    private let characteristicValueUpdatedPublisher = PassthroughSubject<CharacteristicValue, Never>()
-
-    lazy var speed = {
-        //TODO - refactor
-        connectedPeripheral?.setNotifyValue(true, for: characteristic(PodbikeBleService.speedUUID)!)
-        let _speed = CurrentValueSubject<Int, Never>(0)
-        characteristicValueUpdatedPublisher
-            .filter { $0.characteristicUUID == PodbikeBleService.speedUUID }
-            .sink { _speed.value = PodbikeData($0.value).toSpeed }
-            .store(in: &cancellables)
-        return _speed
-    }()
-
-    lazy var batteryPercent = {
-        //TODO - refactor
-        connectedPeripheral?.setNotifyValue(true, for: characteristic(PodbikeBleService.batteryUUID)!)
-        let _batteryPercent = CurrentValueSubject<Int, Never>(0)
-        characteristicValueUpdatedPublisher
-            .filter { $0.characteristicUUID == PodbikeBleService.batteryUUID }
-            .sink { _batteryPercent.value = PodbikeData($0.value).toBatteryPercent }
-            .store(in: &cancellables)
-        return _batteryPercent
-    }()
-
-    lazy var range = {
-        //TODO - refactor
-        connectedPeripheral?.setNotifyValue(true, for: characteristic(PodbikeBleService.rangeUUID)!)
-        let _range = CurrentValueSubject<Int, Never>(0)
-        characteristicValueUpdatedPublisher
-            .filter { $0.characteristicUUID == PodbikeBleService.rangeUUID }
-            .sink { _range.value = PodbikeData($0.value).toRange }
-            .store(in: &cancellables)
-        return _range
-    }()
-
-    lazy var tripDistance = {
-        //TODO - refactor
-        connectedPeripheral?.setNotifyValue(true, for: characteristic(PodbikeBleService.tripDistanceUUID)!)
-        let _tripDistance = CurrentValueSubject<Int, Never>(0)
-        characteristicValueUpdatedPublisher
-            .filter { $0.characteristicUUID == PodbikeBleService.tripDistanceUUID }
-            .sink { _tripDistance.value = PodbikeData($0.value).toTripDistance }
-            .store(in: &cancellables)
-        return _tripDistance
-    }()
-
-    lazy var lightsStatus = {
-        //TODO - refactor
-        connectedPeripheral?.setNotifyValue(true, for: characteristic(PodbikeBleService.lightsStatusUUID)!)
-        let _lightsStatus = CurrentValueSubject<LightsStatus, Never>(LightsStatus())
-        characteristicValueUpdatedPublisher
-            .filter { $0.characteristicUUID == PodbikeBleService.lightsStatusUUID }
-            .sink { _lightsStatus.value = PodbikeData($0.value).toLightsStatus }
-            .store(in: &cancellables)
-        return _lightsStatus
-    }()
-
+    private var characteristicValueUpdatedPublisher = PassthroughSubject<CharacteristicValue, Never>()
     // ^^^ FrikarDataProtocol properties
 
     let logger = os.Logger(subsystem: "com.podbike.app.Bluetooth", category: "BluetoothLEManager")
 
     var cancellables = Set<AnyCancellable>()
 
-    override init() {
-        super.init()
-        initBleManager()
-    }
-
     deinit {
         stopScan()
         logger.info("Scanning stopped")
     }
 
-    private func initBleManager() {
+    func initBle() {
+        if centralManager == nil {
+            _ = initBleManager()
+        }
+    }
+
+    private func initBleManager() -> CBCentralManager {
         centralManager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionShowPowerAlertKey: true])
+        return centralManager
     }
 
     private func characteristic(_ uuid: CBUUID) -> CBCharacteristic? {
@@ -128,7 +75,7 @@ class BleManager: NSObject {
 extension BleManager: BleManagerProtocol {
     func resetBleManager() {
         centralManager = nil
-        initBleManager()
+        _ = initBleManager()
     }
 
     func startScan() {
@@ -151,13 +98,19 @@ extension BleManager: BleManagerProtocol {
     func connect(to device: BleDevice) async throws {
         disconnect()
 
-        // The peripheral, if connect, it's added in centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        guard centralManager.state == .poweredOn else {
+            logger.info("Cannot connect - Bluetooth is disabled")
+            return
+        }
+
         if let deviceUuid = UUID(uuidString: device.deviceId),
            let peripheral = centralManager.retrievePeripherals(withIdentifiers: [deviceUuid]).first
         {
             logger.info("Connecting to peripheral \(peripheral)")
 
             connectingPeripheral = peripheral
+            connectionFailure = nil
+
             centralManager.connect(peripheral, options: nil)
 
             _ = try await connectingDevice
@@ -166,7 +119,7 @@ extension BleManager: BleManagerProtocol {
                 .async()
 
             if connectedPeripheral == nil {
-                throw BleManagerError.connectionFailed
+                throw BleManagerError.connectionFailed(error: connectionFailure)
             }
         }
     }
@@ -176,6 +129,13 @@ extension BleManager: BleManagerProtocol {
             logger.info("Close connection with BLE device: \(peripheral.deviceName)")
             centralManager.cancelPeripheralConnection(peripheral)
         }
+
+        onDisconnected()
+    }
+
+    private func onDisconnected() {
+        characteristicValueUpdatedPublisher.send(completion: .finished)
+        characteristicValueUpdatedPublisher = PassthroughSubject<CharacteristicValue, Never>()
 
         connectingPeripheral = nil
         connectedPeripheral = nil
@@ -212,6 +172,7 @@ extension BleManager: CBCentralManagerDelegate {
 
     func handleBleOff() {
         bleState.value = .bluetoothOff
+        disconnect()
         isScanning.value = false
         scannedDevices.value = []
     }
@@ -256,14 +217,15 @@ extension BleManager: CBCentralManagerDelegate {
         logger.error("Failed to connect to \(peripheral). \(String(describing: error))")
         if peripheral == connectingPeripheral {
             connectingPeripheral = nil
+            connectionFailure = error
         }
     }
 
     // Disconnected
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        logger.info("Perhiperal Disconnected \(peripheral.deviceName) Error \(error)")
+        logger.info("Perhiperal Disconnected \(peripheral.deviceName) \(error != nil ? "Error \(error!)" : "")")
         if peripheral == connectedPeripheral {
-            connectedPeripheral = nil
+            onDisconnected()
         }
     }
 }
@@ -354,6 +316,55 @@ extension BleManager: CBPeripheralDelegate {
     }
 }
 
-//// MARK: FrikarDataProtocol
-//
-// extension BleManager: FrikarDataProtocol {}
+// MARK: FrikarDataProtocol
+
+extension BleManager: FrikarDataProtocol {
+    private func observeCharacteristic<T>(_ uuid: CBUUID, dataMapper: @escaping (Data) -> T) -> CurrentValueSubject<T?, Never> {
+        guard let characteristic = characteristic(uuid), let peripheral = connectedPeripheral else { return .init(nil) }
+
+        peripheral.readValue(for: characteristic)
+        peripheral.setNotifyValue(true, for: characteristic)
+
+        let _value = CurrentValueSubject<T?, Never>(nil)
+        characteristicValueUpdatedPublisher
+            .filter { $0.characteristicUUID == uuid }
+            .sink(
+                receiveCompletion: { _value.send(completion: $0) },
+                receiveValue: { _value.value = dataMapper($0.value) }
+            )
+            .store(in: &cancellables)
+        return _value
+    }
+
+    var temperature: CurrentValueSubject<Int?, Never> {
+        observeCharacteristic(PodbikeBleService.temperatureUUID) { PodbikeData($0).toTemperature }
+    }
+
+    var speed: CurrentValueSubject<Int?, Never> {
+        observeCharacteristic(PodbikeBleService.speedUUID) { PodbikeData($0).toSpeed }
+    }
+
+    var batteryPercent: CurrentValueSubject<Int?, Never> {
+        observeCharacteristic(PodbikeBleService.batteryUUID) { PodbikeData($0).toBatteryPercent }
+    }
+
+    var range: CurrentValueSubject<Int?, Never> {
+        observeCharacteristic(PodbikeBleService.rangeUUID) { PodbikeData($0).toRange }
+    }
+
+    var totalDistance: CurrentValueSubject<Int?, Never> {
+        observeCharacteristic(PodbikeBleService.totalDistanceUUID) { PodbikeData($0).toTotalDistance }
+    }
+
+    var lightsStatus: CurrentValueSubject<LightsStatus?, Never> {
+        observeCharacteristic(PodbikeBleService.lightsStatusUUID) { PodbikeData($0).toLightsStatus }
+    }
+
+    var assistanceLevel: CurrentValueSubject<Int?, Never> {
+        observeCharacteristic(PodbikeBleService.assistanceLevelUUID) { PodbikeData($0).toAssistanceLevel }
+    }
+
+    var cadenceLevel: CurrentValueSubject<Int?, Never> {
+        observeCharacteristic(PodbikeBleService.cadenceLevelUUID) { PodbikeData($0).toCadenceLevel }
+    }
+}

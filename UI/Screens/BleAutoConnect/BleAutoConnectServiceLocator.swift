@@ -3,11 +3,11 @@ import SwiftUI
 class BleAutoConnectServiceLocator {
     static let instance = BleAutoConnectServiceLocator()
 
-    func provideBleAutoConnectView(coordinator: BleAutoConnectCoordinatorViewModel) -> some View {
+    func provideBleAutoConnectView(coordinator: AppCoordinatorViewModel?) -> some View {
         let model = BleAutoConnectViewModel(
             coordinator: coordinator,
             bleManager: BleManager.instance,
-            userPreferences: UserPreferences()
+            userPreferences: UserPreferences.instance
         )
         return BleAutoConnectView(viewModel: model)
     }

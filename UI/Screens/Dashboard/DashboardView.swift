@@ -2,6 +2,8 @@ import SwiftUI
 
 private let topRowHeight = 64.0
 
+// MARK: DashboardView
+
 struct DashboardView: View {
     @ObservedObject var viewModel: DashboardViewModel
 
@@ -11,50 +13,81 @@ struct DashboardView: View {
 
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
+            ZStack(alignment: .bottom) {
                 AppColor.backgroundGradient
                     .ignoresSafeArea()
 
+                let horizontalPadding = AppDimens.padding16
+
                 VStack(spacing: 0) {
                     ZStack {
-                        if viewModel.isRideMode {
+                        if viewModel.isRidingMode {
                             WarningIcons(viewModel: viewModel)
                         } else {
                             TopButtons(viewModel: viewModel)
                         }
                     }
-                    .padding(.horizontal, AppDimens.padding16)
+                    .padding(.horizontal, horizontalPadding)
+                    .frame(height: topRowHeight)
+                    .animation(.default, value: viewModel.isRidingMode)
 
                     let speedFontSize = sqrt(geometry.size.width * geometry.size.height) * 0.45
-                    Text(viewModel.speedText)
-                        .font(Font.custom(AppFont.appFont, size: speedFontSize))
-                        .fixedSize()
-                        .padding(.top, -speedFontSize / 10)
+                    ZStack {
+                        Text(viewModel.speedText)
+                            .font(Font.custom(AppFont.appFont, size: speedFontSize))
+                            .fixedSize()
+                            .padding(.top, -speedFontSize / 10)
+                            .opacity(viewModel.isBluetoothOn && viewModel.isBikeOn ? 1 : 0)
+
+                        if !viewModel.isBluetoothOn {
+                            Button(
+                                "DeviceBluetoothOn",
+                                action: viewModel.showBleEnablePrompt
+                            )
+                            .buttonStyle(AppButton.alert)
+                        } else if (!viewModel.isBikeOn) {
+                            Text("FrikarIsOff")
+                                .headline
+                        }
+                    }
 
                     RangeAndBattery(viewModel: viewModel)
+                        .padding(.top, -speedFontSize / 10)
 
                     AppSpacers.h32
 
                     HStack {
-                        TripDistance(viewModel: viewModel)
+                        TotalDistance(viewModel: viewModel)
                         Spacer()
                         ModeIcons(viewModel: viewModel)
                     }
-                    .padding(.horizontal, AppDimens.padding16)
+                    .padding(.horizontal, horizontalPadding)
+
+                    AppSpacers.h32
+
+                    AssistanceLevel(viewModel: viewModel)
+                        .padding(.horizontal, horizontalPadding)
+
+                    AppSpacers.h(36)
+
+                    CadenceLevel(viewModel: viewModel)
+                        .padding(.horizontal, horizontalPadding)
 
                     Spacer()
+                }
+                .padding(.vertical, AppDimens.padding16)
 
+                // TODO: - temporary debug info
+                ZStack {
                     if let connectedDevice = viewModel.connectedDevice {
-                        Text("Connected to:\n\(connectedDevice.deviceName)").label
+                        Text("Connected to: \(connectedDevice.deviceName)").label
                     } else {
                         Text("Disconnected")
                             .font(AppFont.title)
                             .foregroundStyle(AppColor.alert)
                     }
-
-                    Spacer()
                 }
-                .padding(.vertical, AppDimens.padding16)
+                .padding(.vertical, -AppDimens.padding16)
             }
             .navigationBarBackButtonHidden()
             .colorScheme(.dark)
@@ -63,9 +96,14 @@ struct DashboardView: View {
                     viewModel.reconnect()
                 }
             }
+
+            DashboardTurnIndicator(viewModel: viewModel)
+            DashboardHazardIndicator(viewModel: viewModel)
         }
     }
 }
+
+// MARK: WarningIcons
 
 private struct WarningIcons: View {
     @ObservedObject var viewModel: DashboardViewModel
@@ -73,9 +111,10 @@ private struct WarningIcons: View {
     var body: some View {
         let inactiveOpacity = 0.25
         GeometryReader { geometry in
+            let iconSize = min(geometry.size.width / 6, topRowHeight)
             HStack {
-                let iconSize = min(geometry.size.width / 6, topRowHeight)
-                AppIcon.snowAlert.size(iconSize).opacity(inactiveOpacity)
+                AppIcon.snowAlert.size(iconSize)
+                    .opacity(viewModel.isIceWarning ? 1 : inactiveOpacity)
                 Spacer()
                 AppIcon.tractionControl.size(iconSize).opacity(inactiveOpacity)
                 Spacer()
@@ -83,12 +122,14 @@ private struct WarningIcons: View {
                 Spacer()
                 AppIcon.tireAlert.size(iconSize).opacity(inactiveOpacity)
                 Spacer()
-                AppIcon.brakeAlert.size(iconSize).opacity(inactiveOpacity)
+                AppIcon.brakeAlert.size(iconSize)
+                    .opacity(viewModel.isBrakeLight ? 1 : inactiveOpacity)
             }
         }
-        .frame(height: topRowHeight)
     }
 }
+
+// MARK: TopButtons
 
 private struct TopButtons: View {
     @ObservedObject var viewModel: DashboardViewModel
@@ -117,6 +158,8 @@ private struct TopButtons: View {
     }
 }
 
+// MARK: RangeAndBattery
+
 private struct RangeAndBattery: View {
     @ObservedObject var viewModel: DashboardViewModel
 
@@ -125,20 +168,22 @@ private struct RangeAndBattery: View {
             let batteryPercent = viewModel.batteryPercent
             GeometryReader { geometry in
                 Rectangle()
-                    .fill(AppColor.tertiary)
+                    .fill(AppColor.indicatorBackground)
                     .overlay(alignment: .leading) {
                         let barWidth = geometry.size.width * CGFloat(batteryPercent) / 100
 
                         if batteryPercent <= 30 {
-                            Rectangle().fill(Color.red)
+                            Rectangle()
+                                .fill(Color.red)
                                 .frame(width: barWidth)
                         } else {
                             let gradient = LinearGradient(
-                                gradient: Gradient(colors: [Color(hex: 0x44D62C), Color(hex: 0x3BAC28)]),
+                                gradient: Gradient(colors: [AppColor.accent, AppColor.dimAccent]),
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
-                            Rectangle().fill(gradient)
+                            Rectangle()
+                                .fill(gradient)
                                 .frame(width: barWidth)
                         }
                     }
@@ -152,40 +197,112 @@ private struct RangeAndBattery: View {
     }
 }
 
-private struct TripDistance: View {
+// MARK: TotalDistance
+
+private struct TotalDistance: View {
     @ObservedObject var viewModel: DashboardViewModel
 
     var body: some View {
         HStack {
-            let distanceAndUnit = viewModel.tripDistanceText.components(separatedBy: .whitespaces)
-            let distance = distanceAndUnit[0]
-            let unit = distanceAndUnit.count >= 2 ? distanceAndUnit[1] : ""
+            var components = viewModel.totalDistanceText.components(separatedBy: .whitespaces)
+            let unit = components.removeLast()
+            let distance = components.joined(separator: " ")
+
             Text(distance + " ")
                 .font(.custom(AppFont.appBoldFont, size: 48))
                 .foregroundColor(AppColor.text)
-            + Text(unit)
+                + Text(unit)
                 .font(.custom(AppFont.appBoldFont, size: 25))
                 .foregroundColor(AppColor.text)
         }
     }
 }
 
+// MARK: ModeIcons
+
 private struct ModeIcons: View {
     @ObservedObject var viewModel: DashboardViewModel
 
     var body: some View {
+        let iconSize = 48.0
         HStack {
-            let iconSize = 48.0
-            AppIcon.bluetoothOff.size(iconSize)
-            if viewModel.highBeam {
+            if viewModel.connectedDevice == nil {
+                AppIcon.bluetoothOff.size(iconSize)
+            }
+
+            if viewModel.isHighBeam {
                 AppIcon.highBeam
                     .size(iconSize)
                     .foregroundStyle(Color(hex: 0x2196F3))
-            } else {
+            } else if viewModel.isLowBeam {
                 AppIcon.carLights
                     .size(iconSize)
             }
+        }
+    }
+}
 
+// MARK: AssistanceLevel
+
+private struct AssistanceLevel: View {
+    @ObservedObject var viewModel: DashboardViewModel
+
+    var body: some View {
+        let circleSize = 64.0
+        let levels = 5
+        let selectedLevel = viewModel.assistanceLevel / 20
+
+        HStack(spacing: 8) {
+            ForEach(1 ... levels, id: \.self) { level in
+                let levelIsOn = level <= selectedLevel
+                Circle()
+                    .frame(height: circleSize)
+                    .foregroundStyle(
+                        levelIsOn ? AppColor.accent : AppColor.indicatorBackground
+                    )
+
+                if level != levels {
+                    Spacer(minLength: 0)
+                }
+            }
+        }
+    }
+}
+
+// MARK: CadenceLevel
+
+private struct CadenceLevel: View {
+    @ObservedObject var viewModel: DashboardViewModel
+
+    var body: some View {
+        let rectSize = 52.0
+        let elementNegativePadding = rectSize / 4
+        let shapePadding = rectSize / 2 * (sqrt(2) - 1)
+        let horizontalPadding = AppDimens.padding8 + shapePadding + elementNegativePadding
+
+        let levels = 9
+        let selectedLevel = viewModel.cadenceLevel
+
+        HStack(spacing: 0) {
+            AppSpacers.w(horizontalPadding)
+
+            ForEach(1 ... levels, id: \.self) { level in
+                let levelIsOn = level <= selectedLevel
+                Rectangle()
+                    .frame(width: rectSize, height: rectSize)
+                    .foregroundStyle(
+                        levelIsOn ? AppColor.accent : AppColor.indicatorBackground
+                    )
+                    .border(.black, width: 1)
+                    .rotationEffect(.degrees(45))
+                    .padding(.horizontal, -elementNegativePadding)
+
+                if level != levels {
+                    Spacer(minLength: 0)
+                }
+            }
+
+            AppSpacers.w(horizontalPadding)
         }
     }
 }

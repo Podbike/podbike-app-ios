@@ -7,40 +7,52 @@ struct PodbikeData {
         self.data = data
     }
 
-    private var intFromSting: Int {
-        let intString = String(decoding: data, as: UTF8.self).trimmingCharacters(in: .whitespaces)
+    private var intFromString: Int {
+        let intString = String(decoding: data, as: UTF8.self)
+            .trimmingCharacters(in: .controlCharacters)
+            .trimmingCharacters(in: .whitespaces)
         let value = Int(intString) ?? 0
-        return value // kmph
+        return value
+    }
+
+    var toTemperature: Int {
+        intFromString // Celsius
     }
 
     var toSpeed: Int {
-        intFromSting // kmph
+        intFromString // kmph
     }
 
     var toBatteryPercent: Int {
-        intFromSting // %
+        intFromString // %
     }
 
     var toRange: Int {
-        intFromSting // km
+        intFromString // km
     }
 
-    var toTripDistance: Int {
-        intFromSting // meters
+    var toTotalDistance: Int {
+        intFromString // meters
+    }
+
+    var toAssistanceLevel: Int {
+        intFromString
+    }
+
+    var toCadenceLevel: Int {
+        intFromString
     }
 
     var toLightsStatus: LightsStatus {
-
-
-        return LightsStatus(
-            lowBeam: data.byte(0).asFlag,
-            highBeam: data.byte(1).asFlag,
-            rearLight: data.byte(2).asFlag,
-            brakeLight: data.byte(3).asFlag,
-            indicatorLeft: data.byte(4).asFlag,
-            indicatorRight: data.byte(5).asFlag,
-            reverseLight: data.byte(6).asFlag,
-            runningLight: data.byte(7).asFlag
+        LightsStatus(
+            lowBeam: data.byte(0).asAsciiFlag, // TODO - confirm byte
+            highBeam: data.byte(6).asAsciiFlag,
+            rearLight: data.byte(5).asAsciiFlag, // TODO - confirm byte
+            brakeLight: data.byte(4).asAsciiFlag, // TODO - confirm byte
+            indicatorLeft: data.byte(3).asAsciiFlag,
+            indicatorRight: data.byte(2).asAsciiFlag,
+            reverseLight: data.byte(1).asAsciiFlag,
+            runningLight: data.byte(7).asAsciiFlag // TODO - confirm byte
         )
     }
 }
@@ -52,7 +64,8 @@ extension Data {
 }
 
 extension UInt8? {
-    var asFlag: Bool {
-        (self ?? 0) != 0
+    var asAsciiFlag: Bool {
+        let zeroAsciiCharacter = 0x30
+        return (self ?? 0) > zeroAsciiCharacter
     }
 }

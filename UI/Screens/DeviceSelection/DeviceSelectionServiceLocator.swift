@@ -7,7 +7,7 @@ class DeviceSelectionServiceLocator {
         let model = DeviceSelectionViewModel(
             coordinator: coordinator,
             bleManager: BleManager.instance,
-            userPreferences: UserPreferences()
+            userPreferences: UserPreferences.instance
         )
         return DeviceSelectionView(viewModel: model)
     }

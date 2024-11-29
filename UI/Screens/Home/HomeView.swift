@@ -34,12 +34,6 @@ struct HomeView: View {
                     action: { viewModel.goToBleScan() }
                 )
                 .buttonStyle(AppButton.primaryProminent)
-
-                Button(
-                    "BLE Auto Connect",
-                    action: { viewModel.goToBleAutoConnect() }
-                )
-                .buttonStyle(AppButton.primaryProminent)
             }
             .padding(AppDimens.padding16)
             .toolbar(

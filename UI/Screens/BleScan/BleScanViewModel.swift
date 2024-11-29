@@ -31,7 +31,10 @@ class BleScanViewModel: BaseViewModel {
     }
 
     private func subscribeToPublishers() {
+        bleManager.initBle()
+
         bleManager.bleState
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] bleState in
                 self?.bleState = bleState
                 if bleState == .ready {
@@ -41,10 +44,12 @@ class BleScanViewModel: BaseViewModel {
             .store(in: &cancellables)
 
         bleManager.isScanning
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.isScanning = $0 }
             .store(in: &cancellables)
 
         bleManager.scannedDevices
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.scannedDevices = $0 }
             .store(in: &cancellables)
     }
@@ -65,6 +70,7 @@ class BleScanViewModel: BaseViewModel {
     }
 
     func connect(to device: BleDevice) async {
+        stopScan()
         do {
             try await bleManager.connect(to: device)
             await onConnected(to: device)

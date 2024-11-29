@@ -2,10 +2,11 @@ import SwiftUI
 
 enum AppColor {
     static let accent = Color(hex: 0x44d62c)
+    static let dimAccent = Color(hex: 0x3bac28)
     static let white = Color.white
     static let text = Color(hex: 0xf0f0f0)
     static let dimGray = Color(hex: 0x696969)
-    static let tertiary = Color(hex: 0xc4c4c4)
+    static let indicatorBackground = Color(hex: 0xc4c4c4)
     static let quaternary = Color(hex: 0x16171b)
     static let alert = Color(hex: 0xd62918)
 

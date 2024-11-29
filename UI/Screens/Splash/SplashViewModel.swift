@@ -1,13 +1,13 @@
 import Foundation
 
 class SplashViewModel: BaseViewModel {
-    private weak var coordinator: StartupCoordinatorViewModel?
+    private weak var coordinator: AppCoordinatorViewModel?
 
     enum Constants {
         static let splashDurationInSeconds = 2.0
     }
 
-    init(coordinator: StartupCoordinatorViewModel?) {
+    init(coordinator: AppCoordinatorViewModel?) {
         self.coordinator = coordinator
     }
 

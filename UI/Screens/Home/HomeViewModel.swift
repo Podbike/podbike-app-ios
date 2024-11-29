@@ -23,11 +23,6 @@ class HomeViewModel: BaseViewModel {
     }
 
     @MainActor
-    func goToBleAutoConnect() {
-        coordinator?.showBleAutoConnect()
-    }
-
-    @MainActor
     func dismiss() {
         coordinator?.dismiss()
     }

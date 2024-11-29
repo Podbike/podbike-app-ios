@@ -3,9 +3,12 @@ import Foundation
 class CoordinatorServiceLocator {
     static let instance = CoordinatorServiceLocator()
 
-    func provideStartupCoordinator() -> StartupCoordinator {
-        StartupCoordinator(
-            viewModel: StartupCoordinatorViewModel(userPreferences: UserPreferences())
+    func provideAppCoordinator() -> AppCoordinator {
+        AppCoordinator(
+            viewModel: AppCoordinatorViewModel(
+                bleManager: BleManager.instance,
+                userPreferences: UserPreferences.instance
+            )
         )
     }
 
@@ -17,15 +20,11 @@ class CoordinatorServiceLocator {
         SettingsCoordinator(viewModel: SettingsCoordinatorViewModel(parentCoordinator: parentCoordinator))
     }
 
-    func provideBleAutoConnectCoordinator(parentCoordinator: BaseCoordinator) -> BleAutoConnectCoordinator {
-        BleAutoConnectCoordinator(viewModel: BleAutoConnectCoordinatorViewModel(parentCoordinator: parentCoordinator))
-    }
-
     func provideDeviceSelectionCoordinator(parentCoordinator: BaseCoordinator) -> DeviceSelectionCoordinator {
         DeviceSelectionCoordinator(viewModel: DeviceSelectionCoordinatorViewModel(parentCoordinator: parentCoordinator))
     }
 
-    func provideDashboardCoordinator(parentCoordinator: BaseCoordinator) -> DashboardCoordinator {
+    func provideDashboardCoordinator(parentCoordinator: AppCoordinatorViewModel) -> DashboardCoordinator {
         DashboardCoordinator(viewModel: DashboardCoordinatorViewModel(parentCoordinator: parentCoordinator))
     }
 }

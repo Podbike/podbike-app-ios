@@ -6,7 +6,7 @@ class TutorialServiceLocator {
     func provideTutorialView(coordinator: BaseCoordinator?, startFromPage: Int? = nil) -> some View {
         let model = TutorialViewModel(
             coordinator: coordinator,
-            userPreferences: UserPreferences(),
+            userPreferences: UserPreferences.instance,
             startFromPage: startFromPage
         )
         return TutorialView(viewModel: model)

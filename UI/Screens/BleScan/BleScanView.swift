@@ -26,27 +26,8 @@ struct BleScanView: View {
                     .opacity(viewModel.isScanning ? 1 : 0)
                     .padding(AppDimens.padding32)
 
-                List {
-                    ForEach(viewModel.scannedDevices, id: \.deviceId) { device in
-                        DeviceRow(
-                            name: device.deviceName,
-                            action: {
-                                showConnectionPrompt = true
-                            }
-                        )
-                        .alert(
-                            String(localized: "ConnectTo") + " \(device.deviceName)",
-                            isPresented: $showConnectionPrompt
-                        ) {
-                            Button("OK") {
-                                Task {
-                                    await viewModel.connect(to: device)
-                                }
-                            }
-                            Button("Cancel", role: .cancel) {}
-                        }
-                        .alert("DeviceFailure", isPresented: $viewModel.showConnectionFailed) {}
-                    }
+                List(viewModel.scannedDevices, id: \.deviceId) { device in
+                    DeviceRow(device: device, viewModel: viewModel)
                 }
                 .listStyle(.plain)
                 .transparentListBackground()
@@ -69,6 +50,39 @@ struct BleScanView: View {
 }
 
 private struct DeviceRow: View {
+    private let device: BleDevice
+    @ObservedObject var viewModel: BleScanViewModel
+
+    @State private var showConnectionPrompt = false
+
+    init(device: BleDevice, viewModel: BleScanViewModel) {
+        self.device = device
+        self.viewModel = viewModel
+    }
+
+    var body: some View {
+        DeviceRowView(
+            name: device.deviceName,
+            action: {
+                showConnectionPrompt = true
+            }
+        )
+        .alert(
+            String(localized: "ConnectTo") + " \(device.deviceName)",
+            isPresented: $showConnectionPrompt
+        ) {
+            Button("OK") {
+                Task {
+                    await viewModel.connect(to: device)
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        }
+        .alert("DeviceFailure", isPresented: $viewModel.showConnectionFailed) {}
+    }
+}
+
+private struct DeviceRowView: View {
     let name: String
     let action: () -> Void
 

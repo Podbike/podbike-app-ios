@@ -3,12 +3,13 @@ import Foundation
 import SwiftUI
 
 class BleAutoConnectViewModel: BaseViewModel {
-    private weak var coordinator: BleAutoConnectCoordinatorViewModel?
+    private weak var coordinator: AppCoordinatorViewModel?
     private let bleManager: BleManager
     private let userPreferences: UserPreferences
 
     @Published var bleState: BleState
     @Published var isScanning: Bool
+    @Published var isConnecting: Bool
     @Published var autoConnectDevice: BleDevice?
     @Published var showConnectionFailed = false
 
@@ -18,13 +19,18 @@ class BleAutoConnectViewModel: BaseViewModel {
         static let minimumScreenDisplayInSeconds = 2.0
     }
 
-    init(coordinator: BleAutoConnectCoordinatorViewModel, bleManager: BleManager, userPreferences: UserPreferences) {
+    init(
+        coordinator: AppCoordinatorViewModel?,
+        bleManager: BleManager,
+        userPreferences: UserPreferences
+    ) {
         self.coordinator = coordinator
         self.bleManager = bleManager
         self.userPreferences = userPreferences
 
         self.bleState = bleManager.bleState.value
         self.isScanning = bleManager.isScanning.value
+        self.isConnecting = false
         self.autoConnectDevice = userPreferences.storedDevices.first
 
         super.init()
@@ -33,10 +39,12 @@ class BleAutoConnectViewModel: BaseViewModel {
     }
 
     private func subscribeToPublishers() {
+        bleManager.initBle()
+
         bleManager.bleState
             .sink { [weak self] bleState in
                 self?.bleState = bleState
-                self?.startScan()
+                self?.startAutoConnect()
             }
             .store(in: &cancellables)
 
@@ -54,6 +62,8 @@ class BleAutoConnectViewModel: BaseViewModel {
 
     private func onDevicesFound(_ devices: [BleDevice]) {
         if let foundDevice = devices.first(where: { $0.deviceId == autoConnectDevice?.deviceId }) {
+            stopAutoConnect()
+            isConnecting = true
             Task {
                 do {
                     try await bleManager.connect(to: foundDevice)
@@ -70,15 +80,17 @@ class BleAutoConnectViewModel: BaseViewModel {
         coordinator?.dismiss()
     }
 
-    func startScan() {
+    func startAutoConnect() {
         bleManager.disconnect()
         if bleState == .ready {
             bleManager.startScan()
         }
     }
 
-    func stopScan() {
+    func stopAutoConnect() {
         bleManager.stopScan()
+        bleManager.disconnect()
+        isConnecting = false
     }
 
     func showBleEnablePrompt() {
@@ -88,7 +100,7 @@ class BleAutoConnectViewModel: BaseViewModel {
     @MainActor
     func onConnectionError() {
         showConnectionFailed = true
-        stopScan()
+        stopAutoConnect()
     }
 
     @MainActor
@@ -103,7 +115,7 @@ class BleAutoConnectViewModel: BaseViewModel {
         let delayTime = Constants.minimumScreenDisplayInSeconds - screenDisplayTime
 
         DispatchQueue.main.asyncAfter(deadline: .now() + delayTime) { [weak self] in
-            self?.coordinator?.showDashboardScreen()
+            self?.coordinator?.dismiss()
         }
     }
 }
