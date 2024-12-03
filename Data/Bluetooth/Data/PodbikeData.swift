@@ -20,7 +20,11 @@ struct PodbikeData {
     }
 
     var toSpeed: Int {
-        intFromString // kmph
+        intFromString // km/h
+    }
+
+    var toAverageSpeed: Int {
+        intFromString // km/h
     }
 
     var toBatteryPercent: Int {
@@ -41,6 +45,14 @@ struct PodbikeData {
 
     var toCadenceLevel: Int {
         intFromString
+    }
+
+    var toGeneratedPower: Int {
+        intFromString // Watt
+    }
+
+    var toAverageRpm: Int {
+        intFromString // Revolutions Per Minute
     }
 
     var toLightsStatus: LightsStatus {

@@ -92,23 +92,6 @@
     "Debug menu" : {
 
     },
-    "DeviceBluetoothAdapter" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bluetooth-Adapter-Status kann nicht geändert werden!"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cannot change Bluetooth adapter state!"
-          }
-        }
-      }
-    },
     "DeviceBluetoothOff" : {
       "localizations" : {
         "de" : {
@@ -1332,7 +1315,6 @@
       }
     },
     "StatisticAverageCadence" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1349,7 +1331,6 @@
       }
     },
     "StatisticAverageSpeed" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1366,7 +1347,6 @@
       }
     },
     "StatisticBattery" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1383,7 +1363,6 @@
       }
     },
     "StatisticCO2" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1400,7 +1379,6 @@
       }
     },
     "StatisticPower" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1416,8 +1394,23 @@
         }
       }
     },
+    "StatisticsPageTitle" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statistiken"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statistics"
+          }
+        }
+      }
+    },
     "StatisticTemperature" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1434,7 +1427,6 @@
       }
     },
     "StatisticTime" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1451,7 +1443,6 @@
       }
     },
     "StatisticTotalDistance" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

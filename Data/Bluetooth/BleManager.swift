@@ -344,6 +344,10 @@ extension BleManager: FrikarDataProtocol {
         observeCharacteristic(PodbikeBleService.speedUUID) { PodbikeData($0).toSpeed }
     }
 
+    var averageSpeed: CurrentValueSubject<Int?, Never> {
+        observeCharacteristic(PodbikeBleService.averageSpeedUUID) { PodbikeData($0).toAverageSpeed }
+    }
+
     var batteryPercent: CurrentValueSubject<Int?, Never> {
         observeCharacteristic(PodbikeBleService.batteryUUID) { PodbikeData($0).toBatteryPercent }
     }
@@ -366,5 +370,13 @@ extension BleManager: FrikarDataProtocol {
 
     var cadenceLevel: CurrentValueSubject<Int?, Never> {
         observeCharacteristic(PodbikeBleService.cadenceLevelUUID) { PodbikeData($0).toCadenceLevel }
+    }
+
+    var generatedPower: CurrentValueSubject<Int?, Never> {
+        observeCharacteristic(PodbikeBleService.generatedPowerUUID) { PodbikeData($0).toGeneratedPower }
+    }
+
+    var averageRpm: CurrentValueSubject<Int?, Never> {
+        observeCharacteristic(PodbikeBleService.averageRpmUUID) { PodbikeData($0).toAverageRpm }
     }
 }

@@ -35,11 +35,12 @@ struct DashboardView: View {
 
                     let speedFontSize = geometry.size.height / 3
                     ZStack {
+                        let showSpeed = viewModel.isBluetoothOn && viewModel.isBikeOn == true
                         Text(viewModel.speedText)
                             .font(Font.custom(AppFont.appFont, size: speedFontSize))
                             .fixedSize()
                             .padding(.vertical, -speedFontSize / 5)
-                            .opacity(viewModel.isBluetoothOn && viewModel.isBikeOn ? 1 : 0)
+                            .opacity(showSpeed ? 1 : 0)
 
                         if !viewModel.isBluetoothOn {
                             Button(
@@ -47,9 +48,8 @@ struct DashboardView: View {
                                 action: viewModel.showBleEnablePrompt
                             )
                             .buttonStyle(AppButton.alert)
-                        } else if !viewModel.isBikeOn {
-                            Text("FrikarIsOff")
-                                .headline
+                        } else if viewModel.isBikeOn == false {
+                            Text("FrikarIsOff").headline
                         }
                     }
 
@@ -96,6 +96,7 @@ struct DashboardView: View {
             .navigationBarBackButtonHidden()
             .colorScheme(.dark)
             .onAppear {
+                UIApplication.shared.isIdleTimerDisabled = true
                 if viewModel.connectedDevice == nil {
                     viewModel.reconnect()
                 }
@@ -147,7 +148,7 @@ private struct TopButtons: View {
 
             Spacer()
 
-            Button(action: {}) {
+            Button(action: viewModel.goToStatisticsScreen) {
                 Image(.logoSmall)
                     .resizable()
                     .scaledToFit()
@@ -171,13 +172,13 @@ private struct RangeAndBattery: View {
     var body: some View {
         ZStack {
             let batteryPercent = viewModel.batteryPercent
-            let screenHeight = UIScreen.main.bounds.size.height
+            let screenHeight = UIScreen.height
             let barHeight = max(56, min(screenHeight / 11, 64))
 
             Rectangle()
                 .fill(AppColor.indicatorBackground)
                 .overlay(alignment: .leading) {
-                    let barWidth = 600.0 * CGFloat(batteryPercent) / 100
+                    let barWidth = UIScreen.width * CGFloat(batteryPercent) / 100
 
                     if batteryPercent <= 30 {
                         Rectangle()
@@ -214,12 +215,17 @@ private struct TotalDistance: View {
             let unit = components.removeLast()
             let distance = components.joined(separator: " ")
 
-            Text(distance + " ")
-                .font(.custom(AppFont.appBoldFont, size: 48))
-                .foregroundColor(AppColor.text)
-                + Text(unit)
-                .font(.custom(AppFont.appBoldFont, size: 25))
-                .foregroundColor(AppColor.text)
+            HStack(alignment: .firstTextBaseline) {
+                Text(distance)
+                    .font(.custom(AppFont.appBoldFont, size: 48))
+                    .foregroundColor(AppColor.text)
+                    .lineLimit(1)
+
+                Text(unit)
+                    .font(.custom(AppFont.appBoldFont, size: 25))
+                    .foregroundColor(AppColor.text)
+            }
+            .minimumScaleFactor(0.3)
         }
     }
 }
@@ -281,7 +287,7 @@ private struct CadenceLevel: View {
     @ObservedObject var viewModel: DashboardViewModel
 
     var body: some View {
-        let screenWidth = UIScreen.main.bounds.size.width
+        let screenWidth = UIScreen.width
         let rectSize = min(screenWidth / 7, 52)
         let elementNegativePadding = rectSize / 4
         let shapePadding = rectSize / 2 * (sqrt(2) - 1)
@@ -315,6 +321,8 @@ private struct CadenceLevel: View {
         .padding(.vertical, shapePadding)
     }
 }
+
+// MARK: Preview - Dashboard
 
 #Preview {
     DashboardServiceLocator.instance.provideDashboardView(coordinator: DashboardCoordinatorViewModel(parentCoordinator: nil))

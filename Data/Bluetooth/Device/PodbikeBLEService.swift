@@ -14,7 +14,7 @@ enum PodbikeBleService {
     static let speedUUID = podbikeCharacteristic("1501")
     static let temperatureUUID = podbikeCharacteristic("1502")
     static let generatedPowerUUID = podbikeCharacteristic("1503")
-    static let averageCadenceUUID = podbikeCharacteristic("1504")
+    static let averageRpmUUID = podbikeCharacteristic("1504")
     static let assistanceLevelUUID = podbikeCharacteristic("1505")
     static let cadenceLevelUUID = podbikeCharacteristic("1506")
     static let batteryUUID = podbikeCharacteristic("1507")

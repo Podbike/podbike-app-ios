@@ -6,12 +6,20 @@ class DashboardViewModel: BaseViewModel {
     private weak var coordinator: DashboardCoordinatorViewModel?
     private let bleManager: BleManager
     private let userPreferences: UserPreferences
+    private let tripMetrics: TripMetrics
 
     @Published var isBluetoothOn: Bool = true
     @Published var connectingDevice: BleDevice?
     @Published var connectedDevice: BleDevice?
 
-    @Published var isBikeOn: Bool = true
+    @Published var isBikeOn: Bool? {
+        didSet {
+            if isBikeOn == true && oldValue != true {
+                tripMetrics.tripStartTime = .now
+            }
+        }
+    }
+
     @Published var isRidingMode: Bool = false
 
     @Published var isIceWarning: Bool = false
@@ -31,10 +39,16 @@ class DashboardViewModel: BaseViewModel {
     private var isReconnectEnabled = false
     private var dataCancellables = Set<AnyCancellable>()
 
-    init(coordinator: DashboardCoordinatorViewModel, bleManager: BleManager, userPreferences: UserPreferences) {
+    init(
+        coordinator: DashboardCoordinatorViewModel,
+        bleManager: BleManager,
+        userPreferences: UserPreferences,
+        tripMetrics: TripMetrics
+    ) {
         self.coordinator = coordinator
         self.bleManager = bleManager
         self.userPreferences = userPreferences
+        self.tripMetrics = tripMetrics
 
         super.init()
 
@@ -42,7 +56,7 @@ class DashboardViewModel: BaseViewModel {
     }
 
     private func resetData() {
-        isBikeOn = true
+        isBikeOn = nil
         isRidingMode = false
         isIceWarning = false
         isBrakeLight = false
@@ -77,7 +91,8 @@ class DashboardViewModel: BaseViewModel {
             .store(in: &cancellables)
 
         userPreferences.objectWillChange
-            .sink { [weak self] _ in
+            .sink { [weak self] newUserPreferences in
+                newUserPreferences
                 if self?.connectedDevice != nil {
                     self?.subscribeForFrikarData()
                 }
@@ -113,42 +128,43 @@ class DashboardViewModel: BaseViewModel {
 
     private func subscribeForFrikarData() {
         dataCancellables.removeAll()
-        bleManager.temperature
+
+        bleManager.temperature.dropFirst()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.onTemperatureUpdate(temperatureCelsius: $0) }
             .store(in: &dataCancellables)
 
-        bleManager.speed
+        bleManager.speed.dropFirst()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.onSpeedUpdate(speedInKmph: $0) }
             .store(in: &dataCancellables)
 
-        bleManager.batteryPercent
+        bleManager.batteryPercent.dropFirst()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.onBatteryPercentUpdate($0) }
             .store(in: &dataCancellables)
 
-        bleManager.range
+        bleManager.range.dropFirst()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in self?.onRangeUpdate($0) }
+            .sink { [weak self] in self?.onRangeUpdate(rangeInKm: $0) }
             .store(in: &dataCancellables)
 
-        bleManager.totalDistance
+        bleManager.totalDistance.dropFirst()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in self?.onTotalDistanceUpdate($0) }
+            .sink { [weak self] in self?.onTotalDistanceUpdate(totalDistanceInMeters: $0) }
             .store(in: &dataCancellables)
 
-        bleManager.lightsStatus
+        bleManager.lightsStatus.dropFirst()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.onLightsStatusUpdate($0) }
             .store(in: &dataCancellables)
 
-        bleManager.assistanceLevel
+        bleManager.assistanceLevel.dropFirst()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.onAssistanceLevelUpdate($0) }
             .store(in: &dataCancellables)
 
-        bleManager.cadenceLevel
+        bleManager.cadenceLevel.dropFirst()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.onCadenceLevelUpdate($0) }
             .store(in: &dataCancellables)
@@ -183,15 +199,15 @@ class DashboardViewModel: BaseViewModel {
         self.batteryPercent = batteryPercent ?? 0
     }
 
-    private func onRangeUpdate(_ range: Int?) {
-        guard let range else {
+    private func onRangeUpdate(rangeInKm: Int?) {
+        guard let rangeInKm else {
             rangeText = ""
             return
         }
 
         var distanceUnit = userPreferences.distanceUnit
         if distanceUnit == .meters { distanceUnit = .kilometers }
-        let convertedRange = distanceUnit.converted(kilometers: Double(range))
+        let convertedRange = distanceUnit.converted(kilometers: Double(rangeInKm))
 
         let measurement = Measurement(value: convertedRange.rounded(), unit: distanceUnit.unitType)
         let formatter = MeasurementFormatter()
@@ -200,16 +216,17 @@ class DashboardViewModel: BaseViewModel {
         rangeText = formatter.string(from: measurement)
     }
 
-    private func onTotalDistanceUpdate(_ totalDistance: Int?) {
-        guard let totalDistance else {
+    private func onTotalDistanceUpdate(totalDistanceInMeters: Int?) {
+        guard let totalDistanceInMeters else {
             totalDistanceText = ""
             return
         }
 
-        isBikeOn = totalDistance > 0 // TODO - temporary
+        // TODO - temporary
+        isBikeOn = totalDistanceInMeters > 0
 
         let distanceUnit = userPreferences.distanceUnit
-        let convertedTotalDistance = distanceUnit.converted(kilometers: Double(totalDistance) / 1000)
+        let convertedTotalDistance = distanceUnit.converted(kilometers: Double(totalDistanceInMeters) / 1000)
 
         let measurement = Measurement(value: convertedTotalDistance, unit: distanceUnit.unitType)
         let formatter = MeasurementFormatter()
@@ -264,12 +281,17 @@ class DashboardViewModel: BaseViewModel {
     }
 
     @MainActor
-    func goToSettingsScreen() {
-        coordinator?.showSettingsScreen()
+    func goToDebugHomeScreen() {
+        coordinator?.showDebugHomeScreen()
     }
 
     @MainActor
-    func goToDebugHomeScreen() {
-        coordinator?.showDebugHomeScreen()
+    func goToStatisticsScreen() {
+        coordinator?.showStatisticsScreen()
+    }
+
+    @MainActor
+    func goToSettingsScreen() {
+        coordinator?.showSettingsScreen()
     }
 }

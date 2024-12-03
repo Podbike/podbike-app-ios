@@ -5,6 +5,7 @@ class DashboardCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelP
     enum Screen: BaseScreen {
         case settings
         case debugHome
+        case statistics
     }
 
     let parentCoordinator: BaseCoordinator?
@@ -22,12 +23,18 @@ class DashboardCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelP
         switch screen {
         case .settings: CoordinatorServiceLocator.instance.provideSettingsCoordinator(parentCoordinator: self)
         case .debugHome: CoordinatorServiceLocator.instance.provideDebugHomeCoordinator(parentCoordinator: self)
+        case .statistics: StatisticsServiceLocator.instance.provideStatisticsView(coordinator: self)
         }
     }
 
     @MainActor
     func showSettingsScreen() {
         show(.settings)
+    }
+
+    @MainActor
+    func showStatisticsScreen() {
+        show(.statistics)
     }
 
     @MainActor

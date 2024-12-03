@@ -15,6 +15,19 @@ enum DistanceUnit: String {
 enum TemperatureUnit: String {
     case celsius = "C"
     case fahrenheit = "F"
+
+    var unitType: UnitTemperature {
+        switch self {
+        case .celsius: return UnitTemperature.celsius
+        case .fahrenheit: return UnitTemperature.fahrenheit
+        }
+    }
+
+    func converted(degreesCelsius: Double) -> Double {
+        Measurement(value: degreesCelsius, unit: UnitTemperature.celsius)
+            .converted(to: self.unitType)
+            .value
+    }
 }
 
 extension SpeedUnit {
