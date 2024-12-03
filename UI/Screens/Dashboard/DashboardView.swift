@@ -286,6 +286,7 @@ private struct CadenceLevel: View {
         let elementNegativePadding = rectSize / 4
         let shapePadding = rectSize / 2 * (sqrt(2) - 1)
         let horizontalPadding = AppDimens.padding8 + shapePadding + elementNegativePadding
+        let cornerRadius = 5.0
 
         let levels = 9
         let selectedLevel = viewModel.cadenceLevel
@@ -293,14 +294,17 @@ private struct CadenceLevel: View {
         HStack(spacing: 0) {
             ForEach(1 ... levels, id: \.self) { level in
                 let levelIsOn = level <= selectedLevel
-                Rectangle()
-                    .frame(width: rectSize, height: rectSize)
-                    .foregroundStyle(
-                        levelIsOn ? AppColor.accent : AppColor.indicatorBackground
-                    )
-                    .border(.black, width: 1)
-                    .rotationEffect(.degrees(45))
-                    .padding(.horizontal, -elementNegativePadding)
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                .fill(
+                    levelIsOn ? AppColor.accent : AppColor.indicatorBackground
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                        .strokeBorder(Color.black, lineWidth: 1)
+                )
+                .frame(width: rectSize, height: rectSize)
+                .rotationEffect(.degrees(45))
+                .padding(.horizontal, -elementNegativePadding)
 
                 if level != levels {
                     Spacer(minLength: 0)
