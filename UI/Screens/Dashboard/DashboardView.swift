@@ -31,12 +31,14 @@ struct DashboardView: View {
                     .frame(height: topRowHeight)
                     .animation(.default, value: viewModel.isRidingMode)
 
-                    let speedFontSize = sqrt(geometry.size.width * geometry.size.height) * 0.45
+                    Spacer()
+
+                    let speedFontSize = geometry.size.height / 3
                     ZStack {
                         Text(viewModel.speedText)
                             .font(Font.custom(AppFont.appFont, size: speedFontSize))
                             .fixedSize()
-                            .padding(.top, -speedFontSize / 10)
+                            .padding(.vertical, -speedFontSize / 5)
                             .opacity(viewModel.isBluetoothOn && viewModel.isBikeOn ? 1 : 0)
 
                         if !viewModel.isBluetoothOn {
@@ -45,16 +47,17 @@ struct DashboardView: View {
                                 action: viewModel.showBleEnablePrompt
                             )
                             .buttonStyle(AppButton.alert)
-                        } else if (!viewModel.isBikeOn) {
+                        } else if !viewModel.isBikeOn {
                             Text("FrikarIsOff")
                                 .headline
                         }
                     }
 
-                    RangeAndBattery(viewModel: viewModel)
-                        .padding(.top, -speedFontSize / 10)
+                    Spacer()
 
-                    AppSpacers.h32
+                    RangeAndBattery(viewModel: viewModel)
+
+                    Spacer()
 
                     HStack {
                         TotalDistance(viewModel: viewModel)
@@ -63,15 +66,16 @@ struct DashboardView: View {
                     }
                     .padding(.horizontal, horizontalPadding)
 
-                    AppSpacers.h32
+                    Spacer()
 
                     AssistanceLevel(viewModel: viewModel)
                         .padding(.horizontal, horizontalPadding)
 
-                    AppSpacers.h(36)
+                    Spacer()
 
                     CadenceLevel(viewModel: viewModel)
                         .padding(.horizontal, horizontalPadding)
+                        .padding(.vertical, -8)
 
                     Spacer()
                 }
@@ -87,7 +91,7 @@ struct DashboardView: View {
                             .foregroundStyle(AppColor.alert)
                     }
                 }
-                .padding(.vertical, -AppDimens.padding16)
+                .padding(.top, -AppDimens.padding16)
             }
             .navigationBarBackButtonHidden()
             .colorScheme(.dark)
@@ -125,6 +129,7 @@ private struct WarningIcons: View {
                 AppIcon.brakeAlert.size(iconSize)
                     .opacity(viewModel.isBrakeLight ? 1 : inactiveOpacity)
             }
+            .frame(height: geometry.size.height)
         }
     }
 }
@@ -166,29 +171,30 @@ private struct RangeAndBattery: View {
     var body: some View {
         ZStack {
             let batteryPercent = viewModel.batteryPercent
-            GeometryReader { geometry in
-                Rectangle()
-                    .fill(AppColor.indicatorBackground)
-                    .overlay(alignment: .leading) {
-                        let barWidth = geometry.size.width * CGFloat(batteryPercent) / 100
+            let screenHeight = UIScreen.main.bounds.size.height
+            let barHeight = max(56, min(screenHeight / 11, 64))
 
-                        if batteryPercent <= 30 {
-                            Rectangle()
-                                .fill(Color.red)
-                                .frame(width: barWidth)
-                        } else {
-                            let gradient = LinearGradient(
-                                gradient: Gradient(colors: [AppColor.accent, AppColor.dimAccent]),
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                            Rectangle()
-                                .fill(gradient)
-                                .frame(width: barWidth)
-                        }
+            Rectangle()
+                .fill(AppColor.indicatorBackground)
+                .overlay(alignment: .leading) {
+                    let barWidth = 600.0 * CGFloat(batteryPercent) / 100
+
+                    if batteryPercent <= 30 {
+                        Rectangle()
+                            .fill(Color.red)
+                            .frame(width: barWidth)
+                    } else {
+                        let gradient = LinearGradient(
+                            gradient: Gradient(colors: [AppColor.accent, AppColor.dimAccent]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                        Rectangle()
+                            .fill(gradient)
+                            .frame(width: barWidth)
                     }
-            }
-            .frame(height: 64)
+                }
+                .frame(height: barHeight)
 
             Text(viewModel.rangeText)
                 .font(.custom(AppFont.appBoldFont, size: 42))
@@ -275,7 +281,8 @@ private struct CadenceLevel: View {
     @ObservedObject var viewModel: DashboardViewModel
 
     var body: some View {
-        let rectSize = 52.0
+        let screenWidth = UIScreen.main.bounds.size.width
+        let rectSize = min(screenWidth / 7, 52)
         let elementNegativePadding = rectSize / 4
         let shapePadding = rectSize / 2 * (sqrt(2) - 1)
         let horizontalPadding = AppDimens.padding8 + shapePadding + elementNegativePadding
@@ -284,8 +291,6 @@ private struct CadenceLevel: View {
         let selectedLevel = viewModel.cadenceLevel
 
         HStack(spacing: 0) {
-            AppSpacers.w(horizontalPadding)
-
             ForEach(1 ... levels, id: \.self) { level in
                 let levelIsOn = level <= selectedLevel
                 Rectangle()
@@ -301,9 +306,9 @@ private struct CadenceLevel: View {
                     Spacer(minLength: 0)
                 }
             }
-
-            AppSpacers.w(horizontalPadding)
         }
+        .padding(.horizontal, horizontalPadding)
+        .padding(.vertical, shapePadding)
     }
 }
 
