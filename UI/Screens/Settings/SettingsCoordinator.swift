@@ -3,8 +3,10 @@ import SwiftUI
 
 class SettingsCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtocol {
     enum Screen: BaseScreen {
-        case policies
         case deviceSelection
+        case firmwareUpdate
+        case frikarInfo
+        case policies
     }
 
     let parentCoordinator: BaseCoordinator?
@@ -20,8 +22,10 @@ class SettingsCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelPr
     @ViewBuilder
     func provideView(forScreen screen: Screen) -> some View {
         switch screen {
-        case .policies: PoliciesServiceLocator.instance.providePoliciesView(coordinator: self)
         case .deviceSelection: CoordinatorServiceLocator.instance.provideDeviceSelectionCoordinator(parentCoordinator: self)
+        case .firmwareUpdate: CoordinatorServiceLocator.instance.provideFirmwareUpdateCoordinator(parentCoordinator: self)
+        case .frikarInfo: FrikarInfoServiceLocator.instance.provideFrikarInfoView(coordinator: self)
+        case .policies: PoliciesServiceLocator.instance.providePoliciesView(coordinator: self)
         }
     }
 
@@ -31,8 +35,18 @@ class SettingsCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelPr
     }
 
     @MainActor
+    func showFirmwareUpdate() {
+        show(.firmwareUpdate)
+    }
+
+    @MainActor
     func showPolicies() {
         show(.policies)
+    }
+
+    @MainActor
+    func showFrikarInfo() {
+        show(.frikarInfo)
     }
 }
 

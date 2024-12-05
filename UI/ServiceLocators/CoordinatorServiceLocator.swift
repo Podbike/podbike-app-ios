@@ -27,4 +27,8 @@ class CoordinatorServiceLocator {
     func provideDashboardCoordinator(parentCoordinator: AppCoordinatorViewModel) -> DashboardCoordinator {
         DashboardCoordinator(viewModel: DashboardCoordinatorViewModel(parentCoordinator: parentCoordinator))
     }
+
+    func provideFirmwareUpdateCoordinator(parentCoordinator: BaseCoordinator) -> FirmwareUpdateCoordinator {
+        FirmwareUpdateCoordinator(viewModel: FirmwareUpdateCoordinatorViewModel(parentCoordinator: parentCoordinator))
+    }
 }

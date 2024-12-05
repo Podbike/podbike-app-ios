@@ -2,7 +2,6 @@
   "sourceLanguage" : "en",
   "strings" : {
     "AboutDevice" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1907,7 +1906,6 @@
       }
     },
     "UpdatePageTitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

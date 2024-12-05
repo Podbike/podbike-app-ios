@@ -1,6 +1,5 @@
 import Combine
 import Foundation
-import SwiftUI
 
 class StatisticsViewModel: BaseViewModel {
     private weak var coordinator: BaseCoordinator?

@@ -20,7 +20,7 @@ struct SettingsView: View {
                 SettingsHeader("SettingsGeneral") {
                     SettingsRow("SettingsLanguage", viewModel.onLanguageTapped)
                     SettingsRow("SettingsDevices", viewModel.onDevicesTapped)
-                    SettingsRow("SettingsUpdate") {}
+                    SettingsRow("SettingsUpdate", viewModel.onFirmwareUpdateTapped)
                 }
 
                 SettingsHeader("SettingsUnits") {
@@ -44,7 +44,7 @@ struct SettingsView: View {
                     }
                 }
                 SettingsHeader("SettingsAbout") {
-                    SettingsRow("SettingsFrikar") {}
+                    SettingsRow("SettingsFrikar", viewModel.onFrikarInfoTapped)
                     SettingsRow("SettingsPolicies", viewModel.onPoliciesTapped)
                 }
 

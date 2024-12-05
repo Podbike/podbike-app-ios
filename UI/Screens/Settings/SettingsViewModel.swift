@@ -49,6 +49,16 @@ class SettingsViewModel: BaseViewModel {
     }
 
     @MainActor
+    func onFirmwareUpdateTapped() {
+        coordinator?.showFirmwareUpdate()
+    }
+
+    @MainActor
+    func onFrikarInfoTapped() {
+        coordinator?.showFrikarInfo()
+    }
+
+    @MainActor
     func onPoliciesTapped() {
         coordinator?.showPolicies()
     }
