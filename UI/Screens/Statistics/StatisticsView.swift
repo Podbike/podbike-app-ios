@@ -76,7 +76,8 @@ struct StatisticsView: View {
                     .scaledToFit()
                     .frame(height: 42)
             }
-            .padding(AppDimens.padding32)
+            .padding(.horizontal, AppDimens.padding16)
+            .padding(.bottom, AppDimens.padding32)
         }
         .toolbar(
             title: "StatisticsPageTitle",

@@ -215,8 +215,8 @@ private struct TotalDistance: View {
             let unit = components.removeLast()
             let distance = components.joined(separator: " ")
 
-            HStack(alignment: .firstTextBaseline) {
-                Text(distance)
+            HStack(alignment: .firstTextBaseline, spacing: 0) {
+                Text(distance + " ")
                     .font(.custom(AppFont.appBoldFont, size: 48))
                     .foregroundColor(AppColor.text)
                     .lineLimit(1)
