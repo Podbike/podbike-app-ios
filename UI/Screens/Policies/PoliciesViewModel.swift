@@ -13,7 +13,7 @@ class PoliciesViewModel: BaseViewModel {
     }
 
     let privacyPolicyHtml =
-        "<p>Pobike AS (\"us\", \"we\", or \"our\") operates the Podbike Frikar mobile application (the \"Service\").</p>" +
+        "<p>Pobike AS (\"us\", \"we\", or \"our\") operates the Podbike FRIKAR mobile application (the \"Service\").</p>" +
         "<p>This page informs you of our policies regarding the collection, " +
         "use and disclosure of Personal Information when you use our Service.</p>" +
         "<p>We will not use or share your information with anyone except as described in this Privacy Policy.</p>" +
@@ -34,7 +34,7 @@ class PoliciesViewModel: BaseViewModel {
     let privacyFutherInfo = "For further information on the policy, please click [here](https://www.podbike.com/privacy-and-cookie-policy/)"
 
     let termsAndConditionsHtml =
-        "<p>These Terms and Conditions of Use (the \"Terms of Use\") apply to the Podbike Frikar mobile applications. " +
+        "<p>These Terms and Conditions of Use (the \"Terms of Use\") apply to the Podbike FRIKAR mobile applications. " +
         "The application is the property of Podbike AS and its licensors. " +
         "BY USING THE APPLICATION, YOU AGREE TO THESE TERMS OF USE; IF YOU DO NOT AGREE, DO NOT AGREE, DO NOT USE THE APPLICATION.</p>" +
         "<p>Podbike reserves the right, at its sole discretion, to change, modify, add and remove portions of these Terms of Use, at any time. " +

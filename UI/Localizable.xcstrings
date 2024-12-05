@@ -212,13 +212,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Frikars"
+            "value" : "FRIKARS"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Frikars"
+            "value" : "FRIKARS"
           }
         }
       }
@@ -364,13 +364,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mit zuletzt verwendetem Frikar verbinden..."
+            "value" : "Mit zuletzt verwendetem FRIKAR verbinden..."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Connecting to your most recent Frikar..."
+            "value" : "Connecting to your most recent FRIKAR…"
           }
         }
       }
@@ -391,52 +391,18 @@
         }
       }
     },
-    "FrikarConnectionLost" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verbindung unterbrochen. Neuer Verbindungsaufbau..."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Connection lost. Please reconnect to your Frikar..."
-          }
-        }
-      }
-    },
     "FrikarIsOff" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bitte starten Sie den Frikar"
+            "state" : "translated",
+            "value" : "Bitte starten Sie den FRIKAR"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welcome back!\nNow start your Frikar."
-          }
-        }
-      }
-    },
-    "FrikarMissing" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Es wurde kein Frikar ausgewählt."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No Frikar is paired to this device!"
+            "value" : "Welcome back!\nNow start your FRIKAR."
           }
         }
       }
@@ -446,30 +412,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Einen Moment bitte. Die Verbindung zum Frikar wird hergestellt. Wenn Ihr Frikar nicht gefunden wird, wählen Sie bitte 'NACH FRIKAR SUCHEN', um ein anderes Frikar zu verbinden. "
+            "value" : "Einen Moment bitte. Die Verbindung zum FRIKAR wird hergestellt. Wenn Ihr FRIKAR nicht gefunden wird, wählen Sie bitte 'NACH FRIKAR SUCHEN', um ein anderes FRIKAR zu verbinden. "
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Please wait a moment to establish a connection with the Frikar. If your Frikar cannot be found, then press 'SCAN FOR FRIKAR' to choose another Frikar."
-          }
-        }
-      }
-    },
-    "FrikarNotPaired" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Frikar nicht mit Bluetooth verbunden"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Frikar not Paired"
+            "value" : "Please wait a moment to establish a connection with the FRIKAR. If your FRIKAR cannot be found, then press 'SCAN FOR FRIKAR' to choose another FRIKAR."
           }
         }
       }
@@ -486,23 +435,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pause"
-          }
-        }
-      }
-    },
-    "FrikarReconnect" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neu Verbinden"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reconnect"
           }
         }
       }
@@ -528,13 +460,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nach Frikar suchen"
+            "value" : "Nach FRIKAR suchen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scan for Frikar"
+            "value" : "Scan for FRIKAR"
           }
         }
       }
@@ -714,13 +646,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Frikar Aktualisierung"
+            "value" : "FRIKAR Aktualisierung"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Frikar Update"
+            "value" : "FRIKAR Update"
           }
         }
       }
@@ -1076,13 +1008,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ihr Frikar"
+            "value" : "Ihr FRIKAR"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your Frikar"
+            "value" : "Your FRIKAR"
           }
         }
       }
@@ -1142,13 +1074,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Frikar-Richtlinien"
+            "value" : "FRIKAR-Richtlinien"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Frikar Policies"
+            "value" : "FRIKAR Policies"
           }
         }
       }
@@ -1303,13 +1235,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Frikar Aktualisierung"
+            "value" : "FRIKAR Aktualisierung"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Frikar Update"
+            "value" : "FRIKAR Update"
           }
         }
       }
@@ -1546,13 +1478,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der Lenker Ihres Frikar kann in vier verschiedene Richtungen bewegt werden, zusätzlich gibt es zwei Tasten."
+            "value" : "Der Lenker Ihres FRIKAR kann in vier verschiedene Richtungen bewegt werden, zusätzlich gibt es zwei Tasten."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The controls on the handlebars in your Frikar can be moved in four different directions in addition to two buttons."
+            "value" : "The controls on the handlebars in your FRIKAR can be moved in four different directions in addition to two buttons."
           }
         }
       }
@@ -1810,13 +1742,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bestätigen Sie den Upload der neuesten Firmware-Version auf Ihren Frikar."
+            "value" : "Bestätigen Sie den Upload der neuesten Firmware-Version auf Ihren FRIKAR."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Confirm upload of the newest version of firmware to your Frikar."
+            "value" : "Confirm upload of the newest version of firmware to your FRIKAR."
           }
         }
       }
@@ -1861,13 +1793,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aktuell wird auf den Abschluss des Update-Prozesses gewartet. Die Anwendung wird vorübergehend von Frikar getrennt."
+            "value" : "Aktuell wird auf den Abschluss des Update-Prozesses gewartet. Die Anwendung wird vorübergehend von FRIKAR getrennt."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Currently waiting for the update process to complete. The application will be disconnected from the Frikar for the time being."
+            "value" : "Currently waiting for the update process to complete. The application will be disconnected from the FRIKAR for the time being."
           }
         }
       }
@@ -2048,13 +1980,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Derzeit werden Dateien zwischen Cloud-Server und Frikar über die mobile Anwendung übertragen."
+            "value" : "Derzeit werden Dateien zwischen Cloud-Server und FRIKAR über die mobile Anwendung übertragen."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Currently transferring files between cloud server and Frikar via the mobiile application"
+            "value" : "Currently transferring files between cloud server and FRIKAR via the mobiile application"
           }
         }
       }
@@ -2082,13 +2014,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stellen Sie sicher, dass der Frikar stationär ist und sich in Bluetooth-Reichweite Ihres Telefons befindet."
+            "value" : "Stellen Sie sicher, dass der FRIKAR stationär ist und sich in Bluetooth-Reichweite Ihres Telefons befindet."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Make sure the Frikar is stationary and in Bluetooth range of your phone."
+            "value" : "Make sure the FRIKAR is stationary and in Bluetooth range of your phone."
           }
         }
       }
