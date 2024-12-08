@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    ": " : {
+
+    },
     "AboutDevice" : {
       "localizations" : {
         "de" : {
@@ -18,6 +21,15 @@
       }
     },
     "BLE Scan" : {
+
+    },
+    "Board Id" : {
+
+    },
+    "Board Name" : {
+
+    },
+    "Board Position" : {
 
     },
     "Cancel" : {
@@ -341,6 +353,12 @@
           }
         }
       }
+    },
+    "Firmware Version" : {
+
+    },
+    "Frame Number" : {
+
     },
     "FrikarBluetoothDisabled" : {
       "localizations" : {
@@ -886,6 +904,12 @@
           }
         }
       }
+    },
+    "Product ID" : {
+
+    },
+    "Serial Number" : {
+
     },
     "Settings" : {
 

@@ -4,6 +4,8 @@ class FrikarInfoViewModel: BaseViewModel {
     private weak var coordinator: BaseCoordinator?
     private let bleManager: BleManager
 
+    @Published private(set) var frikarConfig: FrikarConfig? = nil
+
     init(
         coordinator: BaseCoordinator?,
         bleManager: BleManager
@@ -13,11 +15,13 @@ class FrikarInfoViewModel: BaseViewModel {
 
         super.init()
 
-        subscribeToPublishers()
+        fetchData()
     }
 
-    private func subscribeToPublishers() {
-
+    private func fetchData() {
+        Task { @MainActor in
+            frikarConfig = await bleManager.getFrikarConfig()
+        }
     }
 
     @MainActor

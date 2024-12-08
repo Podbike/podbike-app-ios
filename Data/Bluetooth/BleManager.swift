@@ -380,3 +380,13 @@ extension BleManager: FrikarDataProtocol {
         observeCharacteristic(PodbikeBleService.averageRpmUUID) { PodbikeData($0).toAverageRpm }
     }
 }
+
+// MARK: FrikarConfigProtocol
+
+extension BleManager: FrikarConfigProtocol {
+    func getFrikarConfig() async -> FrikarConfig? {
+        // TODO - get from YMODEM
+        let mockedJson = Mock.frikarConfigMock
+        return try? JSONDecoder().decode(FrikarConfig.self, from: Data(mockedJson.utf8))
+    }
+}

@@ -6,6 +6,7 @@ enum AppFont {
 
     static let body: Font = .custom(appFont, size: 16)
     static let label: Font = .custom(appFont, size: 18)
+    static let info: Font = .custom(appFont, size: 20)
     static let title: Font = .custom(appBoldFont, size: 18)
     static let large: Font = .title
     static let small: Font = .subheadline
@@ -19,6 +20,7 @@ enum AppFont {
 extension Text {
     var body: some View { modifier(BodyText()) }
     var label: some View { modifier(LabelText()) }
+    var info: some View { modifier(InfoText()) }
     var title: some View { modifier(TitleText()) }
     var headline: some View { modifier(HeadlineText()) }
     var pageTitle: some View { modifier(PageTitleText()) }
@@ -77,6 +79,15 @@ extension Text {
         func body(content: Content) -> some View {
             content
                 .font(AppFont.alert)
+                .foregroundColor(AppColor.text)
+                .minimumScaleFactor(0.7)
+        }
+    }
+
+    struct InfoText: ViewModifier {
+        func body(content: Content) -> some View {
+            content
+                .font(AppFont.info)
                 .foregroundColor(AppColor.text)
                 .minimumScaleFactor(0.7)
         }
