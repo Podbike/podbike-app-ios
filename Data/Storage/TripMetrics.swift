@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 class TripMetrics {
     static let instance = TripMetrics()

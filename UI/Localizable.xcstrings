@@ -20,16 +20,136 @@
         }
       }
     },
+    "AboutDeviceBoardId" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Platinen-ID"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Board ID"
+          }
+        }
+      }
+    },
+    "AboutDeviceBoardName" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Platinenname"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Board Name"
+          }
+        }
+      }
+    },
+    "AboutDeviceBoardPosition" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Platinenposition"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Board Position"
+          }
+        }
+      }
+    },
+    "AboutDeviceError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geräteinformationen konnten nicht gelesen werden.\nÜberprüfen Sie die Bluetooth-Verbindung zu FRIKAR."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to read device information.\nCheck Bluetooth connection to FRIKAR."
+          }
+        }
+      }
+    },
+    "AboutDeviceFirmwareVersion" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Firmwareversion"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Firmware Version"
+          }
+        }
+      }
+    },
+    "AboutDeviceFrameNumber" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rahmennummer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frame Number"
+          }
+        }
+      }
+    },
+    "AboutDeviceProductId" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Produkt-ID"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Product ID"
+          }
+        }
+      }
+    },
+    "AboutDeviceSerialNumber" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seriennummer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serial Number"
+          }
+        }
+      }
+    },
     "BLE Scan" : {
-
-    },
-    "Board Id" : {
-
-    },
-    "Board Name" : {
-
-    },
-    "Board Position" : {
 
     },
     "Cancel" : {
@@ -353,12 +473,6 @@
           }
         }
       }
-    },
-    "Firmware Version" : {
-
-    },
-    "Frame Number" : {
-
     },
     "FrikarBluetoothDisabled" : {
       "localizations" : {
@@ -904,12 +1018,6 @@
           }
         }
       }
-    },
-    "Product ID" : {
-
-    },
-    "Serial Number" : {
-
     },
     "Settings" : {
 

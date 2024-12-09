@@ -7,6 +7,7 @@ class BleManager: NSObject {
     static let instance = BleManager()
 
     private lazy var centralManager: CBCentralManager! = initBleManager()
+    private lazy var ymodemController = YModemController(transport: self)
 
     var bleState = CurrentValueSubject<BleState, Never>(.unknown)
 
@@ -45,7 +46,7 @@ class BleManager: NSObject {
     private var characteristicValueUpdatedPublisher = PassthroughSubject<CharacteristicValue, Never>()
     // ^^^ FrikarDataProtocol properties
 
-    let logger = os.Logger(subsystem: "com.podbike.app.Bluetooth", category: "BluetoothLEManager")
+    let logger = os.Logger(subsystem: "com.podbike.app.Bluetooth", category: "BleManager")
 
     var cancellables = Set<AnyCancellable>()
 
@@ -134,6 +135,8 @@ extension BleManager: BleManagerProtocol {
     }
 
     private func onDisconnected() {
+        logger.info("onDisconnected")
+
         characteristicValueUpdatedPublisher.send(completion: .finished)
         characteristicValueUpdatedPublisher = PassthroughSubject<CharacteristicValue, Never>()
 
@@ -290,7 +293,7 @@ extension BleManager: CBPeripheralDelegate {
 
         guard let characteristicData = characteristic.value else { return }
 
-        let str = characteristicData.map { String(format: "0x%02x, ", $0) }.joined()
+        let str = characteristicData.map { String(format: "0x%02x", $0) }.joined(separator: ", ")
         logger.info("Received \(characteristicData.count) bytes: \(str)")
 
         if let value = characteristic.value {
@@ -385,8 +388,48 @@ extension BleManager: FrikarDataProtocol {
 
 extension BleManager: FrikarConfigProtocol {
     func getFrikarConfig() async -> FrikarConfig? {
-        // TODO - get from YMODEM
-        let mockedJson = Mock.frikarConfigMock
-        return try? JSONDecoder().decode(FrikarConfig.self, from: Data(mockedJson.utf8))
+        await ymodemController.getFrikarConfig()
+    }
+}
+
+// MARK: YModelTransportProtocol
+
+extension BleManager: YModelTransportProtocol {
+    var dataStream: AnyPublisher<Data, Never> {
+        return observeYModelCharacteristic(PodbikeBleService.ftpDataUUID)
+    }
+
+    var controlStream: AnyPublisher<Data, Never> {
+        return observeYModelCharacteristic(PodbikeBleService.ftpControlUUID)
+    }
+
+    func sendYModemData(_ data: Data) {
+        guard let characteristic = characteristic(PodbikeBleService.ftpDataUUID), let peripheral = connectedPeripheral else {
+            logger.error("Cannot send YModel data.")
+            return
+        }
+        peripheral.writeValue(
+            data,
+            for: characteristic,
+            type: .withoutResponse
+        )
+        let str = data.map { String(format: "0x%02x", $0) }.joined(separator: ", ")
+        logger.info("Sent \(data.count) bytes: \(str) via YModem")
+    }
+
+    private func observeYModelCharacteristic(_ uuid: CBUUID) -> AnyPublisher<Data, Never> {
+        guard let characteristic = characteristic(uuid), let peripheral = connectedPeripheral else { return Empty().eraseToAnyPublisher() }
+
+        peripheral.setNotifyValue(true, for: characteristic)
+
+        let _value = PassthroughSubject<Data, Never>()
+        characteristicValueUpdatedPublisher
+            .filter { $0.characteristicUUID == uuid }
+            .sink(
+                receiveCompletion: { _value.send(completion: $0) },
+                receiveValue: { _value.send($0.value) }
+            )
+            .store(in: &cancellables)
+        return _value.eraseToAnyPublisher()
     }
 }

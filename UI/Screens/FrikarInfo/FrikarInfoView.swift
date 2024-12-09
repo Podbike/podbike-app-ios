@@ -13,27 +13,10 @@ struct FrikarInfoView: View {
                 .ignoresSafeArea()
 
             if let config = viewModel.frikarConfig {
-                ScrollView {
-                    LazyVStack(alignment: .leading) {
-                        Text(config.productName.uppercased())
-                            .font(Font.custom(AppFont.appFont, size: 28))
-                            .foregroundStyle(AppColor.accent)
-                            .centerHorizontally()
-
-                        AppSpacers.h(24)
-
-                        DataRow("Product ID", config.productId)
-                        DataRow("Frame Number", config.frameNumber)
-
-                        ForEach(config.ecuModules, id: \.hashValue) { ecuModule in
-                            AppColor.dimGray
-                                .frame(height: 1)
-                            EcuModuleSection(ecuModule)
-                        }
-                    }
-                    .padding(.horizontal, AppDimens.padding16)
-                    .padding(.top, AppDimens.padding24)
-                }
+                FrikarConfigView(config)
+            } else
+            if viewModel.isFetchError {
+                Text("AboutDeviceError").label
             } else {
                 ProgressView()
                     .controlSize(.large)
@@ -43,6 +26,38 @@ struct FrikarInfoView: View {
             title: "AboutDevice",
             onBack: viewModel.dismiss
         )
+    }
+}
+
+struct FrikarConfigView: View {
+    private let config: FrikarConfig
+
+    init(_ config: FrikarConfig) {
+        self.config = config
+    }
+
+    var body: some View {
+        ScrollView {
+            LazyVStack(alignment: .leading) {
+                Text(config.productName.uppercased())
+                    .font(Font.custom(AppFont.appFont, size: 28))
+                    .foregroundStyle(AppColor.accent)
+                    .centerHorizontally()
+
+                AppSpacers.h(24)
+
+                DataRow("AboutDeviceProductId", config.productId)
+                DataRow("AboutDeviceFrameNumber", config.frameNumber)
+
+                ForEach(config.ecuModules, id: \.hashValue) { ecuModule in
+                    AppColor.dimGray
+                        .frame(height: 1)
+                    EcuModuleSection(ecuModule)
+                }
+            }
+            .padding(.horizontal, AppDimens.padding16)
+            .padding(.top, AppDimens.padding24)
+        }
     }
 }
 
@@ -74,11 +89,11 @@ private struct EcuModuleSection: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            DataRow("Board Name", ecuModule.boardName)
-            DataRow("Board Id", ecuModule.boardId)
-            DataRow("Board Position", ecuModule.boardPosition)
-            DataRow("Firmware Version", ecuModule.firmwareVersion)
-            DataRow("Serial Number", ecuModule.serialNumber)
+            DataRow("AboutDeviceBoardName", ecuModule.boardName)
+            DataRow("AboutDeviceBoardId", ecuModule.boardId)
+            DataRow("AboutDeviceBoardPosition", ecuModule.boardPosition)
+            DataRow("AboutDeviceFirmwareVersion", ecuModule.firmwareVersion)
+            DataRow("AboutDeviceSerialNumber", ecuModule.serialNumber)
         }
     }
 }

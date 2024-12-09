@@ -4,7 +4,10 @@ class FrikarInfoViewModel: BaseViewModel {
     private weak var coordinator: BaseCoordinator?
     private let bleManager: BleManager
 
-    @Published private(set) var frikarConfig: FrikarConfig? = nil
+    private var dataFetchTask: Task<FrikarConfig?, Never>?
+
+    @Published private(set) var frikarConfig: FrikarConfig?
+    @Published private(set) var isFetchError: Bool = false
 
     init(
         coordinator: BaseCoordinator?,
@@ -18,9 +21,21 @@ class FrikarInfoViewModel: BaseViewModel {
         fetchData()
     }
 
+    deinit {
+        dataFetchTask?.cancel()
+    }
+
     private func fetchData() {
-        Task { @MainActor in
-            frikarConfig = await bleManager.getFrikarConfig()
+        dataFetchTask?.cancel()
+        isFetchError = false
+
+        dataFetchTask = Task { @MainActor [weak self] in
+            let result = await self?.bleManager.getFrikarConfig()
+            _ = { [weak self] in
+                self?.frikarConfig = result
+                if result == nil { self?.isFetchError = true }
+            }()
+            return result
         }
     }
 
