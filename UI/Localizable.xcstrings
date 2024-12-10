@@ -771,23 +771,6 @@
         }
       }
     },
-    "HomeUpdate" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "FRIKAR Aktualisierung"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "FRIKAR Update"
-          }
-        }
-      }
-    },
     "OK" : {
       "localizations" : {
         "de" : {
@@ -1749,7 +1732,6 @@
       }
     },
     "UpdateAvailable" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1766,7 +1748,6 @@
       }
     },
     "UpdateButtonCheck" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1800,7 +1781,6 @@
       }
     },
     "UpdateButtonGet" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1817,7 +1797,6 @@
       }
     },
     "UpdateButtonTransfer" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1885,7 +1864,6 @@
       }
     },
     "UpdateCurrent" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1953,7 +1931,6 @@
       }
     },
     "UpdateIssue" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1987,7 +1964,6 @@
       }
     },
     "UpdateLicense" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2004,7 +1980,6 @@
       }
     },
     "UpdateMissingDevice" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

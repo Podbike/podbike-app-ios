@@ -4,7 +4,7 @@ class FrikarInfoViewModel: BaseViewModel {
     private weak var coordinator: BaseCoordinator?
     private let bleManager: BleManager
 
-    private var dataFetchTask: Task<FrikarConfig?, Never>?
+    private var dataFetchTask: Task<Void, Never>?
 
     @Published private(set) var frikarConfig: FrikarConfig?
     @Published private(set) var isFetchError: Bool = false
@@ -35,7 +35,6 @@ class FrikarInfoViewModel: BaseViewModel {
                 self?.frikarConfig = result
                 if result == nil { self?.isFetchError = true }
             }()
-            return result
         }
     }
 

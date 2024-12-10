@@ -67,6 +67,7 @@ class BleAutoConnectViewModel: BaseViewModel {
             Task {
                 do {
                     try await bleManager.connect(to: foundDevice)
+                    userPreferences.storeDevice(foundDevice) // update device info if needed
                     await goToDashboardScreen()
                 } catch {
                     await onConnectionError()

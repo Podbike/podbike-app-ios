@@ -48,7 +48,11 @@ class YModemController {
 
     private func read() async -> Data? {
         var operation: AnyCancellable?
-        let onCancel = { operation?.cancel() }
+        var cancelContinuation: (() -> Void)?
+        let onCancel = {
+            cancelContinuation?()
+            operation?.cancel()
+        }
         return await withTaskCancellationHandler {
             guard !Task.isCancelled else { return nil }
             return await withCheckedContinuation { continuation in
@@ -60,6 +64,9 @@ class YModemController {
                         receiveValue: {
                             continuation.resume(returning: $0)
                         })
+                cancelContinuation = {
+                    continuation.resume(returning: nil)
+                }
             }
         } onCancel: {
             onCancel()
@@ -79,7 +86,7 @@ class YModemController {
         }
 
         send(OTARequest.read, [ACK]) // Acknowledge header reception
-        await Task.sleep(millis: 100)
+//        await Task.sleep(millis: 100)
         send(OTARequest.read, [RQS_PKT]) // Request data
 
         var jsonString = ""

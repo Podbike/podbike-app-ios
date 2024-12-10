@@ -113,7 +113,7 @@ struct SettingsHeader<Content: View>: View {
 
     var body: some View {
         Section(
-            header: Text(text)
+            header: Text(text).title
                 .font(AppFont.title)
                 .foregroundColor(AppColor.text),
             content: content

@@ -1,12 +1,12 @@
-struct FrikarConfig : Decodable, Hashable {
+struct FrikarConfig : Codable, Hashable {
 
-    let productName: String
-    let releaseId: String
-    let productId: String
-    let frameNumber: String
-    let ecuModules: [EcuModule]
+    let productName: String?
+    let releaseId: String?
+    let productId: String?
+    let frameNumber: String?
+    let ecuModules: [EcuModule]?
 
-    enum CodingKeys: String, CodingKey, Decodable {
+    enum CodingKeys: String, CodingKey, Codable {
         case productName = "Product name"
         case releaseId = "ReleaseID"
         case productId = "ProductID"
@@ -15,13 +15,13 @@ struct FrikarConfig : Decodable, Hashable {
     }
 }
 
-struct EcuModule : Decodable, Hashable {
+struct EcuModule : Codable, Hashable {
 
-    let boardName: String
-    let boardId: String
-    let serialNumber: String
-    let boardPosition: String
-    let firmwareVersion: String
+    let boardName: String?
+    let boardId: String?
+    let serialNumber: String?
+    let boardPosition: String?
+    let firmwareVersion: String?
 
     enum CodingKeys: String, CodingKey, Decodable {
         case boardName = "Board name"

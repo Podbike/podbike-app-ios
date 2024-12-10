@@ -277,10 +277,19 @@ extension BleManager: CBPeripheralDelegate {
         peripheral.readValue(for: watchdogCharacteristic)
     }
 
+    // Data written
+    func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+        if let error = error {
+            logger.error("Error writting data:\(error.localizedDescription) from characteristic: \(characteristic.uuid)")
+            disconnect()
+            return
+        }
+    }
+
     // Data received
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if let error = error {
-            logger.error("Error discovering characteristics:\(error.localizedDescription) for peripheral: \(peripheral.deviceName)")
+            logger.error("Error reading data:\(error.localizedDescription) from characteristic: \(characteristic.uuid)")
             disconnect()
             return
         }
@@ -411,7 +420,7 @@ extension BleManager: YModelTransportProtocol {
         peripheral.writeValue(
             data,
             for: characteristic,
-            type: .withoutResponse
+            type: .withResponse
         )
         let str = data.map { String(format: "0x%02x", $0) }.joined(separator: ", ")
         logger.info("Sent \(data.count) bytes: \(str) via YModem")

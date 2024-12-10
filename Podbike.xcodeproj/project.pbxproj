@@ -324,6 +324,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.0;
+				OTA_BASE_URL = "https://otaprod.podbike.com/app/";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.podbike.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -423,6 +424,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.0;
+				OTA_BASE_URL = "https://otaprod.podbike.com/app/";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.podbike.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -587,6 +589,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.0;
+				OTA_BASE_URL = "https://otaprod.podbike.com/app/";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.podbike.app.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -629,6 +632,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.0;
+				OTA_BASE_URL = "https://otaprod.podbike.com/app/";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.podbike.app.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";

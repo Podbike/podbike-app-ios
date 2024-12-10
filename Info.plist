@@ -8,6 +8,8 @@
 	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>OTA_BASE_URL</key>
+	<string>$(OTA_BASE_URL)</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Poppins-Regular.ttf</string>

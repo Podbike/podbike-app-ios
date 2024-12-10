@@ -23,7 +23,7 @@ class SettingsCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelPr
     func provideView(forScreen screen: Screen) -> some View {
         switch screen {
         case .deviceSelection: CoordinatorServiceLocator.instance.provideDeviceSelectionCoordinator(parentCoordinator: self)
-        case .firmwareUpdate: CoordinatorServiceLocator.instance.provideFirmwareUpdateCoordinator(parentCoordinator: self)
+        case .firmwareUpdate: CoordinatorServiceLocator.instance.provideOtaUpdateCoordinator(parentCoordinator: self)
         case .frikarInfo: FrikarInfoServiceLocator.instance.provideFrikarInfoView(coordinator: self)
         case .policies: PoliciesServiceLocator.instance.providePoliciesView(coordinator: self)
         }

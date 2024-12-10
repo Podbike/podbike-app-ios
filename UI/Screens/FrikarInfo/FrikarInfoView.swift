@@ -1,5 +1,7 @@
 import SwiftUI
 
+private let notAvailable = "N/A"
+
 struct FrikarInfoView: View {
     @ObservedObject var viewModel: FrikarInfoViewModel
 
@@ -39,17 +41,19 @@ struct FrikarConfigView: View {
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading) {
-                Text(config.productName.uppercased())
-                    .font(Font.custom(AppFont.appFont, size: 28))
-                    .foregroundStyle(AppColor.accent)
-                    .centerHorizontally()
+                if let productName = config.productName {
+                    Text(productName.uppercased())
+                        .font(Font.custom(AppFont.appFont, size: 28))
+                        .foregroundStyle(AppColor.accent)
+                        .centerHorizontally()
+                }
 
                 AppSpacers.h(24)
 
                 DataRow("AboutDeviceProductId", config.productId)
                 DataRow("AboutDeviceFrameNumber", config.frameNumber)
 
-                ForEach(config.ecuModules, id: \.hashValue) { ecuModule in
+                ForEach(config.ecuModules ?? [], id: \.hashValue) { ecuModule in
                     AppColor.dimGray
                         .frame(height: 1)
                     EcuModuleSection(ecuModule)
@@ -63,9 +67,9 @@ struct FrikarConfigView: View {
 
 private struct DataRow: View {
     private let key: LocalizedStringKey
-    private let value: String
+    private let value: String?
 
-    init(_ key: LocalizedStringKey, _ value: String) {
+    init(_ key: LocalizedStringKey, _ value: String?) {
         self.key = key
         self.value = value
     }
@@ -74,7 +78,7 @@ private struct DataRow: View {
         HStack(alignment: .firstTextBaseline, spacing: 0) {
             Text(key).info
             Text(": ").info
-            Text(value).info
+            Text(value ?? notAvailable).info
         }
         .padding(.vertical, 2)
     }
