@@ -112,7 +112,14 @@ extension BleManager: BleManagerProtocol {
             connectingPeripheral = peripheral
             connectionFailure = nil
 
-            centralManager.connect(peripheral, options: nil)
+            if #available(iOS 17.0, *) {
+                centralManager.connect(
+                    peripheral,
+                    options: [CBConnectPeripheralOptionEnableAutoReconnect: true]
+                )
+            } else {
+                centralManager.connect(peripheral, options: nil)
+            }
 
             _ = try await connectingDevice
                 .filter { $0 == nil }
@@ -209,6 +216,8 @@ extension BleManager: CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         logger.info("Peripheral connected, discovering services...")
 
+        connectingPeripheral = peripheral
+
         // Discovers the services and characteristics to find the 'PodbikeBLEService'
         // characteristic after peripheral connection.
         peripheral.delegate = self
@@ -231,6 +240,8 @@ extension BleManager: CBCentralManagerDelegate {
             onDisconnected()
         }
     }
+
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, timestamp: CFAbsoluteTime, isReconnecting: Bool, error: Error?) {}
 }
 
 // MARK: CBPeripheralDelegate
@@ -280,7 +291,7 @@ extension BleManager: CBPeripheralDelegate {
     // Data written
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         if let error = error {
-            logger.error("Error writting data:\(error.localizedDescription) from characteristic: \(characteristic.uuid)")
+            logger.error("Error writting data: \"\(error.localizedDescription)\" to characteristic: \(characteristic.uuid)")
             disconnect()
             return
         }
@@ -289,7 +300,7 @@ extension BleManager: CBPeripheralDelegate {
     // Data received
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if let error = error {
-            logger.error("Error reading data:\(error.localizedDescription) from characteristic: \(characteristic.uuid)")
+            logger.error("Error reading data: \"\(error.localizedDescription)\" from characteristic: \(characteristic.uuid)")
             disconnect()
             return
         }
