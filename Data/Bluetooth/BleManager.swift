@@ -401,20 +401,20 @@ extension BleManager: FrikarConfigProtocol {
     }
 }
 
-// MARK: YModelTransportProtocol
+// MARK: YModemTransportProtocol
 
-extension BleManager: YModelTransportProtocol {
+extension BleManager: YModemTransportProtocol {
     var dataStream: AnyPublisher<Data, Never> {
-        return observeYModelCharacteristic(PodbikeBleService.ftpDataUUID)
+        return observeYModemCharacteristic(PodbikeBleService.ftpDataUUID)
     }
 
     var controlStream: AnyPublisher<Data, Never> {
-        return observeYModelCharacteristic(PodbikeBleService.ftpControlUUID)
+        return observeYModemCharacteristic(PodbikeBleService.ftpControlUUID)
     }
 
     func sendYModemData(_ data: Data) {
         guard let characteristic = characteristic(PodbikeBleService.ftpDataUUID), let peripheral = connectedPeripheral else {
-            logger.error("Cannot send YModel data.")
+            logger.error("Cannot send YModem data.")
             return
         }
         peripheral.writeValue(
@@ -426,7 +426,21 @@ extension BleManager: YModelTransportProtocol {
         logger.info("Sent \(data.count) bytes: \(str) via YModem")
     }
 
-    private func observeYModelCharacteristic(_ uuid: CBUUID) -> AnyPublisher<Data, Never> {
+    func sendYModemControl(_ data: Data) {
+        guard let characteristic = characteristic(PodbikeBleService.ftpControlUUID), let peripheral = connectedPeripheral else {
+            logger.error("Cannot send YModem control data.")
+            return
+        }
+        peripheral.writeValue(
+            data,
+            for: characteristic,
+            type: .withResponse
+        )
+        let str = data.map { String(format: "0x%02x", $0) }.joined(separator: ", ")
+        logger.info("Sent \(data.count) constol bytes: \(str) via YModem")
+    }
+
+    private func observeYModemCharacteristic(_ uuid: CBUUID) -> AnyPublisher<Data, Never> {
         guard let characteristic = characteristic(uuid), let peripheral = connectedPeripheral else { return Empty().eraseToAnyPublisher() }
 
         peripheral.setNotifyValue(true, for: characteristic)
@@ -460,5 +474,9 @@ extension BleManager: OtaFileTransferProtocol {
             .store(in: &cancellables)
 
         return progress
+    }
+
+    func runUpgrade() {
+        ymodemController.runUpgrade()
     }
 }

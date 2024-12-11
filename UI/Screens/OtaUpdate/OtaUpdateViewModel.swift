@@ -150,6 +150,7 @@ class OtaUpdateViewModel: BaseViewModel {
     @MainActor
     func goToUpgradeScreen() {
         coordinator?.showOtaUpgradeScreen()
+        otaUpdateManager.runUpgrade()
     }
 
     @MainActor

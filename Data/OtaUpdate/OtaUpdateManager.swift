@@ -75,6 +75,11 @@ class OtaUpdateManager: OtaUpdateManagerProtocol {
     func transferFile(_ otaFile: OtaFile) throws -> OtaTransferProgress {
         try fileTransferHandler.transferFile(otaFile)
     }
+
+    func runUpgrade() {
+        // TODO - error handling, status handling
+        // fileTransferHandler.runUpgrade() // TODO - uncomment when ready for testing
+    }
 }
 
 enum OtaUpdateError: Error {

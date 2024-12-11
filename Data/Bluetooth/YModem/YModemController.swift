@@ -32,45 +32,13 @@ private let blockLength = 133 // <SOH><blk #><255-blk #><--128 data bytes--><cks
 
 // MARK: YMODEM Controller
 
-class YModemController {
-    private let transport: YModelTransportProtocol
+class YModemController: YModemControllerProtocol {
+    private let transport: YModemTransportProtocol
 
     let logger = os.Logger(subsystem: "com.podbike.app.YModem", category: "YModemController")
 
-    init(transport: YModelTransportProtocol) {
+    init(transport: YModemTransportProtocol) {
         self.transport = transport
-    }
-
-    private func send(_ requestType: OTARequest, _ bytes: [UInt8]) {
-        let data = Data([requestType.rawValue] + bytes)
-        transport.sendYModemData(data)
-    }
-
-    private func read() async -> Data? {
-        var operation: AnyCancellable?
-        var cancelContinuation: (() -> Void)?
-        let onCancel = {
-            cancelContinuation?()
-            operation?.cancel()
-        }
-        return await withTaskCancellationHandler {
-            guard !Task.isCancelled else { return nil }
-            return await withCheckedContinuation { continuation in
-                operation = transport.dataStream
-                    .sink(
-                        receiveCompletion: { _ in
-                            continuation.resume(returning: nil)
-                        },
-                        receiveValue: {
-                            continuation.resume(returning: $0)
-                        })
-                cancelContinuation = {
-                    continuation.resume(returning: nil)
-                }
-            }
-        } onCancel: {
-            onCancel()
-        }
     }
 
     func getFrikarConfig() async -> FrikarConfig? {
@@ -110,6 +78,43 @@ class YModemController {
         return try? JSONDecoder().decode(FrikarConfig.self, from: Data(jsonString.utf8))
     }
 
+    func runUpgrade() {
+        let command = OTARequest.update.rawValue
+        transport.sendYModemControl(Data([command]))
+    }
+
+    private func send(_ requestType: OTARequest, _ bytes: [UInt8]) {
+        let data = Data([requestType.rawValue] + bytes)
+        transport.sendYModemData(data)
+    }
+
+    private func read() async -> Data? {
+        var operation: AnyCancellable?
+        var cancelContinuation: (() -> Void)?
+        let onCancel = {
+            cancelContinuation?()
+            operation?.cancel()
+        }
+        return await withTaskCancellationHandler {
+            guard !Task.isCancelled else { return nil }
+            return await withCheckedContinuation { continuation in
+                operation = transport.dataStream
+                    .sink(
+                        receiveCompletion: { _ in
+                            continuation.resume(returning: nil)
+                        },
+                        receiveValue: {
+                            continuation.resume(returning: $0)
+                        })
+                cancelContinuation = {
+                    continuation.resume(returning: nil)
+                }
+            }
+        } onCancel: {
+            onCancel()
+        }
+    }
+
     private func getBlockPayload(_ block: Data?) -> Data? {
         guard let block = block, isBlockValid(block) else { return nil }
         let dataBlock = block[3 ..< 128 + 3]
@@ -123,5 +128,3 @@ class YModemController {
         // TODO: - validate checksum
     }
 }
-
-extension AnyCancellable: @unchecked @retroactive Sendable {}
