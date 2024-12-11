@@ -15,9 +15,27 @@ extension CBPeripheral: BleDevice {
     }
 }
 
+struct ScannedDevice: BleDevice {
+    let peripheral: CBPeripheral
+    let advertisedName: String?
+
+    init(_ peripheral: CBPeripheral, advertisedName: String?) {
+        self.peripheral = peripheral
+        self.advertisedName = advertisedName
+    }
+
+    var deviceId: String {
+        peripheral.deviceId
+    }
+
+    var deviceName: String {
+        return advertisedName ?? peripheral.deviceName
+    }
+}
+
 struct StoredDevice: BleDevice, Codable {
-    var deviceId: String
-    var deviceName: String
+    let deviceId: String
+    let deviceName: String
 
     init(_ device: BleDevice) {
         self.deviceId = device.deviceId

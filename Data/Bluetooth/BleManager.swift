@@ -207,8 +207,15 @@ extension BleManager: CBCentralManagerDelegate {
 
         logger.info("Discovered \"\(peripheral.deviceName)\" at \(RSSI.intValue)dBm")
 
+        let advertisedName = advertisementData["kCBAdvDataLocalName"] as? String
+        let peripheralName = peripheral.name
+        if advertisedName != peripheralName {
+            logger.error("Peripheral advertised name \"\(advertisedName ?? "")\" does not match the cached GAP name \"\(peripheralName ?? "")\"")
+        }
+
         if !scannedDevices.value.contains(where: { $0.deviceId == peripheral.deviceId }) {
-            scannedDevices.value.append(peripheral)
+            let scannedDevice = ScannedDevice(peripheral, advertisedName: advertisedName)
+            scannedDevices.value.append(scannedDevice)
         }
     }
 
@@ -336,6 +343,10 @@ extension BleManager: CBPeripheralDelegate {
             logger.error("Podbike service invalidated - running re-discovery")
             peripheral.discoverServices([PodbikeBleService.serviceUUID])
         }
+    }
+
+    func peripheralDidUpdateName(_ peripheral: CBPeripheral) {
+        logger.warning("Podbike device name has changed to: \(peripheral.name ?? "")")
     }
 }
 
