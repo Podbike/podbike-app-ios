@@ -6,7 +6,8 @@ class OtaUpdateServiceLocator {
         coordinator: coordinator,
         otaUpdateManager: OtaUpdateManager(
             otaService: OtaService(),
-            frikarConfigProvider: BleManager.instance
+            frikarConfigProvider: BleManager.instance,
+            fileTransferHandler: BleManager.instance
         )
     )
 
@@ -22,5 +23,13 @@ class OtaUpdateServiceLocator {
 
     func provideOtaUpdateLicenseView() -> some View {
         return OtaUpdateLicenseView(viewModel: otaUpdateViewModel)
+    }
+
+    func provideOtaUpdateTransferView() -> some View {
+        return OtaUpdateTransferView(viewModel: otaUpdateViewModel)
+    }
+
+    func provideOtaUpgradeView() -> some View {
+        return OtaUpgradeView(viewModel: otaUpdateViewModel)
     }
 }

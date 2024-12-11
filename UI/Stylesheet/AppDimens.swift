@@ -15,6 +15,8 @@ enum AppSpacers {
     static let w8: some View = Spacer().frame(width: 8)
     static let w12: some View = Spacer().frame(width: 12)
     static let w16: some View = Spacer().frame(width: 16)
+    static let w24: some View = Spacer().frame(width: 24)
+    static let w32: some View = Spacer().frame(width: 32)
     static let w48: some View = Spacer().frame(width: 48)
     static let w64: some View = Spacer().frame(width: 64)
 
@@ -22,6 +24,7 @@ enum AppSpacers {
     static let h8: some View = Spacer().frame(height: 8)
     static let h12: some View = Spacer().frame(height: 12)
     static let h16: some View = Spacer().frame(height: 16)
+    static let h24: some View = Spacer().frame(height: 24)
     static let h32: some View = Spacer().frame(height: 32)
     static let h48: some View = Spacer().frame(height: 48)
     static let h64: some View = Spacer().frame(height: 64)

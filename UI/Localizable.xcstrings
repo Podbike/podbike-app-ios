@@ -1813,7 +1813,6 @@
       }
     },
     "UpdateButtonUpgrade" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1913,8 +1912,18 @@
         }
       }
     },
+    "UpdateDownloading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloading update files from server…"
+          }
+        }
+      }
+    },
     "UpdateFiles" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1968,13 +1977,30 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "License Agreement"
+            "value" : "Lizenzvereinbarung"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "License Agreement"
+          }
+        }
+      }
+    },
+    "UpdateLicenseLoadError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Lizenz konnte zu diesem Zeitpunkt nicht geladen werden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The license could not be loaded at this time."
           }
         }
       }
@@ -1996,7 +2022,6 @@
       }
     },
     "UpdateOutOf" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2029,7 +2054,6 @@
       }
     },
     "UpdateSent" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2046,7 +2070,6 @@
       }
     },
     "UpdateTransfer" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2063,7 +2086,6 @@
       }
     },
     "UpdateTransferComplete" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2080,18 +2102,17 @@
       }
     },
     "UpdateTransferInfo" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Derzeit werden Dateien zwischen Cloud-Server und FRIKAR über die mobile Anwendung übertragen."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Currently transferring files between cloud server and FRIKAR via the mobiile application"
+            "value" : "Currently transferring files between cloud server and FRIKAR via the mobile application"
           }
         }
       }
@@ -2114,7 +2135,6 @@
       }
     },
     "UpdateUpgradeInfo1" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2131,7 +2151,6 @@
       }
     },
     "UpdateUpgradeInfo2" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2143,6 +2162,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "You will not be able to navigate away from this page until this process is complete."
+          }
+        }
+      }
+    },
+    "UpdateUpgradeInfo3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Die Blinker Ihres Fahrrads blinken während des Vorgangs und starten von selbst wieder. Bitte bewegen Sie das Fahrrad während dieses Vorgangs nicht und schalten Sie es nicht aus."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your bike turn indicators will be blinking during the process and will restart by itself. Please do not move or switch off the bike during this operation."
           }
         }
       }

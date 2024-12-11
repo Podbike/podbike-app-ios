@@ -4,6 +4,8 @@ import SwiftUI
 class OtaUpdateCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtocol {
     enum Screen: BaseScreen {
         case otaLicense
+        case otaTransfer
+        case otaUpgrade
     }
 
     let parentCoordinator: BaseCoordinator?
@@ -21,6 +23,8 @@ class OtaUpdateCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelP
     func provideView(forScreen screen: Screen) -> some View {
         switch screen {
         case .otaLicense: serviceLocator.provideOtaUpdateLicenseView()
+        case .otaTransfer: serviceLocator.provideOtaUpdateTransferView()
+        case .otaUpgrade: serviceLocator.provideOtaUpgradeView()
         }
     }
 
@@ -30,9 +34,18 @@ class OtaUpdateCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelP
     }
 
     @MainActor
+    func showOtaTransferScreen() {
+        show(.otaTransfer)
+    }
+
+    @MainActor
+    func showOtaUpgradeScreen() {
+        show(.otaUpgrade)
+    }
+
+    @MainActor
     func dismissUpdate() {
-        routes.goBackToRoot()
-        parentCoordinator?.dismiss()
+        parentCoordinator?.goBackToCoordinatorRoot()
     }
 }
 

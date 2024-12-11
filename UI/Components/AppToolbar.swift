@@ -1,16 +1,27 @@
 import SwiftUI
 
+private var canGoBack = true
+
 extension View {
-    func toolbar(title: LocalizedStringKey, onBack: @escaping @MainActor () -> Void) -> some View {
-        self
+    func toolbar(
+        title: LocalizedStringKey,
+        showBackButton: Bool = true,
+        onBack: @escaping @MainActor () -> Void
+    ) -> some View {
+        canGoBack = showBackButton
+        return self
             .navigationBarBackButtonHidden()
             .toolbar {
                 ToolbarItemGroup(placement: .topBarLeading) {
                     HStack {
-                        Button(action: onBack) {
-                            AppIcon.arrowLeft.size(48).foregroundStyle(AppColor.white)
+                        if showBackButton {
+                            Button(action: onBack) {
+                                AppIcon.arrowLeft.size(48).foregroundStyle(AppColor.white)
+                            }
+                            .padding(AppDimens.padding16)
+                        } else {
+                            Spacer()
                         }
-                        .padding(AppDimens.padding16)
 
                         Text(title).pageTitle
                             .padding([.top, .bottom, .trailing], AppDimens.padding16)
@@ -28,7 +39,8 @@ private class NavigationGestureDelegate: NSObject, UIGestureRecognizerDelegate {
 
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         guard let navigationController else { return false }
-        return navigationController.viewControllers.count > 1
+        let isAtRoot = navigationController.viewControllers.count <= 1
+        return canGoBack && !isAtRoot
     }
 }
 

@@ -9,7 +9,7 @@ private let STX: UInt8 = 0x02 // Start Transmission
 private let EOT: UInt8 = 0x04 // End Of Transfer
 private let ACK: UInt8 = 0x06 // Acknowledgment
 private let NACK: UInt8 = 0x15 // No Acknowledgment
-private let CAN: UInt8 = 0x18 // graceful abort
+private let CAN: UInt8 = 0x18 // Communication Abort Notification
 private let RQS_PKT: UInt8 = 0x43 // Request Packet ("C" YModem byte)
 
 private let ABORT = [CAN, CAN]

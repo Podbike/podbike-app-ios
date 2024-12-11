@@ -58,11 +58,15 @@ struct SettingsCoordinator: View {
     }
 
     public var body: some View {
-        FlowStack($viewModel.routes, withNavigation: true) {
+        if viewModel.routes.count == 0 {
             viewModel.rootView
-                .flowDestination(for: SettingsCoordinatorViewModel.Screen.self) { screen in
-                    viewModel.provideView(forScreen: screen)
-                }
+        } else {
+            FlowStack($viewModel.routes, withNavigation: true) {
+                viewModel.rootView
+                    .flowDestination(for: SettingsCoordinatorViewModel.Screen.self) { screen in
+                        viewModel.provideView(forScreen: screen)
+                    }
+            }
         }
     }
 }

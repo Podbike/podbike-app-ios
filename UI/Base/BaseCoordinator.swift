@@ -60,6 +60,11 @@ public extension BaseCoordinatorViewModelProtocol {
         }
     }
 
+    @MainActor
+    func goBackToCoordinatorRoot() {
+        routes.goBackToRoot()
+    }
+
     var canGoBack: Bool {
         routes.canGoBack()
     }

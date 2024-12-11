@@ -12,6 +12,22 @@ class OtaUpdateViewModel: BaseViewModel {
     @Published var updateCheckError: Error?
     @Published var otaLicense: String = ""
 
+    @Published private(set) var isDownloadingOtaFiles: Bool = false
+    @Published private(set) var isTransferingOtaFiles: Bool = false
+    @Published private(set) var isTransferFinished: Bool = false
+
+    @Published private(set) var otaUpdateFiles: OtaUpdateFiles?
+    @Published var transferError: Error?
+    @Published var showTransferError: Bool = false
+
+    struct TransferProgress {
+        var fileProgress: Double = 0
+        var currentFile: Int = 0
+        var totalFiles: Int = 0
+    }
+
+    @Published var fileTransferProgress = TransferProgress()
+
     init(
         coordinator: OtaUpdateCoordinatorViewModel?,
         otaUpdateManager: OtaUpdateManagerProtocol
@@ -38,7 +54,10 @@ class OtaUpdateViewModel: BaseViewModel {
         updateCheckTask = Task { @MainActor [weak self] in
             do {
                 let isUpdateAvailable = try await self?.otaUpdateManager.isUpdateAvailable()
-                _ = { [weak self] in self?.isUpdateAvailable = isUpdateAvailable }()
+                _ = { [weak self] in
+                    self?.isUpdateAvailable = isUpdateAvailable
+                    self?.fetchLicense()
+                }()
             } catch {
                 self?.updateCheckError = error
                 self?.showUpdateCheckError = true
@@ -50,8 +69,67 @@ class OtaUpdateViewModel: BaseViewModel {
     func fetchLicense() {
         Task { @MainActor [weak self] in
             let otaLicense = try? await self?.otaUpdateManager.getOtaUpdateLicense()
-            _ = { [weak self] in self?.otaLicense = otaLicense ?? "" }()
+            let licenseText = otaLicense ?? String(localized: "UpdateLicenseLoadError")
+            _ = { [weak self] in self?.otaLicense = licenseText }()
         }
+    }
+
+    func transferFiles() {
+        Task { @MainActor in
+            isTransferFinished = false
+
+            guard let files = await downloadOtaUpdateFiles() else {
+                transferError = OtaUpdateError.downloadError
+                return
+            }
+
+            await transferFiles(files)
+
+            isTransferFinished = true
+        }
+    }
+
+    @MainActor
+    private func downloadOtaUpdateFiles() async -> OtaUpdateFiles? {
+        isDownloadingOtaFiles = true
+        do {
+            let otaUpdateFiles = try await otaUpdateManager.downloadOtaUpdateFiles()
+            _ = { [weak self] in self?.otaUpdateFiles = otaUpdateFiles }()
+        } catch {
+            transferError = error
+            showTransferError = true
+        }
+        isDownloadingOtaFiles = false
+        return otaUpdateFiles
+    }
+
+    @MainActor
+    private func transferFiles(_ otaUpdateFiles: OtaUpdateFiles) async {
+        isTransferingOtaFiles = true
+        do {
+            let firmwareFiles = otaUpdateFiles.firmwareFiles
+            for (fileIndex, firmwareFile) in firmwareFiles.enumerated() {
+                let fileProgress = try otaUpdateManager.transferFile(firmwareFile)
+
+                await withCheckedContinuation { continuation in
+                    fileProgress.sink(
+                        receiveCompletion: { _ in continuation.resume() },
+                        receiveValue: { [weak self] progress in
+                            self?.fileTransferProgress = TransferProgress(
+                                fileProgress: progress,
+                                currentFile: fileIndex + 1,
+                                totalFiles: firmwareFiles.count
+                            )
+                        }
+                    )
+                    .store(in: &cancellables)
+                }
+            }
+        } catch {
+            transferError = error
+            showTransferError = true
+        }
+        isTransferingOtaFiles = false
     }
 
     @MainActor
@@ -62,6 +140,16 @@ class OtaUpdateViewModel: BaseViewModel {
     @MainActor
     func goToLicenseScreen() {
         coordinator?.showLicenseScreen()
+    }
+
+    @MainActor
+    func goToOtaTransferScreen() {
+        coordinator?.showOtaTransferScreen()
+    }
+
+    @MainActor
+    func goToUpgradeScreen() {
+        coordinator?.showOtaUpgradeScreen()
     }
 
     @MainActor

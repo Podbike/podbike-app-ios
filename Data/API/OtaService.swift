@@ -32,21 +32,27 @@ class OtaService: OtaServiceProtocol {
         return updateInfo
     }
 
-    func getLicenseFile(_ fileName: String) async throws -> Data {
-        let url = URL(string: "licenses/\(fileName)", relativeTo: baseOtaUrl)!
-        let (data, _) = try await urlSession.data(from: url)
+    private func getFile(_ fileName: String) async throws -> Data {
+        let url = URL(string: fileName, relativeTo: baseOtaUrl)!
+        let (data, response) = try await urlSession.data(from: url)
+        if let httpUrlResponse = response as? HTTPURLResponse {
+            let contentType = httpUrlResponse.allHeaderFields["Content-Type"] as? String
+            if contentType?.contains("text/html") == true {
+                throw URLError(.cannotParseResponse)
+            }
+        }
         return data
+    }
+
+    func getLicenseFile(_ fileName: String) async throws -> Data {
+        try await getFile("licenses/\(fileName)")
     }
 
     func getFirmwareFile(_ fileName: String) async throws -> Data {
-        let url = URL(string: "firmware/\(fileName)", relativeTo: baseOtaUrl)!
-        let (data, _) = try await urlSession.data(from: url)
-        return data
+        try await getFile("firmware/\(fileName)")
     }
 
     func getAudioFile(_ fileName: String) async throws -> Data {
-        let url = URL(string: "audio/\(fileName)", relativeTo: baseOtaUrl)! //TODO - check path
-        let (data, _) = try await urlSession.data(from: url)
-        return data
+        try await getFile("audio/\(fileName)") //TODO - check path
     }
 }

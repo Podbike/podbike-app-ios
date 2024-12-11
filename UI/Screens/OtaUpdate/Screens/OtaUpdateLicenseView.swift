@@ -12,47 +12,45 @@ struct OtaUpdateLicenseView: View {
             AppColor.backgroundGradient
                 .ignoresSafeArea()
 
-            ScrollView {
-                VStack(alignment: .leading) {
-                    Text("UpdateLicense").headline
-                    AppSpacers.h8
-                    Text(viewModel.otaLicense).info
-                }
-                .alignLeft()
-            }
-            .padding(.horizontal, AppDimens.padding16)
-            .padding(.top, AppDimens.padding32)
-            .padding(.bottom, 150)
-
             VStack {
-                Button(
-                    "UpdateButtonTransfer",
-                    action: {}
-                )
-                .buttonStyle(AppButton.primaryProminent)
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        Text("UpdateLicense").headline
+                        AppSpacers.h16
+                        Text(viewModel.otaLicense).info
+                    }
+                    .alignLeft()
+                }
+                .padding(.horizontal, AppDimens.padding16)
+                .padding(.vertical, AppDimens.padding32)
 
-                Button(
-                    "Cancel",
-                    action: viewModel.goBackToSettings
-                )
-                .buttonStyle(AppButton.secondary)
+                Spacer()
+
+                VStack {
+                    Button(
+                        "UpdateButtonTransfer",
+                        action: viewModel.goToOtaTransferScreen
+                    )
+                    .buttonStyle(AppButton.primaryProminent)
+
+                    Button(
+                        "Cancel",
+                        action: viewModel.goBackToSettings
+                    )
+                    .buttonStyle(AppButton.secondary)
+                }
             }
-            .centerHorizontally()
-            .alignBottom()
         }
         .alert(errorText, isPresented: $viewModel.showUpdateCheckError) {}
         .toolbar(
             title: "UpdatePageTitle",
             onBack: viewModel.dismiss
         )
-        .onAppear {
-            viewModel.fetchLicense()
-        }
     }
 
     private var errorText: String {
         let error = viewModel.updateCheckError
-        var errorText = error?.localizedDescription ?? String(localized: "UpdateIssue")
+        let errorText = error?.localizedDescription ?? String(localized: "UpdateIssue")
         return errorText
     }
 }

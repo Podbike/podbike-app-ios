@@ -442,3 +442,23 @@ extension BleManager: YModelTransportProtocol {
         return _value.eraseToAnyPublisher()
     }
 }
+
+// MARK: OtaFileTransferProtocol
+
+extension BleManager: OtaFileTransferProtocol {
+    func transferFile(_ otaFile: OtaFile) -> OtaTransferProgress {
+        let progress = OtaTransferProgress(0)
+
+        Timer.publish(every: 0.01, on: .main, in: .default)
+            .autoconnect()
+            .sink { _ in
+                progress.value += 1
+                if progress.value >= 100 {
+                    progress.send(completion: .finished)
+                }
+            }
+            .store(in: &cancellables)
+
+        return progress
+    }
+}
