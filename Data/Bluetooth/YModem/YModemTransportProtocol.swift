@@ -1,10 +1,12 @@
 import Foundation
 import Combine
 
-protocol YModemTransportProtocol {
-    var dataStream: AnyPublisher<Data, Never> { get }
-    var controlStream: AnyPublisher<Data, Never> { get }
+typealias YModemStream = AnyPublisher<Data, Never>
 
-    func sendYModemData(_ data: Data)
+protocol YModemTransportProtocol {
+    var dataStream: YModemStream { get }
+    var controlStream: YModemStream { get }
+
+    func sendYModemData(_ data: Data, withResponse: Bool)
     func sendYModemControl(_ data: Data)
 }

@@ -5,7 +5,13 @@ struct OtaUpdateFiles {
     let audioFiles: [OtaFile]
 }
 
+enum OtaFileType {
+    case firmware
+    case audio
+}
+
 struct OtaFile {
-    let name: String
+    let type: OtaFileType
+    let fileName: String
     let data: Data
 }

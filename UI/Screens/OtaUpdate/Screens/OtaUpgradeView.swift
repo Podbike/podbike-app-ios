@@ -30,11 +30,11 @@ struct OtaUpgradeView: View {
 
                 Spacer()
 
-                Button(
-                    "Cancel",
-                    action: viewModel.goBackToSettings
-                )
-                .buttonStyle(AppButton.secondary)
+//                Button(
+//                    "Cancel",
+//                    action: viewModel.goBackToSettings
+//                )
+//                .buttonStyle(AppButton.secondary)
             }
         }
         .toolbar(

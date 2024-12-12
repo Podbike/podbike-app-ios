@@ -77,13 +77,18 @@ struct OtaUpdateTransferView: View {
             .opacity(viewModel.isTransferFinished ? 1 : 0)
         }
         .alert(updateCheckErrorText, isPresented: $viewModel.showUpdateCheckError) {}
-        .alert(transferErrorText, isPresented: $viewModel.showTransferError) {}
+        .alert(transferErrorText, isPresented: $viewModel.showTransferError) {
+            Button("OK") { viewModel.goBackToSettings() }
+        }
         .toolbar(
             title: "UpdatePageTitle",
             onBack: viewModel.dismiss
         )
         .onAppear {
             viewModel.transferFiles()
+        }
+        .onDisappear {
+            viewModel.stopTransfer()
         }
     }
 
@@ -95,7 +100,12 @@ struct OtaUpdateTransferView: View {
 
     private var transferErrorText: String {
         let error = viewModel.transferError
-        let errorText = error?.localizedDescription ?? String(localized: "UpdateIssue")
+        var errorText: String = ""
+        if let error = error as? OtaUpdateError, case error = OtaUpdateError.transferError {
+            errorText = String(localized: "UpdateIssue")
+        } else {
+            errorText = error?.localizedDescription ?? String(localized: "UpdateIssue")
+        }
         return errorText
     }
 

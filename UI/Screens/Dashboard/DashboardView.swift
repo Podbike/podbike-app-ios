@@ -81,17 +81,9 @@ struct DashboardView: View {
                 }
                 .padding(.vertical, AppDimens.padding16)
 
-                // TODO: - temporary debug info
-                ZStack {
-                    if let connectedDevice = viewModel.connectedDevice {
-                        Text("Connected to: \(connectedDevice.deviceName)").label
-                    } else {
-                        Text("Disconnected")
-                            .font(AppFont.title)
-                            .foregroundStyle(AppColor.alert)
-                    }
-                }
-                .padding(.top, -AppDimens.padding16)
+                #if DEBUG
+                ConnectionDebugInfo(viewModel: viewModel)
+                #endif
             }
             .navigationBarBackButtonHidden()
             .colorScheme(.dark)
@@ -301,16 +293,16 @@ private struct CadenceLevel: View {
             ForEach(1 ... levels, id: \.self) { level in
                 let levelIsOn = level <= selectedLevel
                 RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                .fill(
-                    levelIsOn ? AppColor.accent : AppColor.indicatorBackground
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                        .strokeBorder(Color.black, lineWidth: 1)
-                )
-                .frame(width: rectSize, height: rectSize)
-                .rotationEffect(.degrees(45))
-                .padding(.horizontal, -elementNegativePadding)
+                    .fill(
+                        levelIsOn ? AppColor.accent : AppColor.indicatorBackground
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                            .strokeBorder(Color.black, lineWidth: 1)
+                    )
+                    .frame(width: rectSize, height: rectSize)
+                    .rotationEffect(.degrees(45))
+                    .padding(.horizontal, -elementNegativePadding)
 
                 if level != levels {
                     Spacer(minLength: 0)
@@ -319,6 +311,25 @@ private struct CadenceLevel: View {
         }
         .padding(.horizontal, horizontalPadding)
         .padding(.vertical, shapePadding)
+    }
+}
+
+// MARK: TopButtons
+
+private struct ConnectionDebugInfo: View {
+    @ObservedObject var viewModel: DashboardViewModel
+
+    var body: some View {
+        ZStack {
+            if let connectedDevice = viewModel.connectedDevice {
+                Text("Connected to: \(connectedDevice.deviceName)").label
+            } else {
+                Text("Disconnected")
+                    .font(AppFont.title)
+                    .foregroundStyle(AppColor.alert)
+            }
+        }
+        .padding(.top, -AppDimens.padding16)
     }
 }
 

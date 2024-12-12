@@ -1,5 +1,5 @@
-import Foundation
 import Combine
+import Foundation
 
 class OtaUpdateManager: OtaUpdateManagerProtocol {
     private let otaService: OtaServiceProtocol
@@ -10,8 +10,8 @@ class OtaUpdateManager: OtaUpdateManagerProtocol {
 
     init(otaService: OtaServiceProtocol,
          frikarConfigProvider: FrikarConfigProtocol,
-         fileTransferHandler: OtaFileTransferProtocol
-    ) {
+         fileTransferHandler: OtaFileTransferProtocol)
+    {
         self.otaService = otaService
         self.frikarConfigProvider = frikarConfigProvider
         self.fileTransferHandler = fileTransferHandler
@@ -51,20 +51,31 @@ class OtaUpdateManager: OtaUpdateManagerProtocol {
             throw OtaUpdateError.updateInfoMissing
         }
 
-        let otaUpdateFiles = try await withThrowingTaskGroup(of: (String, Data).self) { group in
-            let firmwareFiles = resource.firmwareModules?.map(\.fileName).compactMap { $0 }
-            firmwareFiles?.forEach { fileName in
+        let otaUpdateFiles = try await withThrowingTaskGroup(of: (OtaFileType, String, Data).self) { group in
+            let firmwareFiles = resource.firmwareModules?.map(\.fileName).compactMap { $0 } ?? []
+            let audioFiles = updateInfo.audioFiles?.compactMap { $0 } ?? []
+
+            for fileName in firmwareFiles {
                 group.addTask {
-                    try (fileName, await self.otaService.getFirmwareFile(fileName))
+                    let fileData = try await self.otaService.getFirmwareFile(fileName)
+                    return (OtaFileType.firmware, fileName, fileData)
                 }
             }
 
-            let firmwareFilesData = try await group.reduce(into: [:]) { dictionary, result in
-                dictionary[result.0] = result.1
+            for fileName in audioFiles {
+                group.addTask {
+                    let fileData = try await self.otaService.getAudioFile(fileName)
+                    return (OtaFileType.audio, fileName, fileData)
+                }
+            }
+
+            let otaFiles = try await group.reduce(into: [OtaFile]()) { array, result in
+                let otaFile = OtaFile(type: result.0, fileName: result.1, data: result.2)
+                array.append(otaFile)
             }
 
             return OtaUpdateFiles(
-                firmwareFiles: firmwareFilesData.map { key, value in OtaFile(name: key, data: value) },
+                firmwareFiles: otaFiles.filter { $0.type == OtaFileType.firmware },
                 audioFiles: []
             )
         }
@@ -72,13 +83,17 @@ class OtaUpdateManager: OtaUpdateManagerProtocol {
         return otaUpdateFiles
     }
 
-    func transferFile(_ otaFile: OtaFile) throws -> OtaTransferProgress {
-        try fileTransferHandler.transferFile(otaFile)
+    func transferFile(_ otaFile: OtaFile) -> OtaTransferProgress {
+        fileTransferHandler.transferFile(otaFile)
+    }
+
+    func abortTransfer() {
+        fileTransferHandler.abortTransfer()
     }
 
     func runUpgrade() {
-        // TODO - error handling, status handling
-        // fileTransferHandler.runUpgrade() // TODO - uncomment when ready for testing
+        // TODO: - error handling, status handling
+        fileTransferHandler.runUpgrade()
     }
 }
 
@@ -87,5 +102,5 @@ enum OtaUpdateError: Error {
     case updateInfoMissing
     case downloadError
     case transferError
-    case generalError
+    case transferCancelled
 }

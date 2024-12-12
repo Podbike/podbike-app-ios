@@ -7,7 +7,7 @@ class BleManager: NSObject {
     static let instance = BleManager()
 
     private lazy var centralManager: CBCentralManager! = initBleManager()
-    private lazy var ymodemController = YModemController(transport: self)
+    private(set) lazy var ymodemController = YModemController(transport: self)
 
     var bleState = CurrentValueSubject<BleState, Never>(.unknown)
 
@@ -434,7 +434,7 @@ extension BleManager: YModemTransportProtocol {
         return observeYModemCharacteristic(PodbikeBleService.ftpControlUUID)
     }
 
-    func sendYModemData(_ data: Data) {
+    func sendYModemData(_ data: Data, withResponse: Bool) {
         guard let characteristic = characteristic(PodbikeBleService.ftpDataUUID), let peripheral = connectedPeripheral else {
             logger.error("Cannot send YModem data.")
             return
@@ -442,7 +442,7 @@ extension BleManager: YModemTransportProtocol {
         peripheral.writeValue(
             data,
             for: characteristic,
-            type: .withResponse
+            type: withResponse ? .withResponse : .withoutResponse
         )
         let str = data.map { String(format: "0x%02x", $0) }.joined(separator: ", ")
         logger.info("Sent \(data.count) bytes: \(str) via YModem")
@@ -458,8 +458,9 @@ extension BleManager: YModemTransportProtocol {
             for: characteristic,
             type: .withResponse
         )
+
         let str = data.map { String(format: "0x%02x", $0) }.joined(separator: ", ")
-        logger.info("Sent \(data.count) constol bytes: \(str) via YModem")
+        logger.info("Sent \(data.count) control bytes: \(str) via YModem")
     }
 
     private func observeYModemCharacteristic(_ uuid: CBUUID) -> AnyPublisher<Data, Never> {
@@ -476,29 +477,5 @@ extension BleManager: YModemTransportProtocol {
             )
             .store(in: &cancellables)
         return _value.eraseToAnyPublisher()
-    }
-}
-
-// MARK: OtaFileTransferProtocol
-
-extension BleManager: OtaFileTransferProtocol {
-    func transferFile(_ otaFile: OtaFile) -> OtaTransferProgress {
-        let progress = OtaTransferProgress(0)
-
-        Timer.publish(every: 0.01, on: .main, in: .default)
-            .autoconnect()
-            .sink { _ in
-                progress.value += 1
-                if progress.value >= 100 {
-                    progress.send(completion: .finished)
-                }
-            }
-            .store(in: &cancellables)
-
-        return progress
-    }
-
-    func runUpgrade() {
-        ymodemController.runUpgrade()
     }
 }

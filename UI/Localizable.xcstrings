@@ -2058,13 +2058,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geschickt"
+            "value" : "Versendung"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sent"
+            "value" : "Sending"
           }
         }
       }
@@ -2112,7 +2112,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Currently transferring files between cloud server and FRIKAR via the mobile application"
+            "value" : "Transferring files between cloud server and FRIKAR via the mobile application…"
           }
         }
       }

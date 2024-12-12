@@ -4,7 +4,11 @@ class SplashViewModel: BaseViewModel {
     private weak var coordinator: AppCoordinatorViewModel?
 
     enum Constants {
+#if DEBUG
+        static let splashDurationInSeconds = 0.0
+#else
         static let splashDurationInSeconds = 2.0
+#endif
     }
 
     init(coordinator: AppCoordinatorViewModel?) {

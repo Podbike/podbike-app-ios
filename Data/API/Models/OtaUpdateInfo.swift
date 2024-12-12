@@ -2,7 +2,7 @@ import Foundation
 
 struct OtaUpdateInfo: Decodable, Hashable {
     let resource: [OtaResource]
-    let audioFiles: [String]?
+    let audioFiles: [String?]?
 
     enum CodingKeys: String, CodingKey, Decodable {
         case resource

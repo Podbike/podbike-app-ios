@@ -5,6 +5,7 @@ class OtaUpdateViewModel: BaseViewModel {
     private let otaUpdateManager: OtaUpdateManagerProtocol
 
     private var updateCheckTask: Task<Void, Never>?
+    private var transferTask: Task<Void, Never>?
 
     @Published private(set) var isCheckingForUpdate: Bool = false
     @Published private(set) var isUpdateAvailable: Bool?
@@ -42,6 +43,7 @@ class OtaUpdateViewModel: BaseViewModel {
 
     deinit {
         updateCheckTask?.cancel()
+        transferTask?.cancel()
     }
 
     func checkForUpdate() {
@@ -75,7 +77,10 @@ class OtaUpdateViewModel: BaseViewModel {
     }
 
     func transferFiles() {
-        Task { @MainActor in
+        transferTask?.cancel()
+        isTransferFinished = false
+
+        transferTask = Task { @MainActor in
             isTransferFinished = false
 
             guard let files = await downloadOtaUpdateFiles() else {
@@ -83,14 +88,19 @@ class OtaUpdateViewModel: BaseViewModel {
                 return
             }
 
-            await transferFiles(files)
-
-            isTransferFinished = true
+            isTransferFinished = await transferFiles(files)
         }
+    }
+
+    func stopTransfer() {
+        otaUpdateManager.abortTransfer()
+        transferTask?.cancel()
+        transferTask = nil
     }
 
     @MainActor
     private func downloadOtaUpdateFiles() async -> OtaUpdateFiles? {
+        transferError = nil
         isDownloadingOtaFiles = true
         do {
             let otaUpdateFiles = try await otaUpdateManager.downloadOtaUpdateFiles()
@@ -104,16 +114,29 @@ class OtaUpdateViewModel: BaseViewModel {
     }
 
     @MainActor
-    private func transferFiles(_ otaUpdateFiles: OtaUpdateFiles) async {
+    private func transferFiles(_ otaUpdateFiles: OtaUpdateFiles) async -> Bool {
+        transferError = nil
         isTransferingOtaFiles = true
         do {
             let firmwareFiles = otaUpdateFiles.firmwareFiles
-            for (fileIndex, firmwareFile) in firmwareFiles.enumerated() {
-                let fileProgress = try otaUpdateManager.transferFile(firmwareFile)
+            let audioFiles = otaUpdateFiles.audioFiles
+            let allFiles = firmwareFiles + audioFiles
 
-                await withCheckedContinuation { continuation in
+            for (fileIndex, otaFile) in allFiles.enumerated() {
+                if Task.isCancelled { break }
+                let fileProgress = otaUpdateManager.transferFile(otaFile)
+
+                try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
                     fileProgress.sink(
-                        receiveCompletion: { _ in continuation.resume() },
+                        receiveCompletion: { completion in
+                            switch completion {
+                            case .failure(let error):
+                                continuation.resume(throwing: error)
+                            case .finished:
+                                continuation.resume()
+                            }
+
+                        },
                         receiveValue: { [weak self] progress in
                             self?.fileTransferProgress = TransferProgress(
                                 fileProgress: progress,
@@ -125,11 +148,14 @@ class OtaUpdateViewModel: BaseViewModel {
                     .store(in: &cancellables)
                 }
             }
+        } catch OtaUpdateError.transferCancelled {
         } catch {
             transferError = error
             showTransferError = true
         }
         isTransferingOtaFiles = false
+
+        return transferError == nil
     }
 
     @MainActor

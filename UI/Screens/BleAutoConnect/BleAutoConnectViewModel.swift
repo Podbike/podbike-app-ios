@@ -16,7 +16,11 @@ class BleAutoConnectViewModel: BaseViewModel {
     private let initTime = DispatchTime.now()
 
     enum Constants {
+#if DEBUG
+        static let minimumScreenDisplayInSeconds = 0.0
+#else
         static let minimumScreenDisplayInSeconds = 2.0
+#endif
     }
 
     init(
