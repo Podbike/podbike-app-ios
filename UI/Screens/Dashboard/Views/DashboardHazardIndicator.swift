@@ -28,13 +28,14 @@ struct DashboardHazardIndicator: View {
     }
 
     private func updateVisibility() {
-        hideTimer?.invalidate()
-        if viewModel.isHazardIndicator {
-            isShowingHazardOverlay = true
-        } else {
-            hideTimer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: false) { _ in
-                isShowingHazardOverlay = false
-            }
-        }
+        isShowingHazardOverlay = viewModel.isHazardIndicator
+//        hideTimer?.invalidate()
+//        if viewModel.isHazardIndicator {
+//            isShowingHazardOverlay = true
+//        } else {
+//            hideTimer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: false) { _ in
+//                isShowingHazardOverlay = false
+//            }
+//        }
     }
 }

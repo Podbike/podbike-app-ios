@@ -275,8 +275,9 @@ class DashboardViewModel: BaseViewModel {
         let measurement = Measurement(value: convertedTotalDistance, unit: distanceUnit.unitType)
         let formatter = MeasurementFormatter()
         formatter.unitOptions = .providedUnit
-        formatter.numberFormatter.minimumFractionDigits = 1
-        formatter.numberFormatter.maximumFractionDigits = 1
+        let decimalPlaces = distanceUnit == .meters ? 0 : 1
+        formatter.numberFormatter.minimumFractionDigits = decimalPlaces
+        formatter.numberFormatter.maximumFractionDigits = decimalPlaces
         totalDistanceText = formatter.string(from: measurement)
 
     }

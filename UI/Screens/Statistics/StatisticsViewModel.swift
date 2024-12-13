@@ -122,8 +122,9 @@ class StatisticsViewModel: BaseViewModel {
         if let totalDistanceInMeters {
             let totalDistanceInKm = Double(totalDistanceInMeters) / 1000
             let convertedTotalDistance = selectedDistanceUnit.converted(kilometers: totalDistanceInKm)
-            totalDistanceValue = String(lround(convertedTotalDistance))
-            co2Value = String(lround(totalDistanceInKm * (0.1204 - 0.00044)))
+            let totalDistanceDecimalPlaces = selectedDistanceUnit == .meters ? 0 : 1
+            totalDistanceValue = String(format: "%.\(totalDistanceDecimalPlaces)f", convertedTotalDistance)
+            co2Value = String(format: "%.2f", totalDistanceInKm * (0.1204 - 0.00044))
             updateAverageTripSpeed(currentOdometer: totalDistanceInMeters)
         } else {
             totalDistanceValue = "-"
@@ -164,7 +165,7 @@ class StatisticsViewModel: BaseViewModel {
         guard let tripStartOdometer = tripMetrics.tripStartOdometer,
               let tripTime = tripMetrics.tripStartOffset?.distance(to: Date.now)
         else {
-            averageTripSpeedValue = "-"
+            averageTripSpeedValue = "0"
             return
         }
 

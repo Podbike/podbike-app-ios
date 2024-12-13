@@ -19,7 +19,7 @@ class OtaService: OtaServiceProtocol {
         let (data, _) = try await urlSession.data(for: request)
 
         let responseString = String(data: data, encoding: .utf8) ?? ""
-        return Int(responseString) == 1
+        return Int(responseString) == 0
     }
 
     func getOtaUpdateInfo(for frameNumber: String) async throws -> OtaUpdateInfo {

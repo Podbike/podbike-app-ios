@@ -51,13 +51,16 @@ struct DashboardTurnIndicator: View {
     }
 
     private func updateVisibility() {
-        hideTimer?.invalidate()
-        if viewModel.isLeftTurnIndicator || viewModel.isRightTurnIndicator {
-            isShowingTurnOverlay = true
-        } else {
-            hideTimer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: false) { _ in
-                isShowingTurnOverlay = false
-            }
-        }
+        let isLeft = viewModel.isLeftTurnIndicator
+        let isRight = viewModel.isRightTurnIndicator
+        isShowingTurnOverlay = (isLeft || isRight) && !(isLeft && isRight)
+//        hideTimer?.invalidate()
+//        if viewModel.isLeftTurnIndicator || viewModel.isRightTurnIndicator {
+//            isShowingTurnOverlay = true
+//        } else {
+//            hideTimer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: false) { _ in
+//                isShowingTurnOverlay = false
+//            }
+//        }
     }
 }
