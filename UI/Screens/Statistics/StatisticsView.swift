@@ -15,44 +15,12 @@ struct StatisticsView: View {
             VStack {
                 Spacer()
                 
-                HStack(spacing: AppDimens.padding32) {
+                HStack(spacing: 0) {
                     VStack(spacing: 0) {
                         StatisticsEntry(
                             value: viewModel.temperatureValue,
                             unit: viewModel.temperatureUnit,
                             label: "StatisticTemperature"
-                        )
-
-                        StatisticsEntry(
-                            value: viewModel.totalDistanceValue,
-                            unit: viewModel.totalDistanceUnit,
-                            label: "StatisticTotalDistance"
-                        )
-
-                        StatisticsEntry(
-                            value: viewModel.averageSpeedValue,
-                            unit: viewModel.averageSpeedUnit,
-                            label: "StatisticAverageSpeed"
-                        )
-
-                        StatisticsEntry(
-                            value: viewModel.generatedPowerValue,
-                            unit: "W",
-                            label: "StatisticPower"
-                        )
-                    }
-
-                    VStack(spacing: 0) {
-                        StatisticsEntry(
-                            value: viewModel.co2Value,
-                            unit: "kg",
-                            label: "StatisticCO2"
-                        )
-
-                        StatisticsEntry(
-                            value: viewModel.tripTimeValue,
-                            unit: "min",
-                            label: "StatisticTime"
                         )
 
                         StatisticsEntry(
@@ -62,11 +30,57 @@ struct StatisticsView: View {
                         )
 
                         StatisticsEntry(
+                            value: viewModel.co2Value,
+                            unit: "kg",
+                            label: "StatisticCO2"
+                        )
+
+                        StatisticsEntry(
+                            value: viewModel.totalDistanceValue,
+                            unit: viewModel.totalDistanceUnit,
+                            label: "StatisticTotalDistance"
+                        )
+
+                        StatisticsEntry(
+                            value: viewModel.averageTotalSpeedValue,
+                            unit: viewModel.speedUnit,
+                            label: "StatisticAverageTotalSpeed"
+                        )
+                    }
+                    .frame(maxWidth: .infinity)
+
+                    VStack(spacing: 0) {
+                        StatisticsEntry(
                             value: viewModel.batteryPercentValue,
                             unit: "%",
                             label: "StatisticBattery"
                         )
+
+                        StatisticsEntry(
+                            value: viewModel.generatedPowerValue,
+                            unit: "W",
+                            label: "StatisticPower"
+                        )
+
+                        StatisticsEntry(
+                            value: viewModel.maxTripSpeedValue,
+                            unit: viewModel.speedUnit,
+                            label: "StatisticMaxTripSpeed"
+                        )
+
+                        StatisticsEntry(
+                            value: viewModel.tripTimeValue,
+                            unit: "min",
+                            label: "StatisticTime"
+                        )
+
+                        StatisticsEntry(
+                            value: viewModel.averageTripSpeedValue,
+                            unit: viewModel.speedUnit,
+                            label: "StatisticAverageTripSpeed"
+                        )
                     }
+                    .frame(maxWidth: .infinity)
                 }
 
                 Spacer()
@@ -76,7 +90,7 @@ struct StatisticsView: View {
                     .scaledToFit()
                     .frame(height: 42)
             }
-            .padding(.horizontal, AppDimens.padding16)
+            .padding(.horizontal, AppDimens.padding32)
             .padding(.bottom, AppDimens.padding32)
         }
         .toolbar(
@@ -102,9 +116,13 @@ private struct StatisticsEntry: View {
             HStack(alignment: .firstTextBaseline) {
                 Text(value)
                     .font(.custom(AppFont.appFont, size: 28).bold())
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
 
                 Text(unit)
                     .font(.custom(AppFont.appFont, size: 26))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
             }
 
             Text(label)

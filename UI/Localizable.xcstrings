@@ -1376,18 +1376,34 @@
         }
       }
     },
-    "StatisticAverageSpeed" : {
+    "StatisticAverageTotalSpeed" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Durchschnittliche Geschwindigkeit"
+            "state" : "needs_review",
+            "value" : "Durchschnittliche Gesamtgeschwindigkeit"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Average Speed"
+            "value" : "Average Speed\nTotal"
+          }
+        }
+      }
+    },
+    "StatisticAverageTripSpeed" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Durchschnittliche Reisegeschwindigkeit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Average Speed\nTrip"
           }
         }
       }
@@ -1420,6 +1436,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "CO2 Saved"
+          }
+        }
+      }
+    },
+    "StatisticMaxTripSpeed" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximale Reisegeschwindigkeit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Max Trip Speed"
           }
         }
       }

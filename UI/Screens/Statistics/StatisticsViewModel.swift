@@ -15,8 +15,12 @@ class StatisticsViewModel: BaseViewModel {
     @Published var totalDistanceValue: String = "-"
     @Published var totalDistanceUnit: String = ""
 
-    @Published var averageSpeedValue: String = "-"
-    @Published var averageSpeedUnit: String = ""
+    @Published var speedUnit: String = ""
+
+    @Published var averageTripSpeedValue: String = "-"
+    @Published var averageTotalSpeedValue: String = "-"
+
+    @Published var maxTripSpeedValue: String = "-"
 
     @Published var generatedPowerValue: String = "-"
     @Published var co2Value: String = "-"
@@ -37,6 +41,8 @@ class StatisticsViewModel: BaseViewModel {
 
         super.init()
 
+        onSpeedUpdate(currentSpeedInKmph: tripMetrics.maxTripSpeed)
+
         subscribeToPublishers()
     }
 
@@ -51,32 +57,37 @@ class StatisticsViewModel: BaseViewModel {
     private func subscribeForFrikarData() {
         dataCancellables.removeAll()
 
-        bleManager.temperature.dropFirst()
+        bleManager.temperature
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.onTemperatureUpdate(temperatureCelsius: $0) }
             .store(in: &dataCancellables)
 
-        bleManager.totalDistance.dropFirst()
+        bleManager.totalDistance
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.onTotalDistanceUpdate(totalDistanceInMeters: $0) }
             .store(in: &dataCancellables)
 
-        bleManager.averageSpeed.dropFirst()
+        bleManager.averageSpeed
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.onAverageSpeedUpdate(averageSpeedInKmph: $0) }
             .store(in: &dataCancellables)
 
-        bleManager.generatedPower.dropFirst()
+        bleManager.speed
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in self?.onSpeedUpdate(currentSpeedInKmph: $0) }
+            .store(in: &dataCancellables)
+
+        bleManager.generatedPower
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.onGeneratedPowerUpdate(powerInWatts: $0) }
             .store(in: &dataCancellables)
 
-        bleManager.batteryPercent.dropFirst()
+        bleManager.batteryPercent
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.onBatteryPercentUpdate($0) }
             .store(in: &dataCancellables)
 
-        bleManager.averageRpm.dropFirst()
+        bleManager.averageRpm
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.onAverageRpmUpdate($0) }
             .store(in: &dataCancellables)
@@ -113,6 +124,7 @@ class StatisticsViewModel: BaseViewModel {
             let convertedTotalDistance = selectedDistanceUnit.converted(kilometers: totalDistanceInKm)
             totalDistanceValue = String(lround(convertedTotalDistance))
             co2Value = String(lround(totalDistanceInKm * (0.1204 - 0.00044)))
+            updateAverageTripSpeed(currentOdometer: totalDistanceInMeters)
         } else {
             totalDistanceValue = "-"
             co2Value = "-"
@@ -124,20 +136,56 @@ class StatisticsViewModel: BaseViewModel {
         totalDistanceUnit = formatter.string(from: selectedDistanceUnit.unitType)
     }
 
-    private func onAverageSpeedUpdate(averageSpeedInKmph: Int?) {
+    private func updateSpeedUnit() {
         let selectedSpeedUnit = userPreferences.speedUnit
-
-        if let averageSpeedInKmph {
-            let convertedAverageSpeed = selectedSpeedUnit.converted(kilometersPerHour: Double(averageSpeedInKmph))
-            averageSpeedValue = String(lround(convertedAverageSpeed))
-        } else {
-            averageSpeedValue = "-"
-        }
-
         let formatter = MeasurementFormatter()
         formatter.unitOptions = .providedUnit
         formatter.unitStyle = .short
-        averageSpeedUnit = formatter.string(from: selectedSpeedUnit.unitType).replacingOccurrences(of: "hr", with: "h")
+        speedUnit = formatter.string(from: selectedSpeedUnit.unitType).replacingOccurrences(of: "hr", with: "h")
+    }
+
+    private func onAverageSpeedUpdate(averageSpeedInKmph: Int?) {
+        let selectedSpeedUnit = userPreferences.speedUnit
+        updateSpeedUnit()
+
+        if let averageSpeedInKmph {
+            let convertedAverageSpeed = selectedSpeedUnit.converted(kilometersPerHour: Double(averageSpeedInKmph))
+            averageTotalSpeedValue = String(lround(convertedAverageSpeed))
+        } else {
+            averageTotalSpeedValue = "-"
+        }
+    }
+
+
+    private func updateAverageTripSpeed(currentOdometer: Int) {
+        let selectedSpeedUnit = userPreferences.speedUnit
+        updateSpeedUnit()
+
+        guard let tripStartOdometer = tripMetrics.tripStartOdometer,
+              let tripTime = tripMetrics.tripStartOffset?.distance(to: Date.now)
+        else {
+            averageTripSpeedValue = "-"
+            return
+        }
+
+        let tripDistanceInKm = Double(currentOdometer - tripStartOdometer) / 1000
+        let tripTimeInHours = Double(tripTime) / 3600
+        let averageTripSpeedInKmph = tripDistanceInKm / tripTimeInHours
+
+        let convertedAverageSpeed = selectedSpeedUnit.converted(kilometersPerHour: averageTripSpeedInKmph)
+        averageTripSpeedValue = String(lround(convertedAverageSpeed))
+    }
+
+    private func onSpeedUpdate(currentSpeedInKmph: Int?) {
+        guard let currentSpeedInKmph = currentSpeedInKmph else { return }
+
+        let selectedSpeedUnit = userPreferences.speedUnit
+        updateSpeedUnit()
+
+        tripMetrics.maxTripSpeed = max(currentSpeedInKmph, tripMetrics.maxTripSpeed)
+
+        let convertedMaxSpeed = selectedSpeedUnit.converted(kilometersPerHour: Double(tripMetrics.maxTripSpeed))
+        maxTripSpeedValue = String(lround(convertedMaxSpeed))
     }
 
     private func onGeneratedPowerUpdate(powerInWatts: Int?) {
@@ -153,7 +201,15 @@ class StatisticsViewModel: BaseViewModel {
     }
 
     private func updateTripTime() {
-        guard let tripStartTime = tripMetrics.tripStartTime else { return }
+        guard let tripStartTime = tripMetrics.tripStartOffset else {
+            tripTimeValue = "0"
+            return
+        }
+
+        if tripMetrics.tripInactivityStartTime != nil && tripTimeValue != "-" {
+            return
+        }
+
         let tripTimeInSeconds = tripStartTime.distance(to: Date.now)
         let tripTimeInMinutes = Int(tripTimeInSeconds / 60)
         tripTimeValue = String(tripTimeInMinutes)

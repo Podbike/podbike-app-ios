@@ -14,9 +14,7 @@ class DashboardViewModel: BaseViewModel {
 
     @Published var isBikeOn: Bool? {
         didSet {
-            if isBikeOn == true && oldValue != true {
-                tripMetrics.tripStartTime = .now
-            }
+            updateTripStartOffset()
         }
     }
 
@@ -38,6 +36,9 @@ class DashboardViewModel: BaseViewModel {
 
     private var isReconnectEnabled = false
     private var dataCancellables = Set<AnyCancellable>()
+
+    private var statisticsResetTimer: Timer?
+    private var previouslyConnectedDevice: BleDevice?
 
     init(
         coordinator: DashboardCoordinatorViewModel,
@@ -76,7 +77,7 @@ class DashboardViewModel: BaseViewModel {
     private func subscribeToPublishers() {
         bleManager.bleState
             .receive(on: DispatchQueue.main)
-            .sink { [weak self]  in self?.onBleStateUpdate($0) }
+            .sink { [weak self] in self?.onBleStateUpdate($0) }
             .store(in: &cancellables)
 
         bleManager.connectingDevice
@@ -101,7 +102,7 @@ class DashboardViewModel: BaseViewModel {
     }
 
     private func onBleStateUpdate(_ bleState: BleState) {
-        self.isBluetoothOn = bleState == .ready
+        isBluetoothOn = bleState == .ready
         if bleState == .ready && connectedDevice == nil {
             reconnect()
         }
@@ -110,20 +111,35 @@ class DashboardViewModel: BaseViewModel {
     private func onConnectedDeviceUpdate(_ connectedDevice: BleDevice?) {
         isReconnectEnabled = true
         self.connectedDevice = connectedDevice
-        if connectedDevice == nil {
-            onDisconnected()
+        if let connectedDevice {
+            onConnected(connectedDevice)
         } else {
-            onConnected()
+            onDisconnected()
         }
     }
 
-    private func onConnected() {
+    private func onConnected(_ device: BleDevice) {
+        statisticsResetTimer?.invalidate()
+        statisticsResetTimer = nil
+
+        if device.deviceId != previouslyConnectedDevice?.deviceId {
+            tripMetrics.reset()
+        }
+        previouslyConnectedDevice = device
+
         subscribeForFrikarData()
     }
 
     private func onDisconnected() {
         resetData()
         reconnect()
+
+        statisticsResetTimer?.invalidate()
+        statisticsResetTimer = Timer.scheduledTimer(withTimeInterval: 5 * 60, repeats: false) { [weak self] _ in
+            self?.tripMetrics.reset()
+        }
+
+        tripMetrics.tripInactivityStartTime = .now
     }
 
     private func subscribeForFrikarData() {
@@ -179,8 +195,32 @@ class DashboardViewModel: BaseViewModel {
         let convertedSpeed = speedUnit.converted(kilometersPerHour: Double(speedInKmph ?? 0))
         speedText = String(lround(convertedSpeed))
 
-        // TODO: - re-enable
-//        updateRideMode(for: speedInKmph)
+        if let speedInKmph = speedInKmph {
+            tripMetrics.maxTripSpeed = max(speedInKmph, tripMetrics.maxTripSpeed)
+
+            if speedInKmph > 1 && tripMetrics.tripStartOffset == nil {
+                tripMetrics.tripStartOffset = .now
+            }
+        }
+
+#if !DEBUG
+        updateRideMode(for: speedInKmph)
+#endif
+    }
+
+    private func updateTripStartOffset() {
+        if let tripInactivityStartTime = tripMetrics.tripInactivityStartTime,
+           let tripStartOffset = tripMetrics.tripStartOffset,
+           isBikeOn == true
+        {
+            let inactivityTime = tripInactivityStartTime.distance(to: .now)
+            tripMetrics.tripStartOffset = tripStartOffset + inactivityTime
+            tripMetrics.tripInactivityStartTime = nil
+        }
+
+        if isBikeOn == false && tripMetrics.tripInactivityStartTime == nil {
+            tripMetrics.tripInactivityStartTime = .now
+        }
     }
 
     private func updateRideMode(for speedInKmph: Int?) {
@@ -222,8 +262,12 @@ class DashboardViewModel: BaseViewModel {
             return
         }
 
-        // TODO - temporary
+        // TODO: - temporary
         isBikeOn = totalDistanceInMeters > 0
+
+        if tripMetrics.tripStartOffset != nil && tripMetrics.tripStartOdometer == nil {
+            tripMetrics.tripStartOdometer = totalDistanceInMeters
+        }
 
         let distanceUnit = userPreferences.distanceUnit
         let convertedTotalDistance = distanceUnit.converted(kilometers: Double(totalDistanceInMeters) / 1000)
@@ -234,6 +278,7 @@ class DashboardViewModel: BaseViewModel {
         formatter.numberFormatter.minimumFractionDigits = 1
         formatter.numberFormatter.maximumFractionDigits = 1
         totalDistanceText = formatter.string(from: measurement)
+
     }
 
     private func onLightsStatusUpdate(_ lightsStatus: LightsStatus?) {
@@ -248,7 +293,10 @@ class DashboardViewModel: BaseViewModel {
     private func onAssistanceLevelUpdate(_ assistanceLevel: Int?) {
         self.assistanceLevel = assistanceLevel ?? 0
 
+#if DEBUG
+        // TODO: - temporary
         updateRideMode(for: (assistanceLevel ?? 0) / 20)
+#endif
     }
 
     private func onCadenceLevelUpdate(_ cadenceLevel: Int?) {
