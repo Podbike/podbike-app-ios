@@ -53,6 +53,6 @@ class OtaService: OtaServiceProtocol {
     }
 
     func getAudioFile(_ fileName: String) async throws -> Data {
-        try await getFile("audio/\(fileName)") //TODO - check path
+        try await getFile("firmware/\(fileName)")
     }
 }
