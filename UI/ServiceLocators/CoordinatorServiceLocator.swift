@@ -12,10 +12,6 @@ class CoordinatorServiceLocator {
         )
     }
 
-    func provideDebugHomeCoordinator(parentCoordinator: BaseCoordinator) -> HomeCoordinator {
-        HomeCoordinator(viewModel: HomeCoordinatorViewModel(parentCoordinator: parentCoordinator))
-    }
-
     func provideSettingsCoordinator(parentCoordinator: BaseCoordinator) -> SettingsCoordinator {
         SettingsCoordinator(viewModel: SettingsCoordinatorViewModel(parentCoordinator: parentCoordinator))
     }

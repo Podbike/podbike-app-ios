@@ -134,7 +134,7 @@ private struct TopButtons: View {
 
     var body: some View {
         HStack {
-            Button(action: viewModel.goToDebugHomeScreen) {
+            Button(action: viewModel.showHelp) {
                 AppIcon.help.size(topRowHeight).foregroundStyle(AppColor.white)
             }
 

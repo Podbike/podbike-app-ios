@@ -4,7 +4,6 @@ import SwiftUI
 class DashboardCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelProtocol {
     enum Screen: BaseScreen {
         case settings
-        case debugHome
         case statistics
     }
 
@@ -22,7 +21,6 @@ class DashboardCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelP
     func provideView(forScreen screen: Screen) -> some View {
         switch screen {
         case .settings: CoordinatorServiceLocator.instance.provideSettingsCoordinator(parentCoordinator: self)
-        case .debugHome: CoordinatorServiceLocator.instance.provideDebugHomeCoordinator(parentCoordinator: self)
         case .statistics: StatisticsServiceLocator.instance.provideStatisticsView(coordinator: self)
         }
     }
@@ -35,11 +33,6 @@ class DashboardCoordinatorViewModel: ObservableObject, BaseCoordinatorViewModelP
     @MainActor
     func showStatisticsScreen() {
         show(.statistics)
-    }
-
-    @MainActor
-    func showDebugHomeScreen() {
-        show(.debugHome)
     }
 
     @MainActor

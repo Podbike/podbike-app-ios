@@ -149,9 +149,6 @@
         }
       }
     },
-    "BLE Scan" : {
-
-    },
     "Cancel" : {
       "localizations" : {
         "de" : {
@@ -202,9 +199,6 @@
           }
         }
       }
-    },
-    "Debug menu" : {
-
     },
     "DeviceBluetoothOff" : {
       "localizations" : {
@@ -729,9 +723,6 @@
           }
         }
       }
-    },
-    "Settings" : {
-
     },
     "SettingsAbout" : {
       "localizations" : {
@@ -1263,9 +1254,6 @@
           }
         }
       }
-    },
-    "Tutorial" : {
-
     },
     "TutorialAssistance" : {
       "localizations" : {

@@ -330,8 +330,8 @@ class DashboardViewModel: BaseViewModel {
     }
 
     @MainActor
-    func goToDebugHomeScreen() {
-        coordinator?.showDebugHomeScreen()
+    func showHelp() {
+
     }
 
     @MainActor
