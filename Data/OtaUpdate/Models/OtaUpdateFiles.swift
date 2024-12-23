@@ -1,13 +1,22 @@
 import Foundation
 
+let frikarTransferConfigFileName = "frikar.json"
+
 struct OtaUpdateFiles {
-    let firmwareFiles: [OtaFile]
-    let audioFiles: [OtaFile]
+    let frikarTransferConfig: OtaFile
+    let otaFiles: [OtaFile]
 }
 
 enum OtaFileType {
+    case frikarTransferConfig /// frikar.json
     case firmware
     case audio
+
+    init(fromFileName fileName: String) {
+        if fileName.hasSuffix(".wav") { self = .audio }
+        else if fileName == frikarTransferConfigFileName { self = .frikarTransferConfig }
+        else { self = .firmware }
+    }
 }
 
 struct OtaFile {

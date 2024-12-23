@@ -96,6 +96,15 @@ class AppCoordinatorViewModel: BaseViewModel, BaseCoordinatorViewModelProtocol {
             }
         }
     }
+
+    var isUpgrading: Bool {
+        guard let connectingDevice = connectingDevice else { return false }
+        let storedConnectingDevice = userPreferences.storedDevices
+            .first(
+                where: { $0.deviceId == connectingDevice.deviceId }
+            )
+        return storedConnectingDevice?.updateStarted ?? false
+    }
 }
 
 struct AppCoordinator: View {
@@ -115,9 +124,10 @@ struct AppCoordinator: View {
 
             let isConnecting = viewModel.connectingDevice != nil
             let isAutoConnect = root.screen == .bleAutoConnect
+            let isUpgrading = viewModel.isUpgrading
 
             DeviceConnectionModal(
-                isPresented: isConnecting && !isAutoConnect,
+                isPresented: isConnecting && !isAutoConnect && !isUpgrading,
                 deviceName: viewModel.connectingDevice?.deviceName ?? "",
                 cancelAction: viewModel.onConnectionCancelled
             )

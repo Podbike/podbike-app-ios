@@ -37,6 +37,10 @@ class DashboardViewModel: BaseViewModel {
     @Published var isRightTurnIndicator: Bool = false
     @Published var isHazardIndicator: Bool = false
 
+    @Published var isFirmwareUpdateInProgress: Bool = false
+    @Published var showFirmwareUpdateCompleted: Bool = false
+    @Published var showFirmwareUpdateFailed: Bool = false
+
     private var isReconnectEnabled = false
     private var dataCancellables = Set<AnyCancellable>()
 
@@ -131,6 +135,12 @@ class DashboardViewModel: BaseViewModel {
         previouslyConnectedDevice = device
 
         subscribeForFrikarData()
+
+        let currentDevice = userPreferences.storedDevices.first
+        isFirmwareUpdateInProgress = currentDevice?.updateStarted ?? false
+        if isFirmwareUpdateInProgress {
+            validateFirmwareUpdate(expectedConfigHash: currentDevice?.updateConfigHash)
+        }
     }
 
     private func onDisconnected() {
@@ -336,6 +346,25 @@ class DashboardViewModel: BaseViewModel {
 
     private func onCadenceLevelUpdate(_ cadenceLevel: Int?) {
         self.cadenceLevel = cadenceLevel ?? 0
+    }
+
+    private func validateFirmwareUpdate(expectedConfigHash: Int?) {
+        if let expectedConfigHash = expectedConfigHash {
+            Task { @MainActor in
+                let deviceConfig = await bleManager.ymodemController.getFrikarConfig()
+
+                if deviceConfig?.hashValue == expectedConfigHash {
+                    showFirmwareUpdateCompleted = true
+                } else {
+                    showFirmwareUpdateFailed = true
+                }
+            }
+        } else {
+            showFirmwareUpdateFailed = true
+        }
+
+        isFirmwareUpdateInProgress = false
+        userPreferences.setUpdateStartedFlag(false)
     }
 
     func reconnect() {

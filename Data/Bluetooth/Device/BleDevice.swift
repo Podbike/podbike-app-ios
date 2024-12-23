@@ -36,9 +36,12 @@ struct ScannedDevice: BleDevice {
 struct StoredDevice: BleDevice, Codable {
     let deviceId: String
     let deviceName: String
+    var updateStarted: Bool?
+    var updateConfigHash: Int?
 
     init(_ device: BleDevice) {
         self.deviceId = device.deviceId
         self.deviceName = device.deviceName
+        self.updateStarted = false
     }
 }

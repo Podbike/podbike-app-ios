@@ -5,20 +5,25 @@ class OtaUpdateManager: OtaUpdateManagerProtocol {
     private let otaService: OtaServiceProtocol
     private let frikarConfigProvider: FrikarConfigProtocol
     private let fileTransferHandler: OtaFileTransferProtocol
+    private let userPreferences: UserPreferences
 
+    private var frikarConfig: FrikarConfig?
     private var updateInfo: OtaUpdateInfo?
 
     init(otaService: OtaServiceProtocol,
          frikarConfigProvider: FrikarConfigProtocol,
-         fileTransferHandler: OtaFileTransferProtocol)
+         fileTransferHandler: OtaFileTransferProtocol,
+         userPreferences: UserPreferences)
     {
         self.otaService = otaService
         self.frikarConfigProvider = frikarConfigProvider
         self.fileTransferHandler = fileTransferHandler
+        self.userPreferences = userPreferences
     }
 
     func isUpdateAvailable() async throws -> Bool {
-        guard let frikarConfig = await frikarConfigProvider.getFrikarConfig(), let frameNumber = frikarConfig.frameNumber else {
+        frikarConfig = await frikarConfigProvider.getFrikarConfig()
+        guard let frikarConfig = frikarConfig, let frameNumber = frikarConfig.frameNumber else {
             throw OtaUpdateError.frikarConfigFetchError
         }
         let isUpdateAvailable = try await otaService.isUpdateAvailable(for: frikarConfig)
@@ -52,20 +57,13 @@ class OtaUpdateManager: OtaUpdateManagerProtocol {
         }
 
         let otaUpdateFiles = try await withThrowingTaskGroup(of: (OtaFileType, String, Data).self) { group in
-            let firmwareFiles = resource.firmwareModules?.map(\.fileName).compactMap { $0 } ?? []
-            let audioFiles = updateInfo.audioFiles?.compactMap { $0 } ?? []
+            let fileNames = resource.firmwareModules?.map(\.fileName).compactMap { $0 } ?? []
 
-            for fileName in firmwareFiles {
+            for fileName in fileNames {
                 group.addTask {
                     let fileData = try await self.otaService.getFirmwareFile(fileName)
-                    return (OtaFileType.firmware, fileName, fileData)
-                }
-            }
-
-            for fileName in audioFiles {
-                group.addTask {
-                    let fileData = try await self.otaService.getAudioFile(fileName)
-                    return (OtaFileType.audio, fileName, fileData)
+                    let fileType = OtaFileType(fromFileName: fileName)
+                    return (fileType, fileName, fileData)
                 }
             }
 
@@ -74,9 +72,15 @@ class OtaUpdateManager: OtaUpdateManagerProtocol {
                 array.append(otaFile)
             }
 
+            let frikarTransferConfig = try createFrikarTransferConfigFile(serverUpdateInfo: updateInfo)
+
+            let sortedOtaFiles = fileNames
+                .map { fileName in otaFiles.first(where: { $0.fileName == fileName }) }
+                .compactMap { $0 }
+
             return OtaUpdateFiles(
-                firmwareFiles: otaFiles.filter { $0.type == OtaFileType.firmware },
-                audioFiles: []
+                frikarTransferConfig: frikarTransferConfig,
+                otaFiles: sortedOtaFiles
             )
         }
 
@@ -92,8 +96,48 @@ class OtaUpdateManager: OtaUpdateManagerProtocol {
     }
 
     func runUpgrade() {
-        // TODO: - error handling, status handling
+        guard let frikarConfig else { return }
         fileTransferHandler.runUpgrade()
+        userPreferences.setUpdateStartedFlag(true, for: frikarConfig)
+    }
+
+    private func createFrikarTransferConfigFile(serverUpdateInfo: OtaUpdateInfo) throws -> OtaFile {
+        guard let serverUpdateResource = serverUpdateInfo.resource.first,
+              let serverFirmwareModules = serverUpdateResource.firmwareModules
+        else { throw OtaUpdateError.frikarConfigFetchError }
+
+        let supportedBoards = serverFirmwareModules
+            .filter { $0.serialNumber != nil }
+            .map { serverFirmwareModule in
+                let boardName = String(
+                    serverFirmwareModule.fileName!
+                        .split(separator: ":").last?
+                        .split(separator: ".").first
+                        ?? ""
+                )
+                return SupportedBoard(
+                    boardName: boardName,
+                    boardId: serverFirmwareModule.boardName!,
+                    serialNumber: String(serverFirmwareModule.serialNumber!),
+                    firmwareVersion: serverFirmwareModule.firmwareVersion!,
+                    fileName: serverFirmwareModule.fileName!
+                )
+            }
+
+        let audioFiles = serverUpdateInfo.audioFiles?.compactMap {
+            audioFile in AudioFile(filename: audioFile)
+        } ?? []
+        let frikarTransferConfig = FrikarTransferConfig(
+            productName: "FRIKAR",
+            releaseId: serverUpdateResource.releaseId!,
+            productId: serverUpdateResource.productId!,
+            supportedBoards: supportedBoards,
+            audioFiles: audioFiles
+        )
+
+        let configData = try JSONEncoder().encode(frikarTransferConfig)
+        
+        return OtaFile(type: .frikarTransferConfig, fileName: frikarTransferConfigFileName, data: configData)
     }
 }
 

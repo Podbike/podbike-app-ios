@@ -53,3 +53,7 @@ struct OtaUpdateCheckView: View {
         return errorText
     }
 }
+
+#Preview {
+    OtaUpdateServiceLocator(coordinator: nil).provideOtaUpdateCheckView()
+}

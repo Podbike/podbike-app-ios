@@ -22,7 +22,25 @@ class UserPreferences: ObservableObject {
 
 extension UserPreferences {
     func storeDevice(_ device: BleDevice) {
-        storedDevices.removeAll(where: { $0.deviceId == device.deviceId })
-        storedDevices.insert(StoredDevice(device), at: 0)
+        let oldDeviceEntry = storedDevices.first(where: { $0.deviceId == device.deviceId })
+        var newDeviceEntry = device as? StoredDevice
+        if newDeviceEntry == nil {
+            newDeviceEntry = StoredDevice(device)
+            newDeviceEntry?.updateStarted = oldDeviceEntry?.updateStarted
+            newDeviceEntry?.updateConfigHash = oldDeviceEntry?.updateConfigHash
+        }
+
+        var newDevices = storedDevices
+        newDevices.removeAll(where: { $0.deviceId == device.deviceId })
+        newDevices.insert(newDeviceEntry!, at: 0)
+        storedDevices = newDevices
+    }
+
+    func setUpdateStartedFlag(_ updateStarted: Bool, for frikarConfig: FrikarConfig? = nil) {
+        if var currentDevice = storedDevices.first {
+            currentDevice.updateStarted = updateStarted
+            currentDevice.updateConfigHash = frikarConfig.hashValue
+            storeDevice(currentDevice)
+        }
     }
 }

@@ -35,6 +35,7 @@ struct FirmwareModule: Decodable, Hashable {
     let updateId: Int?
     let fileIndexId: Int?
     let boardName: String?
+    let serialNumber: Int?
     let firmwareVersion: String?
     let fileName: String?
     let dateCreated: String?
@@ -45,6 +46,7 @@ struct FirmwareModule: Decodable, Hashable {
         case updateId = "update_id"
         case fileIndexId = "file_index_id"
         case boardName = "board_name"
+        case serialNumber = "serial_number"
         case firmwareVersion = "firmware_version"
         case fileName = "file_name"
         case dateCreated = "date_created"

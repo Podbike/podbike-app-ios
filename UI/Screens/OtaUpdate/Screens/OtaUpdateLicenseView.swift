@@ -54,3 +54,7 @@ struct OtaUpdateLicenseView: View {
         return errorText
     }
 }
+
+#Preview {
+    OtaUpdateServiceLocator(coordinator: nil).provideOtaUpdateLicenseView()
+}

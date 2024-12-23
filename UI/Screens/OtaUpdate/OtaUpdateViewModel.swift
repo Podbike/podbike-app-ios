@@ -118,9 +118,9 @@ class OtaUpdateViewModel: BaseViewModel {
         transferError = nil
         isTransferingOtaFiles = true
         do {
-            let firmwareFiles = otaUpdateFiles.firmwareFiles
-            let audioFiles = otaUpdateFiles.audioFiles
-            let allFiles = firmwareFiles + audioFiles
+            let frikarTransferConfig = otaUpdateFiles.frikarTransferConfig
+            let otaFiles = otaUpdateFiles.otaFiles
+            let allFiles = [frikarTransferConfig] + otaFiles
 
             for (fileIndex, otaFile) in allFiles.enumerated() {
                 if Task.isCancelled { break }
@@ -141,7 +141,7 @@ class OtaUpdateViewModel: BaseViewModel {
                             self?.fileTransferProgress = TransferProgress(
                                 fileProgress: progress,
                                 currentFile: fileIndex + 1,
-                                totalFiles: firmwareFiles.count
+                                totalFiles: allFiles.count
                             )
                         }
                     )
@@ -182,5 +182,10 @@ class OtaUpdateViewModel: BaseViewModel {
     @MainActor
     func goBackToSettings() {
         coordinator?.dismissUpdate()
+    }
+
+    @MainActor
+    func goBackToDashboard() {
+        coordinator?.goBackToRoot()
     }
 }

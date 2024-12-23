@@ -8,8 +8,7 @@ extension View {
         showBackButton: Bool = true,
         onBack: @escaping @MainActor () -> Void
     ) -> some View {
-        canGoBack = showBackButton
-        return self
+        self
             .navigationBarBackButtonHidden()
             .toolbar {
                 ToolbarItemGroup(placement: .topBarLeading) {
@@ -30,6 +29,9 @@ extension View {
                     }
                     .padding(.vertical, AppDimens.padding32)
                 }
+            }
+            .onAppear {
+                canGoBack = showBackButton
             }
     }
 }

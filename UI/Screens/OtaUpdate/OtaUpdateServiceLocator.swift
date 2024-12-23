@@ -7,7 +7,8 @@ class OtaUpdateServiceLocator {
         otaUpdateManager: OtaUpdateManager(
             otaService: OtaService(),
             frikarConfigProvider: BleManager.instance.ymodemController,
-            fileTransferHandler: BleManager.instance.ymodemController
+            fileTransferHandler: BleManager.instance.ymodemController,
+            userPreferences: UserPreferences.instance
         )
     )
 
