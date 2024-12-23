@@ -77,7 +77,7 @@ private struct DataRow: View {
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 0) {
             Text(key).info
-            Text(": ").info
+            Text(verbatim: ": ").info
             Text(value ?? notAvailable).info
         }
         .padding(.vertical, 2)

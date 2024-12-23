@@ -20,7 +20,10 @@ class DashboardViewModel: BaseViewModel {
 
     @Published var isRidingMode: Bool = false
 
-    @Published var isIceWarning: Bool = false
+    @Published var isShowingHelpInfo: Bool = false
+    @Published var isHelpMode: Bool = false
+
+    @Published var isSnowAlert: Bool = false
     @Published var isBrakeLight: Bool = false
     @Published var speedText: String = "0"
     @Published var batteryPercent: Int = 0
@@ -59,7 +62,7 @@ class DashboardViewModel: BaseViewModel {
     private func resetData() {
         isBikeOn = nil
         isRidingMode = false
-        isIceWarning = false
+        isSnowAlert = false
         isBrakeLight = false
         speedText = "0"
         batteryPercent = 0
@@ -186,8 +189,40 @@ class DashboardViewModel: BaseViewModel {
             .store(in: &dataCancellables)
     }
 
+    private let snowAlertThresholdCelsius = 4
+
+    var snowAlertThresholdText: String {
+        let selectedTemperatureUnit = userPreferences.temperatureUnit
+        let convertedTemperature = lround(selectedTemperatureUnit.converted(degreesCelsius: Double(snowAlertThresholdCelsius)))
+
+        let formatter = MeasurementFormatter()
+        formatter.unitOptions = .providedUnit
+        formatter.unitStyle = .short
+        let temperatureUnit = formatter.string(from: selectedTemperatureUnit.unitType)
+
+        return "\(convertedTemperature)\(temperatureUnit)"
+    }
+
     private func onTemperatureUpdate(temperatureCelsius: Int?) {
-        isIceWarning = temperatureCelsius != nil ? temperatureCelsius! < 4 : false
+        isSnowAlert = temperatureCelsius != nil ? temperatureCelsius! < snowAlertThresholdCelsius : false
+    }
+
+    var speedUnit: String {
+        let selectedSpeedUnit = userPreferences.speedUnit
+        let formatter = MeasurementFormatter()
+        formatter.unitOptions = .providedUnit
+        formatter.unitStyle = .short
+        let speedUnit = formatter.string(from: selectedSpeedUnit.unitType).replacingOccurrences(of: "hr", with: "h")
+        return speedUnit
+    }
+
+    var distanceUnit: String {
+        let selectedDistanceUnit = userPreferences.distanceUnit
+        let formatter = MeasurementFormatter()
+        formatter.unitOptions = .providedUnit
+        formatter.unitStyle = .short
+        let distanceUnit = formatter.string(from: selectedDistanceUnit.unitType)
+        return distanceUnit
     }
 
     private func onSpeedUpdate(speedInKmph: Int?) {
@@ -279,7 +314,6 @@ class DashboardViewModel: BaseViewModel {
         formatter.numberFormatter.minimumFractionDigits = decimalPlaces
         formatter.numberFormatter.maximumFractionDigits = decimalPlaces
         totalDistanceText = formatter.string(from: measurement)
-
     }
 
     private func onLightsStatusUpdate(_ lightsStatus: LightsStatus?) {
@@ -330,8 +364,8 @@ class DashboardViewModel: BaseViewModel {
     }
 
     @MainActor
-    func showHelp() {
-
+    func toggleHelp() {
+        isShowingHelpInfo.toggle()
     }
 
     @MainActor

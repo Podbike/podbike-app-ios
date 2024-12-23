@@ -9,6 +9,7 @@ enum AppColor {
     static let indicatorBackground = Color(hex: 0xc4c4c4)
     static let quaternary = Color(hex: 0x16171b)
     static let alert = Color(hex: 0xd62918)
+    static let darkButton = Color(hex: 0x3f4650)
 
     static let backgroundGradient =
         LinearGradient(

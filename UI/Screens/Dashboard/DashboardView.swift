@@ -1,11 +1,11 @@
 import SwiftUI
 
-private let topRowHeight = 64.0
-
 // MARK: DashboardView
 
 struct DashboardView: View {
     @ObservedObject var viewModel: DashboardViewModel
+
+    @State var tooltipView: AnyView? = nil
 
     init(viewModel: DashboardViewModel) {
         self.viewModel = viewModel
@@ -20,11 +20,12 @@ struct DashboardView: View {
                 let horizontalPadding = AppDimens.padding16
 
                 VStack(spacing: 0) {
+                    let topRowHeight = 64.0
                     ZStack {
-                        if viewModel.isRidingMode {
-                            WarningIcons(viewModel: viewModel)
+                        if viewModel.isRidingMode || viewModel.isHelpMode {
+                            WarningIcons(viewModel: viewModel, rowHeight: topRowHeight, tooltipView: $tooltipView)
                         } else {
-                            TopButtons(viewModel: viewModel)
+                            TopButtons(viewModel: viewModel, rowHeight: topRowHeight)
                         }
                     }
                     .padding(.horizontal, horizontalPadding)
@@ -35,45 +36,60 @@ struct DashboardView: View {
 
                     let speedFontSize = geometry.size.height / 3
                     ZStack {
-                        let showSpeed = viewModel.isBluetoothOn && viewModel.isBikeOn == true
+                        let showSpeed = (
+                            viewModel.isBluetoothOn && viewModel.isBikeOn == true
+                        ) || viewModel.isHelpMode
+
                         Text(viewModel.speedText)
                             .font(Font.custom(AppFont.appFont, size: speedFontSize))
                             .fixedSize()
                             .padding(.vertical, -speedFontSize / 5)
                             .opacity(showSpeed ? 1 : 0)
+                            .speedometerTooltip($tooltipView, speedUnit: viewModel.speedUnit)
 
-                        if !viewModel.isBluetoothOn {
-                            Button(
-                                "DeviceBluetoothOn",
-                                action: viewModel.showBleEnablePrompt
-                            )
-                            .buttonStyle(AppButton.alert)
-                        } else if viewModel.isBikeOn == false {
-                            Text("FrikarIsOff").headline
+                        if !showSpeed {
+                            if !viewModel.isBluetoothOn {
+                                Button(
+                                    "DeviceBluetoothOn",
+                                    action: viewModel.showBleEnablePrompt
+                                )
+                                .buttonStyle(AppButton.alert)
+                            } else if viewModel.isFirmwareUpdateInProgress {
+                                Text("UpdateUpgradeInfoDashboard").headline
+                                    .padding(.horizontal, AppDimens.padding16)
+                                    .padding(.bottom, AppDimens.padding48)
+                            } else if viewModel.isBikeOn == false {
+                                Text("FrikarIsOff").headline
+                            }
                         }
                     }
 
                     Spacer()
 
                     RangeAndBattery(viewModel: viewModel)
+                        .batteryAndRangeTooltip($tooltipView, distanceUnit: viewModel.distanceUnit)
 
                     Spacer()
 
                     HStack {
                         TotalDistance(viewModel: viewModel)
+                            .odometerTooltip($tooltipView, distanceUnit: viewModel.distanceUnit)
                         Spacer()
-                        ModeIcons(viewModel: viewModel)
+                        ModeAndLights(viewModel: viewModel)
+                            .modeAndLightsTooltip($tooltipView)
                     }
                     .padding(.horizontal, horizontalPadding)
 
                     Spacer()
 
                     AssistanceLevel(viewModel: viewModel)
+                        .assistanceTooltip($tooltipView)
                         .padding(.horizontal, horizontalPadding)
 
                     Spacer()
 
                     CadenceLevel(viewModel: viewModel)
+                        .cadenceTooltip($tooltipView)
                         .padding(.horizontal, horizontalPadding)
                         .padding(.vertical, -8)
 
@@ -81,78 +97,47 @@ struct DashboardView: View {
                 }
                 .padding(.vertical, AppDimens.padding16)
 
-                #if DEBUG
-                ConnectionDebugInfo(viewModel: viewModel)
-                #endif
+#if DEBUG
+                if !viewModel.isHelpMode {
+                    ConnectionDebugInfo(viewModel: viewModel)
+                }
+#endif
+
+                HelpReturnButton(viewModel: viewModel)
+                    .padding(.bottom, -geometry.safeAreaInsets.bottom / 3)
             }
             .navigationBarBackButtonHidden()
             .colorScheme(.dark)
             .onAppear {
-                UIApplication.shared.isIdleTimerDisabled = true
+                disableScreenSleep()
                 if viewModel.connectedDevice == nil {
                     viewModel.reconnect()
                 }
+            }
+            .alert("UpdateComplete", isPresented: $viewModel.showFirmwareUpdateCompleted) {}
+            .alert("UpdateFailed", isPresented: $viewModel.showFirmwareUpdateFailed) {}
+            .onTapGesture {
+                viewModel.isHelpMode = false
+            }
+
+            HelpInfoModal(isPresented: viewModel.isShowingHelpInfo) {
+                viewModel.isShowingHelpInfo = false
+                tooltipView = nil
+                viewModel.isHelpMode = true
+            }
+            .padding(.top, 90)
+
+            if viewModel.isHelpMode {
+                tooltipView
             }
 
             DashboardTurnIndicator(viewModel: viewModel)
             DashboardHazardIndicator(viewModel: viewModel)
         }
     }
-}
 
-// MARK: WarningIcons
-
-private struct WarningIcons: View {
-    @ObservedObject var viewModel: DashboardViewModel
-
-    var body: some View {
-        let inactiveOpacity = 0.25
-        GeometryReader { geometry in
-            let iconSize = min(geometry.size.width / 6, topRowHeight)
-            HStack {
-                AppIcon.snowAlert.size(iconSize)
-                    .opacity(viewModel.isIceWarning ? 1 : inactiveOpacity)
-                Spacer()
-                AppIcon.tractionControl.size(iconSize).opacity(inactiveOpacity)
-                Spacer()
-                AppIcon.lightAlert.size(iconSize).opacity(inactiveOpacity)
-                Spacer()
-                AppIcon.tireAlert.size(iconSize).opacity(inactiveOpacity)
-                Spacer()
-                AppIcon.brakeAlert.size(iconSize)
-                    .opacity(viewModel.isBrakeLight ? 1 : inactiveOpacity)
-            }
-            .frame(height: geometry.size.height)
-        }
-    }
-}
-
-// MARK: TopButtons
-
-private struct TopButtons: View {
-    @ObservedObject var viewModel: DashboardViewModel
-
-    var body: some View {
-        HStack {
-            Button(action: viewModel.showHelp) {
-                AppIcon.help.size(topRowHeight).foregroundStyle(AppColor.white)
-            }
-
-            Spacer()
-
-            Button(action: viewModel.goToStatisticsScreen) {
-                Image(.logoSmall)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 42)
-            }
-
-            Spacer()
-
-            Button(action: viewModel.goToSettingsScreen) {
-                AppIcon.settings.size(topRowHeight).foregroundStyle(AppColor.white)
-            }
-        }
+    private func disableScreenSleep() {
+        UIApplication.shared.isIdleTimerDisabled = true
     }
 }
 
@@ -222,9 +207,9 @@ private struct TotalDistance: View {
     }
 }
 
-// MARK: ModeIcons
+// MARK: ModeAndLights
 
-private struct ModeIcons: View {
+private struct ModeAndLights: View {
     @ObservedObject var viewModel: DashboardViewModel
 
     var body: some View {
@@ -330,6 +315,32 @@ private struct ConnectionDebugInfo: View {
             }
         }
         .padding(.top, -AppDimens.padding16)
+    }
+}
+
+// MARK: HelpReturnButton
+
+private struct HelpReturnButton: View {
+    @ObservedObject var viewModel: DashboardViewModel
+
+    var body: some View {
+        ZStack {
+            if viewModel.isHelpMode {
+                Button(
+                    action: { viewModel.isHelpMode = false },
+                    label: {
+                        Text("HelpReturnButton")
+                            .frame(height: 40)
+                            .frame(maxWidth: .infinity)
+                            .font(AppFont.strong)
+                    }
+                )
+                .buttonStyle(AppButton.dark)
+                .shadow(color: Color.black, radius: 10)
+                .transition(.slide)
+            }
+        }
+        .animation(.easeOut, value: viewModel.isHelpMode)
     }
 }
 

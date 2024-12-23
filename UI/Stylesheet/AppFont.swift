@@ -5,9 +5,11 @@ enum AppFont {
     static let appBoldFont = "Poppins-Bold"
 
     static let body: Font = .custom(appFont, size: 16)
+    static let strongBody: Font = .custom(appBoldFont, size: 16)
     static let label: Font = .custom(appFont, size: 18)
     static let info: Font = .custom(appFont, size: 20)
     static let title: Font = .custom(appBoldFont, size: 18)
+    static let strong: Font = .custom(appBoldFont, size: 20)
     static let large: Font = .title
     static let small: Font = .subheadline
     static let micro: Font = .custom(appFont, size: 14)

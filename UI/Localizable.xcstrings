@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    ": " : {
-
-    },
     "AboutDevice" : {
       "localizations" : {
         "de" : {
@@ -166,7 +163,14 @@
       }
     },
     "Connected to: %@" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbunden mit: %@"
+          }
+        }
+      }
     },
     "ConnectingTo" : {
       "localizations" : {
@@ -331,7 +335,14 @@
       }
     },
     "Disconnected" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Getrennt"
+          }
+        }
+      }
     },
     "Done" : {
       "localizations" : {
@@ -493,201 +504,231 @@
         }
       }
     },
+    "HelpAssistance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unterstützungsstufe\nGrün zeigt die aktuelle Unterstützungsstufe"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assistance Level\nGreen indicates the current assistance level"
+          }
+        }
+      }
+    },
+    "HelpBatteryAndRange" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batterie und Reichweite\nVerbleibende Batterie und geschätzte Reichweite in %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Battery and Range\nBattery remaining and estimated range in %@"
+          }
+        }
+      }
+    },
+    "HelpBrakeAlert" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Handbremse\nDas Symbol zeigt an, dass die Handbremse eingeschaltet ist"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Handbreak\nThe symbol indicates that the parking break is engaged"
+          }
+        }
+      }
+    },
+    "HelpCadence" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gang / Trittfrequenz\nGrün zeigt den aktuellen Gang / Trittfrequenz"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gear / Cadence Level\nGreen indicates the current gear / cadence level"
+          }
+        }
+      }
+    },
+    "HelpInfoModal" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Hilfe-Bereich\nHier erfahren Sie, wie die einzelnen Komponenten funktionieren.\nKlicken Sie einfach auf eine Komponente, um mehr zu erfahren.\n\nTippen Sie auf das Podbike-Logo, um Statistiken anzuzeigen.\n\n\nAchtung! Diese Symbole werden bald in Warnsymbole umgewandelt, die Ihnen einen Einblick in ihre Funktionsweise geben."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help Section\nHere you can explore the dashboard. Click on any component to learn more.\n\nTap on the Podbike logo to see Statistics.\n\nHeads up: The top buttons will now change to warning icons to present their functionality."
+          }
+        }
+      }
+    },
+    "HelpLightAlert" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Scheinwerfer\nDieses Symbol leuchtet auf, wenn ein Problem mit den Scheinwerfern vorliegt, z. B. eine Störung oder ein Ausfall"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Headlights\nThis symbol lights up to indicate a problem with the headlights, such as a malfunction or failure"
+          }
+        }
+      }
+    },
+    "HelpModeAndLights" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modus und Lichter\nAbblend- oder Fernlichtanzeige und eine Stelle zur Anzeige des Verbindungsmodus, z. B. Bluetooth-Trennung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode and Lights\nLow beam or high beam indicator and a place to display connection mode, e.g. Bluetooth disconnection "
+          }
+        }
+      }
+    },
+    "HelpOdometer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kilometerzähler\nDies ist die Gesamtstrecke, die Sie zurückgelegt haben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odometer\nThis is the total distance you have traveled"
+          }
+        }
+      }
+    },
+    "HelpReturnButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zurück zum Dashboard"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Return to the Dashboard"
+          }
+        }
+      }
+    },
+    "HelpSnowAlert" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temperatur\nLeuchtet auf, wenn die Temperatur unter %@ liegt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temperature\nLights up when temperature is below %@"
+          }
+        }
+      }
+    },
+    "HelpSpeedometer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geschwindigkeitsmesser\nZeigt die Fahrzeuggeschwindigkeit in %@ an."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speedometer\nDisplays vehicle speed in %@"
+          }
+        }
+      }
+    },
+    "HelpTireAlert" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reifendruck\nSignalisiert, dass der Reifendruck überprüft werden muss"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tire pressure\nSignals the need of checking tires pressure"
+          }
+        }
+      }
+    },
+    "HelpTractionControl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traktionskontrollsystem\nWird aktiviert, wenn die Sensoren erkennen, dass die Hinterräder an Haftung verlieren."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traction Control System\nIt activates when sensors detect that rear-wheels are losing grip"
+          }
+        }
+      }
+    },
     "OK" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
-          }
-        }
-      }
-    },
-    "OverlayAssistance" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unterstützungsstufe"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Assistance Level"
-          }
-        }
-      }
-    },
-    "OverlayAssistanceLabel" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Grün zeigt die aktuelle Unterstützungsstufe"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Green indicates the current assistance level"
-          }
-        }
-      }
-    },
-    "OverlayBatteryRange" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Akku und Reichweite"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Battery and Range"
-          }
-        }
-      }
-    },
-    "OverlayBatteryRangeLabel" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Akkustand und geschätzte Reichweite in"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Battery remaining and estimated range in"
-          }
-        }
-      }
-    },
-    "OverlayCadence" : {
-      "comment" : "The number of revolutions of the crank per minute",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gang / Trittfrequenz"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gear / Cadence Level"
-          }
-        }
-      }
-    },
-    "OverlayCadenceLabel" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Grün zeigt den aktuellen Gang / Trittfrequenz"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Green indicates the current gear / cadence level"
-          }
-        }
-      }
-    },
-    "OverlayLights" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lichter"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lights"
-          }
-        }
-      }
-    },
-    "OverlayMode" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modus"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mode"
-          }
-        }
-      }
-    },
-    "OverlayOdometer" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kilometerzähler"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Odometer"
-          }
-        }
-      }
-    },
-    "OverlayOdometerLabel" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktuelle Fahrt in"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Distance travelled during current trip in"
-          }
-        }
-      }
-    },
-    "OverlaySpeed" : {
-      "comment" : "Current speed",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geschwindigkeit"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Speed"
           }
         }
       }
@@ -1511,23 +1552,6 @@
         }
       }
     },
-    "UpdateButtonFinish" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abschluss"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finish"
-          }
-        }
-      }
-    },
     "UpdateButtonGet" : {
       "localizations" : {
         "de" : {
@@ -1577,7 +1601,6 @@
       }
     },
     "UpdateComplete" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1589,23 +1612,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Firmware update complete!"
-          }
-        }
-      }
-    },
-    "UpdateConfirmUpload" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bestätigen Sie den Upload der neuesten Firmware-Version auf Ihren FRIKAR."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Confirm upload of the newest version of firmware to your FRIKAR."
           }
         }
       }
@@ -1626,47 +1632,47 @@
         }
       }
     },
-    "UpdateDisconnected" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Firmware-Upgrade-Trennung"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Firmware Upgrade Disconnect"
-          }
-        }
-      }
-    },
-    "UpdateDisconnectedInfo" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktuell wird auf den Abschluss des Update-Prozesses gewartet. Die Anwendung wird vorübergehend von FRIKAR getrennt."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Currently waiting for the update process to complete. The application will be disconnected from the FRIKAR for the time being."
-          }
-        }
-      }
-    },
     "UpdateDownloading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herunterladen von Update-Dateien vom Server..."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloading update files from server…"
+          }
+        }
+      }
+    },
+    "UpdateDownloadIssue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Firmware-Datei konnte nicht vom Server heruntergeladen werden.\n\nBitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später noch einmal.\n\nKontaktieren Sie Podbike, wenn das Problem weiterhin besteht."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Firmware file could not be downloaded from the server.\n\nPlease check your internet connection or try again later.\n\nContact Podbike if the issue persists."
+          }
+        }
+      }
+    },
+    "UpdateFailed" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloading update files from server…"
+            "value" : "Firmware update failed.\nPlease contact Podbike."
           }
         }
       }
@@ -1699,23 +1705,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Something went wrong. Please contact Podbike."
-          }
-        }
-      }
-    },
-    "UpdateLast" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zuletzt aktualisiert:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Last Updated:"
           }
         }
       }
@@ -1865,85 +1854,35 @@
         }
       }
     },
-    "UpdateUpgrade" : {
-      "extractionState" : "stale",
+    "UpdateUpgradeInfo" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware Upgrade"
+            "value" : "Fahrrad-Update gestartet.\n\nBitte bewegen Sie das Fahrrad nicht und starten Sie es nicht neu, während die Blinker blinken."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware Upgrade"
+            "value" : "Bike update started.\n\nPlease do not move or restart the bike while the turn indicators lights are blinking."
           }
         }
       }
     },
-    "UpdateUpgradeInfo1" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stellen Sie sicher, dass der FRIKAR stationär ist und sich in Bluetooth-Reichweite Ihres Telefons befindet."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Make sure the FRIKAR is stationary and in Bluetooth range of your phone."
-          }
-        }
-      }
-    },
-    "UpdateUpgradeInfo2" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sie können diese Seite nicht verlassen, bis dieser Vorgang abgeschlossen ist."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You will not be able to navigate away from this page until this process is complete."
-          }
-        }
-      }
-    },
-    "UpdateUpgradeInfo3" : {
+    "UpdateUpgradeInfoDashboard" : {
       "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Die Blinker Ihres Fahrrads blinken während des Vorgangs und starten von selbst wieder. Bitte bewegen Sie das Fahrrad während dieses Vorgangs nicht und schalten Sie es nicht aus."
+            "state" : "translated",
+            "value" : "Update läuft...\n\nBitte starten Sie den FRIKAR neu, sobald die Blinker des Fahrrads nicht mehr blinken."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your bike turn indicators will be blinking during the process and will restart by itself. Please do not move or switch off the bike during this operation."
-          }
-        }
-      }
-    },
-    "UpdateVersion" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktuelle Firmware-Version:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Current Firmware Version:"
+            "value" : "Update ongoing…\n\nPlease restart the FRIKAR after the bike' turn indicators lights stop blinking."
           }
         }
       }
