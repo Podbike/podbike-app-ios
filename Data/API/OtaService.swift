@@ -19,7 +19,10 @@ class OtaService: OtaServiceProtocol {
         let (data, _) = try await urlSession.data(for: request)
 
         let responseString = String(data: data, encoding: .utf8) ?? ""
-        return Int(responseString) == 0
+        guard let updateStatus = Int(responseString) else { throw URLError(.cannotParseResponse) }
+        guard updateStatus < 2 else { throw OtaUpdateError.apiErrorStatus }
+        let isUpdateAvailable = updateStatus == 0
+        return isUpdateAvailable
     }
 
     func getOtaUpdateInfo(for frameNumber: String) async throws -> OtaUpdateInfo {
@@ -36,6 +39,9 @@ class OtaService: OtaServiceProtocol {
         let url = URL(string: fileName, relativeTo: baseOtaUrl)!
         let (data, response) = try await urlSession.data(from: url)
         if let httpUrlResponse = response as? HTTPURLResponse {
+            if httpUrlResponse.statusCode >= 400 || data.isEmpty {
+                throw URLError(.badServerResponse)
+            }
             let contentType = httpUrlResponse.allHeaderFields["Content-Type"] as? String
             if contentType?.contains("text/html") == true {
                 throw URLError(.cannotParseResponse)

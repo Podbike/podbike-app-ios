@@ -80,7 +80,6 @@ struct OtaUpdateTransferView: View {
                 .padding(.horizontal, AppDimens.padding16)
             }
         }
-        .alert(updateCheckErrorText, isPresented: $viewModel.showUpdateCheckError) {}
         .alert(transferErrorText, isPresented: $viewModel.showTransferError) {
             Button("OK") { viewModel.goBackToSettings() }
         }
@@ -97,17 +96,11 @@ struct OtaUpdateTransferView: View {
         }
     }
 
-    private var updateCheckErrorText: String {
-        let error = viewModel.updateCheckError
-        let errorText = error?.localizedDescription ?? String(localized: "UpdateIssue")
-        return errorText
-    }
-
     private var transferErrorText: String {
         let error = viewModel.transferError
         var errorText = ""
 
-        if let error = error as? OtaUpdateError, case error = OtaUpdateError.downloadError {
+        if let error = error as? OtaUpdateError {
             errorText = error == OtaUpdateError.downloadError ?
                 String(localized: "UpdateDownloadIssue") :
                 String(localized: "UpdateIssue")

@@ -45,8 +45,8 @@ struct OtaUpdateCheckView: View {
     private var errorText: String {
         let error = viewModel.updateCheckError
         var errorText: String = ""
-        if let error = error as? OtaUpdateError, case error = OtaUpdateError.frikarConfigFetchError {
-            errorText = String(localized: "UpdateMissingDevice")
+        if let error = error as? OtaUpdateError {
+            errorText = error == OtaUpdateError.frikarConfigFetchError ? String(localized: "UpdateMissingDevice") : String(localized: "UpdateIssue")
         } else {
             errorText = error?.localizedDescription ?? String(localized: "UpdateIssue")
         }

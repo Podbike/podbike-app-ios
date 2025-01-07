@@ -41,17 +41,10 @@ struct OtaUpdateLicenseView: View {
                 }
             }
         }
-        .alert(errorText, isPresented: $viewModel.showUpdateCheckError) {}
         .toolbar(
             title: "UpdatePageTitle",
             onBack: viewModel.dismiss
         )
-    }
-
-    private var errorText: String {
-        let error = viewModel.updateCheckError
-        let errorText = error?.localizedDescription ?? String(localized: "UpdateIssue")
-        return errorText
     }
 }
 

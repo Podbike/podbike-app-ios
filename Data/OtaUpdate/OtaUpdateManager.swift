@@ -144,6 +144,7 @@ class OtaUpdateManager: OtaUpdateManagerProtocol {
 enum OtaUpdateError: Error {
     case frikarConfigFetchError
     case updateInfoMissing
+    case apiErrorStatus
     case downloadError
     case transferError
     case transferCancelled
