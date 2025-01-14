@@ -56,11 +56,11 @@ class YModemController {
         await read(stream: transport.dataStream)
     }
 
-    private func readControlStream() async -> Data? {
-        await read(stream: transport.controlStream)
+    private func readControlStream(bytesToRead: Int) async -> Data? {
+        await read(stream: transport.controlStream, bytesToRead: bytesToRead)
     }
 
-    private func read(stream: YModemStream) async -> Data? {
+    private func read(stream: YModemStream, bytesToRead: Int? = nil) async -> Data? {
         var operation: AnyCancellable?
         var cancelContinuation: (() -> Void)?
         let onCancel = {
@@ -69,17 +69,26 @@ class YModemController {
         }
         return await withTaskCancellationHandler {
             guard !Task.isCancelled else { return nil }
-            return await withCheckedContinuation { continuation in
+            return await withCheckedContinuation {
+                var continuation: CheckedContinuation<Data?, Never>? = $0
+                var buffer = Data()
                 operation = stream
                     .sink(
                         receiveCompletion: { _ in
-                            continuation.resume(returning: nil)
+                            continuation?.resume(returning: nil)
+                            continuation = nil
                         },
                         receiveValue: {
-                            continuation.resume(returning: $0)
+                            let bytesToRead = bytesToRead ?? $0.count
+                            buffer = buffer + $0
+                            if (buffer.count >= bytesToRead) {
+                                continuation?.resume(returning: buffer.prefix(bytesToRead))
+                                continuation = nil
+                            }
                         })
                 cancelContinuation = {
-                    continuation.resume(returning: nil)
+                    continuation?.resume(returning: nil)
+                    continuation = nil
                 }
             }
         } onCancel: {
@@ -218,8 +227,7 @@ extension YModemController: OtaFileTransferProtocol {
 
     private func sendEot() async throws {
         sendDataBytes(OTARequest.write, [EOT])
-        try await waitForResponse(expectedBytes: [ACK])
-        try await waitForResponse(expectedBytes: [RQS_PKT])
+        try await waitForResponse(expectedBytes: [ACK, RQS_PKT])
     }
 
     private func sendNullPacket() async throws {
@@ -238,7 +246,7 @@ extension YModemController: OtaFileTransferProtocol {
     }
 
     private func waitForResponse(expectedBytes: [UInt8] = [ACK]) async throws {
-        let response = await readControlStream()
+        let response = await readControlStream(bytesToRead: expectedBytes.count)
         if response != Data(expectedBytes) {
             await Task.sleep(millis: 100)
             sendDataBytes(OTARequest.write, ABORT)
