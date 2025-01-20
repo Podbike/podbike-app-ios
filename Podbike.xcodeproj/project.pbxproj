@@ -303,7 +303,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 8H5TLBAZ8D;
@@ -324,8 +324,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTA_BASE_URL = "https://otaprod.podbike.com/app/";
 				MARKETING_VERSION = 2.0.2;
+				OTA_BASE_URL = "https://otaprod.podbike.com/app/";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.podbike.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -405,7 +405,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 8H5TLBAZ8D;
 				ENABLE_PREVIEWS = YES;
@@ -425,8 +425,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTA_BASE_URL = "https://otaprod.podbike.com/app/";
 				MARKETING_VERSION = 2.0.2;
+				OTA_BASE_URL = "https://otaprod.podbike.com/app/";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.podbike.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -571,7 +571,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 8H5TLBAZ8D;
@@ -592,8 +592,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTA_BASE_URL = "https://otaprod.podbike.com/app/";
 				MARKETING_VERSION = 2.0.2;
+				OTA_BASE_URL = "https://otaprod.podbike.com/app/";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.podbike.app.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -615,7 +615,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 8H5TLBAZ8D;
 				ENABLE_PREVIEWS = YES;
@@ -635,8 +635,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTA_BASE_URL = "https://otaprod.podbike.com/app/";
 				MARKETING_VERSION = 2.0.2;
+				OTA_BASE_URL = "https://otaprod.podbike.com/app/";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.podbike.app.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
